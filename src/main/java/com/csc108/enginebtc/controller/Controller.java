@@ -7,6 +7,12 @@ package com.csc108.enginebtc.controller;
 public class Controller {
 
 
+    public static Controller Controller = new Controller();
+
+
+    private volatile boolean isSystemReady = false;
+    private volatile boolean isCalcReady = false;
+
     private static int speed = 1;
     private static int warmupSecs = 60;
 
@@ -24,6 +30,22 @@ public class Controller {
 
     public static int getWarmupSecs() {
         return warmupSecs;
+    }
+
+
+
+
+
+
+
+
+
+    public boolean isSystemReady() {
+        return this.isSystemReady;
+    }
+
+    public boolean isCalcReady() {
+        return this.isCalcReady;
     }
 
 

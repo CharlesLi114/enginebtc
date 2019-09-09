@@ -57,7 +57,7 @@ public class SessionGroup {
                 Session session = createSession((String) line);
                 sessions.add(session);
                 for (int i = session.getStartMinute(); i <= session.getEndMinute(); i++) {
-                    int minute = i % 60;
+                    int minute = i % 100;
                     if (minute < 60) {
                         sessionMap.put(i, session);
                     }
@@ -89,5 +89,8 @@ public class SessionGroup {
         return session;
     }
 
+    public Session getSession(int minute) {
+        return this.sessionMap.get(minute);
+    }
 
 }

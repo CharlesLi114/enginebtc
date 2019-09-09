@@ -1,64 +1,75 @@
 package com.csc108.enginebtc.cache;
 
-import com.csc108.enginebtc.commons.AbstractTdbData;
+import cn.com.wind.td.tdb.Tick;
+import cn.com.wind.td.tdb.Transaction;
+import com.csc108.enginebtc.tdb.models.MarketData;
+import com.csc108.enginebtc.tdb.models.TransactionData;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * Created by LI JT on 2019/9/2.
+ * Created by LI JT on 2019/9/9.
  * Description:
  */
-public class TdbDataCache <T extends AbstractTdbData> {
+public class TdbDataCache {
+
+    public static TdbDataCache TdbCache = new TdbDataCache();
 
 
-    private List<T> dataCache;
-
-    // Last passed position
-    private int cursor = -1;
+    private Map<String, TdbDataList<TransactionData>> transactionCache;
+    private Map<String, TdbDataList<MarketData>> marketdataCache;
 
 
-
-    private void initCursor(int timestamp) {
-        if (dataCache.size() <= 1) {
-            cursor = -1;
-            return;
-        }
-        int i = 1;
-        for (; i < dataCache.size(); i++) {
-            if (dataCache.get(i).getTime() > timestamp) {
-                break;
-            }
-        }
-        cursor = i-1;
+    private TdbDataCache() {
+        this.marketdataCache = new HashMap<>();
+        this.transactionCache = new HashMap<>();
     }
 
-    public void setData(T[] data) {
-        this.dataCache = Arrays.asList(data);
+    public void addMarketData(String stockId, Tick[] ticks) {
+        TdbDataList<MarketData> l = new TdbDataList<>(stockId);
+        List<MarketData> datas = Arrays.stream(ticks).map(MarketData::new).collect(Collectors.toList());
+        l.setData(datas);
+        marketdataCache.put(stockId, l);
     }
 
-    public boolean isValid() {
-        return cursor >= 0;
+    public void addTransaction(String stockId, Transaction[] transactions) {
+        TdbDataList<TransactionData> l = new TdbDataList<>(stockId);
+        List<TransactionData> datas = Arrays.stream(transactions).map(TransactionData::new).collect(Collectors.toList());
+        l.setData(datas);
+        transactionCache.put(stockId, l);
     }
-
 
     /**
-     * Get data from current cursor to upto
-     * @param upto timestamp
+     * Initialize timestamp,
+     * @param timeStamp of pattern 91500000, which means the earliest timestamp of all incoming orders.
      */
-    public List<T> getData(int upto) {
-        if (cursor == dataCache.size()) {
+    public void initCursor(int timeStamp) {
+        for (TdbDataList l : transactionCache.values()) {
+            l.initCursor(timeStamp);
+        }
+        for (TdbDataList l : marketdataCache.values()) {
+            l.initCursor(timeStamp);
+        }
+    }
+
+
+    public List<MarketData> getTdbMarketData(String stockId, int upto) {
+        if (this.marketdataCache.keySet().contains(stockId)) {
+            return this.marketdataCache.get(stockId).getData(upto);
+        } else {
             return null;
         }
+    }
 
-        int pos = cursor + 1;
-        for ( ; pos < dataCache.size(); pos++) {
-            if (dataCache.get(pos).getTime() > upto) {
-                break;
-            }
+    public List<TransactionData> getTdbTransactioData(String stockId, int upto) {
+        if (this.transactionCache.keySet().contains(stockId)) {
+            return this.transactionCache.get(stockId).getData(upto);
+        } else {
+            return null;
         }
-
-        return dataCache.subList(cursor+1, pos);
     }
 }

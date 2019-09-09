@@ -1,6 +1,8 @@
 package com.csc108.enginebtc.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -18,6 +20,7 @@ public class TimeUtils {
     private static final int MOON_SECONDS = 90 * 60;
 
     private static final SimpleDateFormat CSC_FORMAT = new SimpleDateFormat("HHmmssSSS");
+    private static final DateTimeFormatter Order_DateTime_Format = DateTimeFormatter.ofPattern("YYYY-MM-DD HH:mm:ss.SSS");    //2017-07-17 15:00:00.000
 
     public static int getTimeStamp(int timestamp, boolean isAShare) {
         if (isAShare) {
@@ -72,6 +75,35 @@ public class TimeUtils {
         hour = hour + minute / 60;
         minute = minute % 60;
         return hour * 100 + minute;
+    }
+
+
+    /**
+     * Shift pm time 1.5 hours early, time 2017-07-17 15:00:00.000 is converted to 2017-07-17 13:30:00.000
+     * @param o_time    2017-07-17 15:00:00.000
+     * @return
+     */
+    public static String shiftPmOrderTime(String o_time) {
+        LocalDateTime time = LocalDateTime.parse(o_time, Order_DateTime_Format);
+        if (time.getHour() >= 13) {
+            time = time.plusMinutes(-90);
+            return time.format(Order_DateTime_Format);
+        } else  {
+            return o_time;
+        }
+    }
+
+    /**
+     * Parse order time.
+     * @param o_time
+     * @return
+     */
+    public static LocalDateTime convertOrderTime(String o_time) {
+        return LocalDateTime.parse(o_time, Order_DateTime_Format);
+    }
+
+    public static String toOrderTime(LocalDateTime dt) {
+        return dt.format(Order_DateTime_Format);
     }
 
 }
