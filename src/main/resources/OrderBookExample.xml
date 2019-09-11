@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Quot>
+<head type="hq" recordnum="1" />
+<body>
+    <record stkcode="600266" iopvvalue="0.0000" marketid="sh"
+            stkname="北京城建" isstop="F" preclose="12.830" lastprice="13.190"
+            openprice="13.000" closeprice="13.190" highestprice="13.860"
+            lowestprice="12.830" donevolume="91293300" turnover="1218751111"
+            bidprice1="13.180" bidprice2="13.170" bidprice3="13.160" bidprice4="13.150"
+            bidprice5="13.140" askprice1="13.210" askprice2="13.220" askprice3="13.230"
+            askprice4="13.240" askprice5="13.250" bidvolume1="6600" bidvolume2="19480"
+            bidvolume3="23100" bidvolume4="6200" bidvolume5="18690" askvolume1="12024"
+            askvolume2="39034" askvolume3="46200" askvolume4="62900" askvolume5="217800"
+            settleprice="0.00" openinterest="0.00" time="150000000" />
+</body>
+</Quot>
+
+
+
+
+<!--This is the right version of message, note there is no new line-->
+<Quot>
+<head type="hq" recordnum="1" />
+<body>
+    <record stkcode="600266" iopvvalue="0.0000" marketid="sh"
+            stkname="北京城建" isstop="F" preclose="12.830" lastprice="13.190"
+            openprice="13.000" closeprice="13.190" highestprice="13.860"
+            lowestprice="12.830" donevolume="91293300" turnover="1218751111"
+            bidprice1="13.180" bidprice2="13.170" bidprice3="13.160" bidprice4="13.150"
+            bidprice5="13.140" askprice1="13.210" askprice2="13.220" askprice3="13.230"
+            askprice4="13.240" askprice5="13.250" bidvolume1="6600" bidvolume2="19480"
+            bidvolume3="23100" bidvolume4="6200" bidvolume5="18690" askvolume1="12024"
+            askvolume2="39034" askvolume3="46200" askvolume4="62900" askvolume5="217800"
+            settleprice="0.00" openinterest="0.00" time="150000000" />
+</body>
+</Quot>
+
+
+<Quot>
+<head type="hq" recordnum="1" />
+<body>
+    <record stkcode="603713" iopvvalue="0.0000"  marketid="sh"
+            stkname="603713.sh" isstop="F" preclose="31.9900" lastprice="32.8000"
+            openprice="32.8000" closeprice="32.8000" highestprice="32.8000"
+            lowestprice="32.8000" donevolume="53890" turnover="1767592"
+            bidprice1="32.8000" bidprice2="32.7900" bidprice3="32.7700" bidprice4="32.7600"
+            bidprice5="32.7500" askprice1="32.8200" askprice2="32.8500" askprice3="32.8600"
+            askprice4="32.8800" askprice5="32.8900" bidvolume1="4310" bidvolume2="400"
+            bidvolume3="2100" bidvolume4="1000" bidvolume5="600" askvolume1="700"
+            askvolume2="4400" askvolume3="200" askvolume4="2300" askvolume5="3000"
+            settleprice="0.00" openinterest="0.00" time="92505000" />
+</body>
+</Quot>

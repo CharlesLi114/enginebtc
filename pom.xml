@@ -10,6 +10,23 @@
 
 
     <dependencies>
+
+        <!-- ActiveMQ -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>5.10.0</version>
+        </dependency>
+
+        <!-- Quartz -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+
+
         <dependency>
             <groupId>honghui</groupId>
             <artifactId>tdb</artifactId>
@@ -56,6 +73,12 @@
             <version>1.10</version>
         </dependency>
 
+        <!-- quickfix -->
+        <dependency>
+            <groupId>org.csc108</groupId>
+            <artifactId>org.csc108.quickfix</artifactId>
+            <version>1.5.3_1</version>
+        </dependency>
 
 
 

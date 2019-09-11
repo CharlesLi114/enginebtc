@@ -14,8 +14,6 @@ import java.util.*;
 public class OrderCache {
 
 
-
-
     private Map<String, Order> cache;
     private String minStartTime;
     private int minTimestamp;
@@ -23,7 +21,7 @@ public class OrderCache {
     private Set<String> stockIds;
 
 
-    private OrderCache() {
+    public OrderCache() {
         this.cache = new HashMap<>();
         this.stockIds = new HashSet<>();
     }
@@ -82,5 +80,9 @@ public class OrderCache {
 
     public int getDate() {
         return this.date;
+    }
+
+    public void sendOrders() {
+
     }
 }

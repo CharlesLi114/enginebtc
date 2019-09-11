@@ -4,19 +4,21 @@ import cn.com.wind.td.tdb.Tick;
 import com.csc108.enginebtc.commons.AbstractTdbData;
 import com.csc108.enginebtc.utils.Constants;
 import com.csc108.enginebtc.utils.TimeUtils;
-import org.apache.commons.lang3.ArrayUtils;
+import com.csc108.enginebtc.utils.Utils;
 import org.apache.commons.math.util.MathUtils;
 
 
-import java.math.BigDecimal;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by LI JT on 2019/9/2.
  * Description:
  */
 public class MarketData extends AbstractTdbData {
+
+    private String stockId;
+    private String symbol;
+    private String exchangeCode;
 
 
     private char status;
@@ -30,18 +32,25 @@ public class MarketData extends AbstractTdbData {
     private double turnOver;
     private double lowLimited;
     private double highLimited;
-    private double indauc;
-    private double indaucs;
 
-    private double bestBid;
-    private double bestAsk;
+    private double[] bidPx;
+    private double[] askPx;
 
-    private int arrivalTime;
+    private long[] bidVols;
+    private long[] askVols;
+
+    private int timeStamp;
     private boolean isValid = true;
 
     public MarketData(Tick tick) {
         // TODO status
         // this.status = null;
+
+        this.stockId = tick.getWindCode();
+        this.symbol = Utils.getSymbol(this.stockId);
+        this.exchangeCode = Utils.getExchange(this.stockId);
+
+
 
         this.timestamp = TimeUtils.getTimeStamp(tick.getTime(), true);
         this.preClose = tick.getPreClose() / Constants.SCALE;
@@ -57,13 +66,13 @@ public class MarketData extends AbstractTdbData {
         this.lowLimited = MathUtils.round(this.match * 0.9, 2);
 
 
-        if (ArrayUtils.isNotEmpty(tick.getAskPrice())
-                && ArrayUtils.isNotEmpty(tick.getAskVolume())) {
-            this.indauc = this.getArrayValues(tick.getAskPrice())[0] / Constants.SCALE;
-            this.indaucs = this.getArrayValues(tick.getAskVolume())[0];
-        }
-        this.bestAsk = this.getArrayValues(tick.getAskPrice())[0] / Constants.SCALE;
-        this.bestBid = this.getArrayValues(tick.getBidPrice())[0] / Constants.SCALE;
+        this.bidPx = this.getPrices(tick.getBidPrice());
+        this.askPx = this.getPrices(tick.getAskPrice());
+
+        this.bidVols = this.getVolumes(tick.getBidVolume());
+        this.askVols = this.getVolumes(tick.getAskVolume());
+
+        this.timestamp = tick.getTime();
     }
 
 
@@ -72,11 +81,19 @@ public class MarketData extends AbstractTdbData {
      * @param values, long array like volume and price
      * @return new long[10] if input is null
      */
-    public int[] getArrayValues(int[] values) {
-        return values == null? new int[10]: values;
+    public double[] getPrices(int[] values) {
+        if (values == null) {
+            values = new int[10];
+        }
+        double[] px = new double[values.length];
+        for (int i = 0; i < values.length; i ++) {
+            px[i] = values[i] / Constants.SCALE;
+        }
+        return px;
+
     }
 
-    public long[] getArrayValues(long[] values) {
+    public long[] getVolumes(long[] values) {
         return values == null? new long[10]: values;
     }
 
@@ -87,7 +104,38 @@ public class MarketData extends AbstractTdbData {
 
     @Override
     public String toXmlMsg() {
-        return null;
+        String msg = "<Quot>" +
+                "<head type=\"hq\" recordnum=\"1\" />" +
+                "<body>" +
+                "<record" +
+                " stkcode=\"" + this.symbol + "\"" +
+                " iopvvalue=\"0.0000\" " +
+                " marketid=\"" + this.exchangeCode + "\"" +
+                " stkname=\"" + this.stockId + "\"" +
+                " isstop=\"" + "F" + "\"" +
+                " preclose=\"" + String.format("%.4f", this.preClose) + "\"" +
+                " lastprice=\"" + String.format("%.4f", this.match) + "\"" +
+                " openprice=\"" + String.format("%.4f", this.open) + "\"" +
+                " closeprice=\"" + String.format("%.4f", this.match) + "\"" +
+                " highestprice=\"" + String.format("%.4f", this.high) + "\"" +
+                " lowestprice=\"" + String.format("%.4f", this.low) + "\"" +
+                " donevolume=\"" + this.volume + "\"" +
+                " turnover=\"" + this.turnOver + "\" ";
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 5; i ++) {
+            builder.append("bidprice").append(i+1).append("=\"").append(String.format("%.4f", bidPx[i])).append("\" ");
+            builder.append("bidvolume").append(i+1).append("=\"").append(this.bidVols[i]).append("\" ");
+        }
+        for (int i = 0; i < 5; i ++) {
+            builder.append("askprice").append(i+1).append("=\"").append(String.format("%.4f", askPx[i])).append("\" ");
+            builder.append("askvolume").append(i+1).append("=\"").append(this.askVols[i]).append("\" ");
+        }
+
+        msg += builder.toString();
+        msg += "settleprice=\"0.00\" openinterest=\"0.00\"";
+        msg += " time=\"" + this.timestamp + "\"/>" + "</body>" + "</Quot>";
+        return msg;
     }
 
     @Override

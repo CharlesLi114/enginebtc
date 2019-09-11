@@ -1,6 +1,12 @@
 package com.csc108.enginebtc.commons;
 
+import com.csc108.enginebtc.fix.FixTags;
 import com.csc108.enginebtc.utils.TimeUtils;
+import quickfix.field.*;
+import quickfix.fix42.NewOrderSingle;
+
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by LI JT on 2019/9/9.
@@ -12,6 +18,7 @@ import com.csc108.enginebtc.utils.TimeUtils;
 public class Order {
 
     private String orderId;
+    private String accountId;
 
     private String stockId;
     private String symbol;
@@ -21,9 +28,13 @@ public class Order {
     private String startTime;
     private String endTime;
 
+    private Exchange exchange;
+    private Side side;
+    private int qty;
+
 
     private String strategy;
-    private String priceType;
+    private OrdType ordType;
     private double limitPx;
     private double pov;
 
@@ -38,7 +49,7 @@ public class Order {
         this.endTime = TimeUtils.shiftPmOrderTime(origEndTime);
 
         this.strategy = strategy;
-        this.priceType = priceType;
+        this.ordType = new OrdType(priceType.equalsIgnoreCase("LIMIT")? OrdType.LIMIT: OrdType.MARKET);
         this.limitPx = limitPx;
         this.pov = pov;
     }
@@ -57,5 +68,55 @@ public class Order {
 
     public String getStartTime() {
         return this.startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public Exchange getExchange() {
+        return exchange;
+    }
+
+    public String getStrategy() {
+        return strategy;
+    }
+
+    public OrdType getOrdType() {
+        return ordType;
+    }
+
+    public double getLimitPx() {
+        return limitPx;
+    }
+
+    public double getPov() {
+        return pov;
+    }
+
+
+    public NewOrderSingle toNewOrderRequest() {
+        NewOrderSingle newOrderSingle = new quickfix.fix42.NewOrderSingle(
+                new ClOrdID(UUID.randomUUID().toString()), new HandlInst('1'),
+                new Symbol(symbol), side,
+                new TransactTime(new Date(0)), ordType);
+
+        newOrderSingle.set(new OrderQty(qty));
+        if (ordType.getValue() == OrdType.LIMIT) {
+            newOrderSingle.set(new Price(limitPx));
+        }
+
+        newOrderSingle.set(new Account(accountId));
+        newOrderSingle.set(new SecondaryClOrdID(accountId));
+        newOrderSingle.set(new SecurityExchange(exchange.getFixId()));
+
+        newOrderSingle.setString(FixTags.EffectiveTime, startTime);
+        newOrderSingle.setString(FixTags.ExpireTime, endTime);
+
+        // TODO use client id to identify test group? Set this value before send to fix sessions.
+
+        newOrderSingle.setString(FixTags.AlgoType, strategy);
+
+        return newOrderSingle;
     }
 }

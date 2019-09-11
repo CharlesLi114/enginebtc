@@ -36,15 +36,9 @@ public class TimeUtils {
     }
 
 
-    /**
-     *
-     * @param time timeStamp
-     * @param amount time in seconds
-     * @return
-     */
-    public static int addSeconds(int time, int amount) {
-        int hour = time / HOUR_DIVIDER;
-        int other = time - hour * HOUR_DIVIDER;
+    private static Calendar getCalender(int timeStamp) {
+        int hour = timeStamp / HOUR_DIVIDER;
+        int other = timeStamp - hour * HOUR_DIVIDER;
         int minute = other / MINUTE_DIVIDER;
         other = other - minute * MINUTE_DIVIDER;
         int second = other / SECOND_DIVIDER;
@@ -56,7 +50,27 @@ public class TimeUtils {
         calendar.set(Calendar.SECOND, second);
         calendar.set(Calendar.MILLISECOND, millis);
 
+        return calendar;
+    }
+
+    /**
+     *
+     * @param time timeStamp
+     * @param amount time in seconds
+     * @return
+     */
+    public static int addSeconds(int time, int amount) {
+        Calendar calendar = getCalender(time);
+
         calendar.add(Calendar.SECOND, amount);
+
+        return Integer.parseInt(CSC_FORMAT.format(new Date(calendar.getTimeInMillis())));
+    }
+
+    public static int addMiliis(int time, int amount) {
+        Calendar calendar = getCalender(time);
+
+        calendar.add(Calendar.MILLISECOND, amount);
 
         return Integer.parseInt(CSC_FORMAT.format(new Date(calendar.getTimeInMillis())));
     }

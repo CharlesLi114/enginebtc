@@ -5,10 +5,8 @@ import cn.com.wind.td.tdb.Transaction;
 import com.csc108.enginebtc.tdb.models.MarketData;
 import com.csc108.enginebtc.tdb.models.TransactionData;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +20,8 @@ public class TdbDataCache {
 
     private Map<String, TdbDataList<TransactionData>> transactionCache;
     private Map<String, TdbDataList<MarketData>> marketdataCache;
+
+    private Map<String, Integer> timeStamps = new ConcurrentHashMap<>();
 
 
     private TdbDataCache() {
@@ -72,4 +72,12 @@ public class TdbDataCache {
             return null;
         }
     }
+
+    public Set<String> stockIds() {
+        Set<String> stocks = marketdataCache.keySet();
+        stocks.addAll(transactionCache.keySet());
+        return stocks;
+    }
+
+
 }

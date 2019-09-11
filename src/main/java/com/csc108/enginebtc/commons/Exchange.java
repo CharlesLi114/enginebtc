@@ -8,16 +8,23 @@ import com.csc108.enginebtc.cache.RepoCodeCache;
  */
 public enum Exchange {
 
-    SH,
+    SH("SS"),
 
 
-    SZ,
+    SZ("SZ"),
 
 
-    RPSH,
+    RPSH("SS"),
 
 
-    RPSZ;
+    RPSZ("SZ");
+
+
+    private String fixId;
+
+    Exchange(String fixId) {
+        this.fixId = fixId;
+    }
 
 
     /***
@@ -33,6 +40,12 @@ public enum Exchange {
             return RepoCodeCache.RepoCache.isRepo(stockId)? RPSH: SH;
         }
     }
+
+    public String getFixId() {
+        return this.fixId;
+    }
+
+
 
 
 
