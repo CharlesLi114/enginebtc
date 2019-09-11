@@ -1,5 +1,6 @@
 package com.csc108.enginebtc.replay;
 
+import com.csc108.enginebtc.amq.ActiveMqController;
 import com.csc108.enginebtc.cache.TdbDataCache;
 import com.csc108.enginebtc.tdb.models.MarketData;
 import com.csc108.enginebtc.tdb.models.TransactionData;
@@ -53,7 +54,7 @@ public class ReplayJob implements Job {
             return;
         }
         for (MarketData data : datas) {
-            // TODO send to amq
+            ActiveMqController.Controller.sendMarket(data);
         }
     }
 
@@ -63,7 +64,7 @@ public class ReplayJob implements Job {
             return;
         }
         for (TransactionData data : datas) {
-            // TODO send to amq
+            ActiveMqController.Controller.sendTrans(data);
         }
     }
 

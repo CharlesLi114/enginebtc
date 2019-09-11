@@ -5,6 +5,7 @@ import com.csc108.enginebtc.commons.AbstractTdbData;
 import com.csc108.enginebtc.utils.Constants;
 import com.csc108.enginebtc.utils.TimeUtils;
 import com.csc108.enginebtc.utils.Utils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math.util.MathUtils;
 
 
@@ -19,7 +20,7 @@ public class MarketData extends AbstractTdbData {
     private String stockId;
     private String symbol;
     private String exchangeCode;
-
+    private String selector;
 
     private char status;
     private double preClose;
@@ -49,6 +50,8 @@ public class MarketData extends AbstractTdbData {
         this.stockId = tick.getWindCode();
         this.symbol = Utils.getSymbol(this.stockId);
         this.exchangeCode = Utils.getExchange(this.stockId);
+
+        this.selector = "hq" + StringUtils.remove(this.stockId, ".").intern();
 
 
 
@@ -99,7 +102,15 @@ public class MarketData extends AbstractTdbData {
 
     @Override
     public int getTime() {
-        return 0;
+        return this.timeStamp;
+    }
+
+    public String getSelector() {
+        return this.selector;
+    }
+
+    public String getStockId() {
+        return stockId;
     }
 
     @Override
