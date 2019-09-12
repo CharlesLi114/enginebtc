@@ -25,6 +25,14 @@
             <version>2.2.1</version>
         </dependency>
 
+        <!-- For communication.-->
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.17.Final</version>
+        </dependency>
+
 
 
         <dependency>

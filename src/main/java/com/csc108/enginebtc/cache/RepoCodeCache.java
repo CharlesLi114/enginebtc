@@ -22,7 +22,7 @@ public class RepoCodeCache {
     public static RepoCodeCache RepoCache = new RepoCodeCache();
 
 
-    private static final String SESSION_PROPERTY_FILE_NAME = "sessions.properties";
+    private static final String SESSION_PROPERTY_FILE_NAME = "dev/sessions.properties";
     private static final String REPO_CODE_PROPERTY_NAME = "Repo.Code";
     private static final String REPO_SPLITTER = ";";
 

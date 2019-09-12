@@ -22,7 +22,7 @@ import java.util.Map;
 public class SessionGroup {
 
 
-    private static final String SESSION_PROPERTY_FILE_NAME = "sessions.properties";
+    private static final String SESSION_PROPERTY_FILE_NAME = "dev/sessions.properties";
     private static final String SESSION_PROPERTY_NAME = "session.";
 
     // Index of start time in the line of session property.

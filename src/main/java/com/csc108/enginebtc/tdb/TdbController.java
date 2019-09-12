@@ -19,7 +19,7 @@ public class TdbController extends AbstractLifeCircleBean {
     private static final Logger logger = LoggerFactory.getLogger(TdbController.class);
 
 
-    private static final String PROPERTY_CONFIG_FILE = "application.properties";
+    private static final String PROPERTY_CONFIG_FILE = "dev/application.properties";
 
     private static final String L2_IP_PROPERTY_NAME = "tdb.l2.ip";
     private static final String L2_PORT_PROPERTY_NAME = "tdb.l2.port";

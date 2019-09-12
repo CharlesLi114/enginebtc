@@ -12,7 +12,7 @@ public class ConfigUtil {
         String property_file_name = System.getProperty("properties.name");
         if (property_file_name == null || property_file_name.equalsIgnoreCase("null")) {
             logger.warn("properties.name not set use default 'application.properties'.");
-            property_file_name = "application.properties";
+            property_file_name = "dev/application.properties";
         }
         return getConfigPath(property_file_name);
     }
