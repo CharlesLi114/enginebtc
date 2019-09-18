@@ -21,7 +21,6 @@ public class TransactionData extends AbstractTdbData {
     private double turnover;
     private char funcCode;
 
-
     public TransactionData(Transaction transaction) {
         this.stockId = transaction.getWindCode();
         this.intPrice = transaction.getTradePrice();
@@ -30,6 +29,8 @@ public class TransactionData extends AbstractTdbData {
         this.turnover = this.price * this.volume;
         this.funcCode = transaction.getFunctionCode();
         this.timestamp = TimeUtils.getTimeStamp(transaction.getTime(), true);
+
+        this.isValid = isTimeValid(transaction.getTime());
     }
 
 

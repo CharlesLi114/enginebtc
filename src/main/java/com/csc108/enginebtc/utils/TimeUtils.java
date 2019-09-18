@@ -18,6 +18,7 @@ public class TimeUtils {
     private static final int SECOND_DIVIDER = 1000;
 
     private static final int MOON_SECONDS = 90 * 60;
+    private static final int AM_AUCTION_SHIFT_TIME_SECONDS = 4 * 60;
 
     private static final SimpleDateFormat CSC_FORMAT = new SimpleDateFormat("HHmmssSSS");
     private static final DateTimeFormatter Order_DateTime_Format = DateTimeFormatter.ofPattern("YYYY-MM-DD HH:mm:ss.SSS");    //2017-07-17 15:00:00.000
@@ -26,6 +27,8 @@ public class TimeUtils {
         if (isAShare) {
             if (timestamp > 130000000) {
                 return addSeconds(timestamp, -MOON_SECONDS);
+            } else if (timestamp >= 91500000 && timestamp < 93000000) {
+                return addSeconds(timestamp, AM_AUCTION_SHIFT_TIME_SECONDS);
             } else {
                 return timestamp;
             }
@@ -97,12 +100,22 @@ public class TimeUtils {
      * @param o_time    2017-07-17 15:00:00.000
      * @return
      */
-    public static String shiftPmOrderTime(String o_time) {
+    public static String shiftOrderPmTime(String o_time) {
         LocalDateTime time = LocalDateTime.parse(o_time, Order_DateTime_Format);
         if (time.getHour() >= 13) {
             time = time.plusMinutes(-90);
             return time.format(Order_DateTime_Format);
         } else  {
+            return o_time;
+        }
+    }
+
+    public static String shiftOrderAmAuctionTime(String o_time) {
+        LocalDateTime time = LocalDateTime.parse(o_time, Order_DateTime_Format);
+        if (time.getHour() == 9 && time.getMinute() < 30) {
+            time = time.plusMinutes(4);
+            return time.format(Order_DateTime_Format);
+        } else {
             return o_time;
         }
     }

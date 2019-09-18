@@ -1,7 +1,10 @@
 package com.csc108.enginebtc.commons;
 
 import com.csc108.enginebtc.fix.FixTags;
+import com.csc108.enginebtc.utils.Constants;
 import com.csc108.enginebtc.utils.TimeUtils;
+import org.apache.commons.lang3.StringUtils;
+import quickfix.SessionID;
 import quickfix.field.*;
 import quickfix.fix42.NewOrderSingle;
 
@@ -45,13 +48,29 @@ public class Order {
         this.origStartTime = origStartTime;
         this.origEndTime = origEndTime;
 
-        this.startTime = TimeUtils.shiftPmOrderTime(origStartTime);
-        this.endTime = TimeUtils.shiftPmOrderTime(origEndTime);
+        this.startTime = TimeUtils.shiftOrderPmTime(origStartTime);
+        this.endTime = TimeUtils.shiftOrderPmTime(origEndTime);
+
+        this.startTime = TimeUtils.shiftOrderAmAuctionTime(this.startTime);
+        this.endTime = TimeUtils.shiftOrderAmAuctionTime(this.endTime);
+
 
         this.strategy = strategy;
         this.ordType = new OrdType(priceType.equalsIgnoreCase("LIMIT")? OrdType.LIMIT: OrdType.MARKET);
         this.limitPx = limitPx;
         this.pov = pov;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public void setOrderId(SessionID sessionID) {
+        if (StringUtils.isBlank(this.orderId)) {
+            this.orderId = Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + UUID.randomUUID().toString();
+        } else {
+            this.orderId = Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + this.orderId;
+        }
     }
 
     public String getOrderId() {

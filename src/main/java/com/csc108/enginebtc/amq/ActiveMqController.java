@@ -176,6 +176,11 @@ public class ActiveMqController extends AbstractLifeCircleBean {
      */
     public void sendMarket(MarketData marketData) {
         try {
+            if (!marketData.isValid()) {
+                return;
+            }
+
+
             Session session = this.getSession();
             Destination destination = session.createTopic(HQ_TOPIC_NAME);
             MessageProducer producer = session.createProducer(destination);
@@ -199,6 +204,10 @@ public class ActiveMqController extends AbstractLifeCircleBean {
 
     public void sendTrans(TransactionData transaction) {
         try {
+
+            if (!transaction.isValid()) {
+                return;
+            }
 
             ActiveMQMapMessage msg = new ActiveMQMapMessage();
             Map<String, Object> tranData = transaction.toMap();

@@ -41,9 +41,11 @@ public class MarketData extends AbstractTdbData {
     private long[] askVols;
 
     private int timeStamp;
-    private boolean isValid = true;
 
     public MarketData(Tick tick) {
+        this.isValid = isTimeValid(tick.getTime());
+
+
         // TODO status
         // this.status = null;
 
