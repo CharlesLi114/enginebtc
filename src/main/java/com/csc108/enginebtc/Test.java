@@ -1,5 +1,6 @@
 package com.csc108.enginebtc;
 
+import com.csc108.enginebtc.admin.NettySender;
 import com.csc108.enginebtc.replay.ReplayController;
 import com.csc108.enginebtc.utils.TimeUtils;
 import org.quartz.*;
@@ -32,17 +33,31 @@ public class Test {
 
     }
 
-    public static void main(String[] args) throws SchedulerException {
+    public static void main(String[] args) throws SchedulerException, InterruptedException {
 
-//        SchedulerFactory schedulerFactory = new StdSchedulerFactory();
-//        Scheduler scheduler = schedulerFactory.getScheduler();
-//
-//
-//        JobDetail job = JobBuilder.newJob(SendingJob.class).usingJobData("StockId", "1231").build();
-//        Trigger trigger = TriggerBuilder.newTrigger().startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMilliseconds(1000).repeatForever()).build();
-//
-//        scheduler.start();
-//        scheduler.scheduleJob(job, trigger);
+        NettySender sender = new NettySender();
+        sender.config("10.101.237.68", 9201);
+        sender.start();
+        while (!sender.isReady()) {
+            Thread.sleep(1000);
+            System.out.println("Wait for connection.");
+        }
+        sender.writeMessage("data amq list");
+
+        Thread.sleep(10000);
+        sender.stop();
+
+        sender = new NettySender();
+        sender.config("10.101.237.68", 9201);
+        sender.start();
+        while (!sender.isReady()) {
+            Thread.sleep(1000);
+            System.out.println("Wait for connection.");
+        }
+        sender.writeMessage("data amq list");
+        Thread.sleep(10000);
+        sender.stop();
+
 
 
 

@@ -1,3 +1,4 @@
+
 package com.csc108.enginebtc;
 
 import io.netty.buffer.Unpooled;
@@ -47,6 +48,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext arg0, String msg) throws Exception {
+        System.out.println(msg);
     }
 
     @Override

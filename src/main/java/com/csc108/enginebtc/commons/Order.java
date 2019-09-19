@@ -1,19 +1,22 @@
 package com.csc108.enginebtc.commons;
 
+import com.csc108.enginebtc.exception.InvalidOrderException;
 import com.csc108.enginebtc.fix.FixTags;
 import com.csc108.enginebtc.utils.Constants;
 import com.csc108.enginebtc.utils.TimeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import quickfix.SessionID;
 import quickfix.field.*;
 import quickfix.fix42.NewOrderSingle;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
 /**
  * Created by LI JT on 2019/9/9.
- * Description: Client order
+ * Description: ClientHandler order
  *
  *
  * 2017-07-17 13:00:00.000
@@ -42,7 +45,20 @@ public class Order {
     private double pov;
 
 
+    /**
+     *
+     * @param orderId nullable
+     * @param stockId
+     * @param symbol
+     * @param origStartTime
+     * @param origEndTime
+     * @param strategy
+     * @param priceType
+     * @param limitPx
+     * @param pov
+     */
     public Order(String orderId, String stockId, String symbol, String origStartTime, String origEndTime, String strategy, String priceType, double limitPx, double pov) {
+        this.orderId = orderId;
         this.stockId = stockId;
         this.symbol = symbol;
         this.origStartTime = origStartTime;
@@ -65,7 +81,11 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public void setOrderId(SessionID sessionID) {
+    /**
+     * Create unique order id with identification.
+     * @param sessionID
+     */
+    public void resetUniqueOrderId(SessionID sessionID) {
         if (StringUtils.isBlank(this.orderId)) {
             this.orderId = Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + UUID.randomUUID().toString();
         } else {
@@ -132,10 +152,39 @@ public class Order {
         newOrderSingle.setString(FixTags.EffectiveTime, startTime);
         newOrderSingle.setString(FixTags.ExpireTime, endTime);
 
-        // TODO use client id to identify test group? Set this value before send to fix sessions.
-
         newOrderSingle.setString(FixTags.AlgoType, strategy);
 
         return newOrderSingle;
     }
+
+    /**
+     * Check if this order is valid, if so will send for backtest.
+     * A valid order is that considered appropriate for this backtest system.
+     * @return
+     */
+    public void validate() throws InvalidOrderException {
+        LocalDateTime t1 = TimeUtils.orderTimeConvert(this.startTime);
+        LocalDateTime t2 = TimeUtils.orderTimeConvert(this.endTime);
+        if ((t1.getHour() <= 9 && t1.getMinute() < 30) && (t2.getHour() <= 9 && t2.getMinute() < 30)) {
+            throw new InvalidOrderException("Do not support am auction only orders.");
+        }
+        if ((t1.getHour() == 14 && t1.getMinute() >= 57) && (t2.getHour() == 14 && t2.getMinute() >= 57)) {
+            throw new InvalidOrderException("Do not support pm auction only orders.");
+        }
+
+        if (t2.isBefore(t1)) {
+            throw new InvalidOrderException("End time is before start time.");
+        }
+
+
+
+    }
+
+    @Override
+    public String toString() {
+        return (new ReflectionToStringBuilder(this)).toString();
+    }
+
+
+
 }

@@ -2,9 +2,13 @@ package com.csc108.enginebtc.cache;
 
 import cn.com.wind.td.tdb.Tick;
 import cn.com.wind.td.tdb.Transaction;
+import com.csc108.enginebtc.tdb.TdbController;
 import com.csc108.enginebtc.tdb.models.MarketData;
 import com.csc108.enginebtc.tdb.models.TransactionData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -14,6 +18,9 @@ import java.util.stream.Collectors;
  * Description:
  */
 public class TdbDataCache {
+
+    private static final Logger logger = LoggerFactory.getLogger(TdbDataCache.class);
+
 
     public static TdbDataCache TdbCache = new TdbDataCache();
 
@@ -29,14 +36,33 @@ public class TdbDataCache {
         this.transactionCache = new HashMap<>();
     }
 
-    public void addMarketData(String stockId, Tick[] ticks) {
+    public void init(List<String> stockIds, int date) {
+        for (String stockId : stockIds) {
+            this.addMarketData(stockId, date);
+            this.addTransaction(stockId, date);
+        }
+    }
+
+    private void addMarketData(String stockId, int date) {
+        Tick[] ticks = TdbController.TdbController.getTick(stockId, date);
+        if (ticks == null || ticks.length == 0) {
+            logger.warn(MessageFormat.format("Empty ticks for {0} of date {1}.", stockId, date));
+            return;
+        }
+
         TdbDataList<MarketData> l = new TdbDataList<>(stockId);
         List<MarketData> datas = Arrays.stream(ticks).map(MarketData::new).collect(Collectors.toList());
         l.setData(datas);
         marketdataCache.put(stockId, l);
     }
 
-    public void addTransaction(String stockId, Transaction[] transactions) {
+    private void addTransaction(String stockId, int date) {
+        Transaction[] transactions = TdbController.TdbController.getTransaction(stockId, date);
+        if (transactions == null || transactions.length == 0) {
+            logger.warn(MessageFormat.format("Empty trades for {0} of date {1}.", stockId, date));
+            return;
+        }
+
         TdbDataList<TransactionData> l = new TdbDataList<>(stockId);
         List<TransactionData> datas = Arrays.stream(transactions).map(TransactionData::new).collect(Collectors.toList());
         l.setData(datas);

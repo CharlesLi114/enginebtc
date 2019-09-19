@@ -35,7 +35,12 @@ public class TdbController extends AbstractLifeCircleBean {
     private final OPEN_SETTINGS L2_TdbSettings = new OPEN_SETTINGS();
     private TDBClient client = new TDBClient();
 
+    public static TdbController TdbController = new TdbController();
 
+
+    private TdbController() {
+        this.config();
+    }
 
 
     @Override

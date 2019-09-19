@@ -120,6 +120,10 @@ public class TimeUtils {
         }
     }
 
+    public static LocalDateTime orderTimeConvert(String o_time) {
+        return LocalDateTime.parse(o_time, Order_DateTime_Format);
+    }
+
     /**
      * Parse order time.
      * @param o_time

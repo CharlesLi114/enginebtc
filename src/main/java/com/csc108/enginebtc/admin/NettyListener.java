@@ -22,23 +22,21 @@ import org.slf4j.LoggerFactory;
  * Created by LI JT on 2019/9/12.
  * Description:
  */
-public class NettyServer extends AbstractLifeCircleBean {
+public class NettyListener extends AbstractLifeCircleBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(NettyListener.class);
 
     private static final String PROPERTY_CONFIG_FILE = "application.properties";
     private static final String Receiver_IP_Property_Name = "admin.receive.ip";
     private static final String Receiver_Port_Property_Name = "admin.receive.port";
 
-    private static final String SendTo_IP_Property_Name = "admin.sendto.ip";
-    private static final String SendTo_Port_Property_Name = "admin.sendto.port";
 
 
-    public static final NettyServer Netty = new NettyServer();
+
+    public static final NettyListener Netty = new NettyListener();
 
 
     private AdminConfig ownConfig;
-    private AdminConfig calcConfig;
 
 
     private EventLoopGroup bossGroup;
@@ -54,14 +52,9 @@ public class NettyServer extends AbstractLifeCircleBean {
             int port = config.getInt(Receiver_Port_Property_Name);
             this.ownConfig = new AdminConfig(ip, port);
 
-            ip = config.getString(SendTo_IP_Property_Name);
-            port = config.getInt(SendTo_Port_Property_Name);
-            this.calcConfig = new AdminConfig(ip, port);
-
-
         } catch (ConfigurationException e) {
-            logger.error("Failed to read config for NettyServer", e);
-            throw new InitializationException("Failed to read config for NettyServer", e);
+            logger.error("Failed to read config for NettyListener", e);
+            throw new InitializationException("Failed to read config for NettyListener", e);
         }
 
 
@@ -86,7 +79,7 @@ public class NettyServer extends AbstractLifeCircleBean {
                         @Override
                         public void initChannel(SocketChannel ch)
                                 throws Exception {
-                            ch.pipeline().addLast(new StringDecoder(), new StringEncoder(), new ProcessingHandler());
+                            ch.pipeline().addLast(new StringDecoder(), new StringEncoder(), new ListenerHandler());
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);

@@ -85,11 +85,6 @@ public class ReplayController extends AbstractLifeCircleBean {
                 throw new InitializationException("Error when creating quartz job.", e);
             }
         }
-
-
-
-
-
     }
 
     @Override

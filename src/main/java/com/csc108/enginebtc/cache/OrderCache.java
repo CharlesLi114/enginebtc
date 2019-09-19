@@ -2,7 +2,14 @@ package com.csc108.enginebtc.cache;
 
 import com.csc108.enginebtc.commons.Order;
 import com.csc108.enginebtc.exception.InitializationException;
+import com.csc108.enginebtc.exception.InvalidOrderException;
+import com.csc108.enginebtc.fix.FixMSgSender;
 import com.csc108.enginebtc.utils.TimeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import quickfix.SessionID;
+import quickfix.field.ClientID;
+import quickfix.fix42.NewOrderSingle;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,6 +20,10 @@ import java.util.*;
  */
 public class OrderCache {
 
+    private static final Logger logger = LoggerFactory.getLogger(OrderCache.class);
+
+
+    public static final OrderCache OrderCache = new OrderCache();
 
     private Map<String, Order> cache;
     private String minStartTime;
@@ -21,13 +32,15 @@ public class OrderCache {
     private Set<String> stockIds;
 
 
-    public OrderCache() {
+    private OrderCache() {
         this.cache = new HashMap<>();
         this.stockIds = new HashSet<>();
     }
 
     public void init() {
+        this.initFromDB();
 
+        this.computeMinTime();
     }
 
     public void initFromFile() {
@@ -82,7 +95,27 @@ public class OrderCache {
         return this.date;
     }
 
-    public void sendOrders() {
 
+
+    public void sendOrder() {
+        Map<String, Order> orders = this.cache;
+        for (Order o : orders.values()) {
+            try {
+                o.validate();
+            } catch (InvalidOrderException e) {
+                logger.warn("Invalid order: " +e.getMessage());
+                logger.warn(o.toString());
+            }
+
+
+            NewOrderSingle newOrderSingle = o.toNewOrderRequest();
+            List<SessionID> sessions = FixSessionCache.getInstance().getSessions();
+            for (SessionID session : sessions) {
+                o.resetUniqueOrderId(session);
+                newOrderSingle.set(new ClientID(session.toString()));
+                FixMSgSender.sendNow(newOrderSingle, session);
+
+            }
+        }
     }
 }

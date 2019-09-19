@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"  ?>
+
+<config>
+    <ActiveMQ>
+        <Connection name="hqQueue">
+            <!--  <Criteria msgPrefix=""></Criteria> -->
+            <topics>quotahq</topics>
+            <server>10.101.195.10</server>
+            <port>61666</port>
+            <!--admin port 8166-->
+            <protocol>tcp</protocol>
+            <defaultParams>jms.useAsyncSend=true&amp;jms.dispatchAsync=true&amp;jms.optimizeAcknowledge=true&amp;jms.prefetchPolicy.all=100</defaultParams>
+            <user></user>
+            <password></password>
+            <maxReconnectDelay>30000</maxReconnectDelay>
+            <!--From ActiveMQ 5.6: default is -1, retry forever. 0 means disables re-connection, e.g: just try to connect once.-->
+            <!--Before ActiveMQ 5.6: default is 0, retry forever.-->
+            <!--All ActiveMQ versions: a value >0 denotes the maximum number of reconnect attempts before an error is sent back to the client.-->
+            <maxReconnectAttempts>-1</maxReconnectAttempts>
+            <connectionPerFactory>1</connectionPerFactory>
+            <sessionPerConnection>100</sessionPerConnection>
+            <failover>true</failover>
+            <timeout>3000</timeout>
+            <!-- Separate by ;-->
+            <logHq>true</logHq>
+            <hqLogStocks>300128.SZ;300337.SZ</hqLogStocks>
+            <hqLogFolder>d:/logs/match/matcher/${current.date}/hq/</hqLogFolder>
+        </Connection>
+    </ActiveMQ>
+</config>

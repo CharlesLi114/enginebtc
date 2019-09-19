@@ -1,31 +1,36 @@
 package com.csc108.enginebtc.admin;
 
+import com.csc108.enginebtc.controller.Controller;
+import com.csc108.enginebtc.utils.Constants;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by LI JT on 2017/12/1.
  * Description:
  */
-public class ProcessingHandler extends ChannelInboundHandlerAdapter {
+public class ListenerHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProcessingHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ListenerHandler.class);
 
     private static final String ErrorMsg = "Input message %s is not supported.";
+
+
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
         String message = (String) msg;
+        logger.info("Received message " + message);
+        if (message.trim().toUpperCase().equals(Constants.CalcReadyMsg)) {
+            Controller.Controller.setCalcReady();
+        }
+
+
         System.out.println(message);
         if (message.trim().equalsIgnoreCase("AAA")) {
             System.out.println("LIKESHIT");
@@ -33,7 +38,7 @@ public class ProcessingHandler extends ChannelInboundHandlerAdapter {
         logger.info("In Msg:\n" + message);
 
 //        AbstractCommand targetCmd = null;
-//        List<AbstractCommand> commands = NettyServer.Netty.getCommands();
+//        List<AbstractCommand> commands = NettyListener.Netty.getCommands();
 //        for (AbstractCommand command : commands) {
 //            if (command.matchThirdCmd(message)) {
 //                targetCmd = command;
@@ -76,4 +81,6 @@ public class ProcessingHandler extends ChannelInboundHandlerAdapter {
         ChannelFuture future = ctx.writeAndFlush(msg + "\n\r");
         future.addListener(ChannelFutureListener.CLOSE);
     }
+
+
 }

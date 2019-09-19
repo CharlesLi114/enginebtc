@@ -14,5 +14,7 @@ public class Constants {
 
     public static final String RunTimeId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-DD-HH-mm"));
 
+    public static final String CalcReadyMsg = "CALCREADY";
+
 
 }

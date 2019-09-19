@@ -1,18 +1,19 @@
-package com.csc108.enginebtc;
 
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.Delimiters;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
+        package com.csc108.enginebtc;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+        import io.netty.bootstrap.Bootstrap;
+        import io.netty.channel.*;
+        import io.netty.channel.nio.NioEventLoopGroup;
+        import io.netty.channel.socket.SocketChannel;
+        import io.netty.channel.socket.nio.NioSocketChannel;
+        import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+        import io.netty.handler.codec.Delimiters;
+        import io.netty.handler.codec.string.StringDecoder;
+        import io.netty.handler.codec.string.StringEncoder;
+
+        import java.util.concurrent.ExecutorService;
+        import java.util.concurrent.Executors;
+        import java.util.concurrent.TimeUnit;
 
 /**
  * Created by LI JT on 2019/9/12.
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Client implements Runnable {
 
-    String host = "10.101.195.9";
+    String host = "10.101.237.68";
     int port = 9201;
     private final ClientHandler clientHandler = new ClientHandler();
     private boolean isRunning = false;

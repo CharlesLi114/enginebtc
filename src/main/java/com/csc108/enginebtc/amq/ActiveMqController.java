@@ -29,7 +29,7 @@ public class ActiveMqController extends AbstractLifeCircleBean {
 
     private static final Logger logger = LoggerFactory.getLogger(ActiveMqController.class);
 
-    private static final String CONFIG_FILE = "configuration/config.xml";
+    private static final String CONFIG_FILE = "configuration/activemq.xml";
 
     private final static int DEFAULT_CONNECTION_IDLE_TIMEOUT = 24 * 60 * 60 * 1000;
     private final static String HQ_TOPIC_NAME = "quotahq";
@@ -46,8 +46,13 @@ public class ActiveMqController extends AbstractLifeCircleBean {
     private XMLConfiguration configuration;
 
 
+    private ActiveMqController() {
+        this.config();
+    }
 
-    private void initMqConfig() {
+
+    @Override
+    public void config() {
         try {
             this.configuration = new XMLConfiguration(CONFIG_FILE);
         } catch (org.apache.commons.configuration.ConfigurationException e) {
@@ -76,14 +81,6 @@ public class ActiveMqController extends AbstractLifeCircleBean {
 
             this.config = new ActiveMqConfig(name, topics, server, port, protocol, defaultParams, reconnectDelay, maxReconnectAttempt, connectionPerFactory, sessionPerConnection, failover, timeout, isLogHq, logHqStocks, hqLogFolder);
         }
-    }
-
-
-
-
-    @Override
-    public void config() {
-
     }
 
     @Override
