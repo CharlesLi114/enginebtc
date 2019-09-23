@@ -151,14 +151,6 @@ public class NettySender implements Runnable {
     }
 
 
-    public void sendToCalc(String message) {
-
-    }
-
-    public void sendToEngine(String message) {
-
-    }
-
 
 
 

@@ -5,6 +5,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
+import sun.rmi.runtime.Log;
 
 import java.security.PublicKey;
 
@@ -58,6 +59,7 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        System.out.println("Send channel receives response:");
         System.out.println(msg);
     }
 

@@ -2,6 +2,7 @@ package com.csc108.enginebtc.utils;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +23,7 @@ public class TimeUtils {
 
     private static final SimpleDateFormat CSC_FORMAT = new SimpleDateFormat("HHmmssSSS");
     private static final DateTimeFormatter Order_DateTime_Format = DateTimeFormatter.ofPattern("YYYY-MM-DD HH:mm:ss.SSS");    //2017-07-17 15:00:00.000
+
 
     public static int getTimeStamp(int timestamp, boolean isAShare) {
         if (isAShare) {
@@ -55,6 +57,10 @@ public class TimeUtils {
 
         return calendar;
     }
+
+
+
+
 
     /**
      *
@@ -92,6 +98,20 @@ public class TimeUtils {
         hour = hour + minute / 60;
         minute = minute % 60;
         return hour * 100 + minute;
+    }
+
+
+    /**
+     * Convert timestamp to localTime
+     */
+    public static LocalTime tsToLt(int timeStamp) {
+        int hour = timeStamp / HOUR_DIVIDER;
+        int other = timeStamp - hour * HOUR_DIVIDER;
+        int minute = other / MINUTE_DIVIDER;
+        other = other - minute * MINUTE_DIVIDER;
+        int second = other / SECOND_DIVIDER;
+
+        return LocalTime.of(hour, minute, second);
     }
 
 

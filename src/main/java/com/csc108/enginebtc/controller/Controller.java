@@ -4,6 +4,7 @@ import com.csc108.enginebtc.admin.NettySender;
 import com.csc108.enginebtc.cache.OrderCache;
 import com.csc108.enginebtc.commons.AbstractLifeCircleBean;
 import com.csc108.enginebtc.exception.InitializationException;
+import com.csc108.enginebtc.exception.InvalidParamException;
 import com.csc108.enginebtc.replay.ReplayController;
 import com.csc108.enginebtc.utils.ConfigUtil;
 import com.csc108.enginebtc.utils.TimeUtils;
@@ -13,6 +14,8 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +33,7 @@ public class Controller extends AbstractLifeCircleBean {
     private static final String WarmupSecs_Property_Name = "sys.warmup.secs";
 
     private static final String EngineConfig_Property_Name = "engine.admin.port";
+    private static final String CalcConfig_Property_Name = "calc.admin.port";
 
 
     public static Controller Controller = new Controller();
@@ -43,12 +47,13 @@ public class Controller extends AbstractLifeCircleBean {
     private int stepInMillis;
 
     private List<String> engines;
-
+    private List<String> calcs;
 
 
 
     private Controller() {
         engines = new ArrayList<>();
+        calcs = new ArrayList<>();
     }
 
 
@@ -63,6 +68,10 @@ public class Controller extends AbstractLifeCircleBean {
             this.warmupSecs = config.getInt(WarmupSecs_Property_Name);
             this.stepInMillis = config.getInt(StepInMillis_Property_Name);
 
+            if (this.speed != 1) {
+                throw new InvalidParamException("Current not support speed other than 1.");
+            }
+
             logger.info("Using config ");
             logger.info("Speed : " + speed);
             logger.info("WarmupSecs : " + warmupSecs);
@@ -72,6 +81,12 @@ public class Controller extends AbstractLifeCircleBean {
             List<Object> engines = config.getList(EngineConfig_Property_Name);
             for (Object o : engines) {
                 this.engines.add((String) o);
+            }
+
+
+            List<Object> calcs = config.getList(CalcConfig_Property_Name);
+            for (Object o : calcs) {
+                this.calcs.add((String) o);
             }
 
         } catch (ConfigurationException e) {
@@ -84,20 +99,15 @@ public class Controller extends AbstractLifeCircleBean {
     public void start() {
         int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
         int minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
-        this.sendToCalc(minTimeStamp);
+        this.syncWithCalc(minTimeStamp);
         this.waitForCalc();
-        this.syncWithEngine();
+        this.syncWithEngine(minTimeStamp);
 
         ReplayController.Replayer.init(minTimeStamp, speed, stepInMillis);
         ReplayController.Replayer.start();
     }
 
-    /**
-     * Send ready signal to calc, along with minTimestamp.
-     */
-    private void sendToCalc(int minTimestamp) {
 
-    }
 
     /**
      * Wait until calc is ready.
@@ -117,7 +127,7 @@ public class Controller extends AbstractLifeCircleBean {
     /**
      * Sync (time) with engines.
      */
-    private void syncWithEngine() {
+    private void syncWithEngine(int timestamp) {
         for (String engine : this.engines) {
             String[] splits = engine.split(":");
             NettySender sender = new NettySender();
@@ -131,7 +141,32 @@ public class Controller extends AbstractLifeCircleBean {
                 }
                 System.out.println("Wait for connection.");
             }
-            sender.writeMessage("data amq list");
+
+            int offset = -this.getEngineOffsetInSec(timestamp);
+            String msg = MessageFormat.format("algoMgr config clock -o {0}", offset);
+            sender.writeMessage(msg);
+            sender.stop();
+        }
+    }
+
+    private void syncWithCalc(int minTimeStamp) {
+        for (String calc : this.calcs) {
+            String[] splits = calc.split(":");
+            NettySender sender = new NettySender();
+            sender.config(splits[0], Integer.parseInt(splits[1]));
+            sender.start();
+
+            while (!sender.isReady()) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Wait for calc connection");
+            }
+            String msg = MessageFormat.format("BTC_SYNC_{0}_{1}", minTimeStamp, speed);
+            sender.writeMessage(msg);
+            sender.stop();
         }
     }
 
@@ -155,6 +190,15 @@ public class Controller extends AbstractLifeCircleBean {
 
     public void setSystemReady() {
         this.isSystemReady = true;
+    }
+
+    /**
+     * Return positive offset in seconds, from @param minTimeStamp to LocalTime.now
+     */
+    private int getEngineOffsetInSec(int minTimeStamp) {
+        LocalTime minTime = TimeUtils.tsToLt(minTimeStamp);
+        LocalTime now = LocalTime.now();
+        return now.toSecondOfDay() - minTime.toSecondOfDay();
     }
 
 }

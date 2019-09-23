@@ -29,51 +29,6 @@ public class ListenerHandler extends ChannelInboundHandlerAdapter {
         if (message.trim().toUpperCase().equals(Constants.CalcReadyMsg)) {
             Controller.Controller.setCalcReady();
         }
-
-
-        System.out.println(message);
-        if (message.trim().equalsIgnoreCase("AAA")) {
-            System.out.println("LIKESHIT");
-        }
-        logger.info("In Msg:\n" + message);
-
-//        AbstractCommand targetCmd = null;
-//        List<AbstractCommand> commands = NettyListener.Netty.getCommands();
-//        for (AbstractCommand command : commands) {
-//            if (command.matchThirdCmd(message)) {
-//                targetCmd = command;
-//                break;
-//            }
-//        }
-//        if (targetCmd == null) {
-//            StringBuilder retMsg = new StringBuilder();
-//            for (AbstractCommand command : commands) {
-//                if (command.matchSecondCmd(message)) {
-//                    retMsg.append(command.getCommand()).append(Constants.New_Line);
-//                }
-//            }
-//            if (StringUtils.isBlank(retMsg.toString())) {
-//                for (AbstractCommand command : commands) {
-//                    if (command.matchFirstCmd(message)) {
-//                        retMsg.append(command.getCommand()).append(Constants.New_Line);
-//                    }
-//                }
-//            }
-//            if (StringUtils.isBlank(retMsg.toString())) {
-//                Set<String> cmds = new HashSet<>();
-//                for (AbstractCommand command : commands) {
-//                    cmds.add(command.getBaseCmd());
-//                }
-//                retMsg.append("Admin commands :").append(Constants.New_Line);
-//                for (String baseMsg : cmds) {
-//                    retMsg.append(baseMsg).append(Constants.New_Line);
-//                }
-//            }
-//            writeNClose(ctx, retMsg.toString());
-//        } else {
-//            targetCmd.process(message, ctx);
-//        }
-
     }
 
     public static void writeNClose(ChannelHandlerContext ctx, String msg) {

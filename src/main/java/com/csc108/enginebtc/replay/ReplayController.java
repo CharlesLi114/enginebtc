@@ -11,7 +11,10 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,6 +52,13 @@ public class ReplayController extends AbstractLifeCircleBean {
     }
 
 
+    /**
+     *  If speed == 1, will trigger once after stepInMillis; if speed == 2, will trigger once after stepInMillis/2.
+     *  For instance, will move forward 10 millis after 10 millis when speed == 1; or when speed == 2, will move forward 10 millis every 5 millis.
+     * @param timeStamp
+     * @param speed
+     * @param stepInMillis
+     */
     public void init(int timeStamp, int speed, int stepInMillis) {
         this.minTimeStamp = timeStamp;
         this.speed = speed;
@@ -72,7 +82,6 @@ public class ReplayController extends AbstractLifeCircleBean {
 
     @Override
     public void start() {
-
         cache.initCursor(this.minTimeStamp);
 
         for (String stockId : cache.stockIds()) {
@@ -99,11 +108,24 @@ public class ReplayController extends AbstractLifeCircleBean {
     }
 
 
+    /**
+     * Get upto where replay has reached.
+     * @param stockId
+     * @return
+     */
     public int getLastUpto(String stockId) {
         return this.timeStamps.get(stockId);
     }
 
+    /**
+     * Update upto for one stock.
+     * @param stockId
+     * @param upto
+     */
     public void updateUpto(String stockId, int upto) {
         this.timeStamps.put(stockId, upto);
     }
+
+
+
 }
