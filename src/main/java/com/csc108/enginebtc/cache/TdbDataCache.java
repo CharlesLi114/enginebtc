@@ -36,7 +36,7 @@ public class TdbDataCache {
         this.transactionCache = new HashMap<>();
     }
 
-    public void init(List<String> stockIds, int date) {
+    public void readTdb(List<String> stockIds, int date) {
         for (String stockId : stockIds) {
             this.addMarketData(stockId, date);
             this.addTransaction(stockId, date);

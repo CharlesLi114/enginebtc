@@ -10,21 +10,46 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/sync_for_enginebtc$sync.coverage" NAME="sync Coverage Results" MODIFIED="1572511920540" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/py" />
+    <SUITE FILE_PATH="coverage/sync_for_enginebtc$sync.coverage" NAME="sync Coverage Results" MODIFIED="1572586371882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/py" />
   </component>
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="sync.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/py/sync.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="94" column="0" lean-forward="true" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+            <state relative-caret-position="-380">
+              <caret line="19" column="22" lean-forward="true" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
               <folding>
-                <element signature="e#70#88#0" expanded="true" />
-                <marker date="1572512625840" expanded="true" signature="781:830" ph="SELECT * FRO... TradeDate" />
-                <marker date="1572512625840" expanded="true" signature="1489:1538" ph="Select * fro... DailyFacts" />
-                <marker date="1572512625840" expanded="true" signature="1810:1857" ph="delete from " />
+                <element signature="e#255#273#0" expanded="true" />
+                <marker date="1572586754681" expanded="true" signature="949:998" ph="SELECT * FRO... TradeDate" />
+                <marker date="1572586754681" expanded="true" signature="2479:2528" ph="Select * fro... DailyFacts" />
+                <marker date="1572586754681" expanded="true" signature="2602:2649" ph="Delete from " />
+                <marker date="1572586754681" expanded="true" signature="2603:2649" ph="delete from " />
+                <marker date="1572586754681" expanded="true" signature="2827:2873" ph="Select * fro... Facts21" />
+                <marker date="1572586754681" expanded="true" signature="2947:2991" ph="Delete from " />
+                <marker date="1572586754681" expanded="true" signature="2948:2991" ph="delete from " />
+                <marker date="1572586754681" expanded="true" signature="3221:3272" ph="Select * fro... VolumeDistribution" />
+                <marker date="1572586754681" expanded="true" signature="3221:3278" ph="Select * fro... VolumeDistribution" />
+                <marker date="1572586754681" expanded="true" signature="3352:3407" ph="Delete from " />
+                <marker date="1572586754681" expanded="true" signature="3353:3407" ph="delete from " />
+                <marker date="1572586754681" expanded="true" signature="4141:4164" ph="Select * fro... IssueType" />
+                <marker date="1572586754681" expanded="true" signature="4216:4237" ph="Delete from " />
+                <marker date="1572586754681" expanded="true" signature="4217:4237" ph="delete from " />
+                <marker date="1572586754681" expanded="true" signature="4437:4481" ph="Select * fro... DailyGroup" />
+                <marker date="1572586754681" expanded="true" signature="4437:4487" ph="Select * fro... DailyGroup" />
+                <marker date="1572586754681" expanded="true" signature="4437:4488" ph="Select * fro... DailyGroup" />
+                <marker date="1572586754681" expanded="true" signature="4558:4606" ph="Delete from " />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="codecs.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/codecs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="191">
+              <caret line="308" column="0" lean-forward="false" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -42,8 +67,8 @@
       <file leaf-file-name="generic.py" pinned="false" current-in-tab="false">
         <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/site-packages/pandas/core/generic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="2041" column="20" lean-forward="false" selection-start-line="2041" selection-start-column="14" selection-end-line="2041" selection-end-column="20" />
+            <state relative-caret-position="260">
+              <caret line="2130" column="0" lean-forward="true" selection-start-line="2130" selection-start-column="0" selection-end-line="2130" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -83,6 +108,8 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>ms</find>
+      <find>dailyg</find>
+      <find>en</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -228,8 +255,8 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296593" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3997996" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2106383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997996" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41595745" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -249,32 +276,29 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/py/sync.py</url>
-          <line>79</line>
-          <option name="timeStamp" value="5" />
+          <line>133</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/py/sync.py</url>
-          <line>69</line>
-          <option name="timeStamp" value="6" />
+          <line>82</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/py/sync.py</url>
-          <line>76</line>
-          <option name="timeStamp" value="7" />
+          <line>125</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="8" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="arr" language="Python" />
-        <watch expression="cur" language="Python" />
-        <watch expression="[x[0] for x in cur.description]" language="Python" />
         <watch expression="data" language="Python" />
-        <watch expression="dst_conn" language="Python" />
-        <watch expression="clean_sql" language="Python" />
-        <watch expression="dst_cur.execute(clean_sql)" language="Python" />
-        <watch expression="sql" language="Python" />
+        <watch expression="cfg['Database']" language="Python" />
+        <watch expression="cfg['IP'] + ':' + cfg['Port']" language="Python" />
+        <watch expression="str(cfg['IP']) + ':' + str(cfg['Port'])" language="Python" />
+        <watch expression="row['groupFlag']" language="Python" />
       </configuration>
     </watches-manager>
   </component>
@@ -297,14 +321,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/site-packages/pandas/core/generic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="2041" column="20" lean-forward="false" selection-start-line="2041" selection-start-column="14" selection-end-line="2041" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/site-packages/sqlalchemy/engine/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="91">
@@ -321,15 +337,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="308" column="0" lean-forward="false" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/site-packages/pandas/io/sql.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="1200" column="34" lean-forward="false" selection-start-line="1200" selection-start-column="32" selection-end-line="1200" selection-end-column="34" />
+          <folding>
+            <marker date="1533149836000" expanded="true" signature="47605:47636" ph="INSERT INTO missing_value... " />
+            <marker date="1533149836000" expanded="true" signature="55830:55909" ph="SELECT name sqlite_master" />
+            <marker date="1533149836000" expanded="true" signature="56158:56169" ph="DROP TABLE m... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/site-packages/pandas/core/generic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="2130" column="0" lean-forward="true" selection-start-line="2130" selection-start-column="0" selection-end-line="2130" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/py/sync.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="94" column="0" lean-forward="true" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+        <state relative-caret-position="-380">
+          <caret line="19" column="22" lean-forward="true" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
           <folding>
-            <element signature="e#70#88#0" expanded="true" />
-            <marker date="1572512625840" expanded="true" signature="781:830" ph="SELECT * FRO... TradeDate" />
-            <marker date="1572512625840" expanded="true" signature="1489:1538" ph="Select * fro... DailyFacts" />
-            <marker date="1572512625840" expanded="true" signature="1810:1857" ph="delete from " />
+            <element signature="e#255#273#0" expanded="true" />
+            <marker date="1572586754681" expanded="true" signature="949:998" ph="SELECT * FRO... TradeDate" />
+            <marker date="1572586754681" expanded="true" signature="2479:2528" ph="Select * fro... DailyFacts" />
+            <marker date="1572586754681" expanded="true" signature="2602:2649" ph="Delete from " />
+            <marker date="1572586754681" expanded="true" signature="2603:2649" ph="delete from " />
+            <marker date="1572586754681" expanded="true" signature="2827:2873" ph="Select * fro... Facts21" />
+            <marker date="1572586754681" expanded="true" signature="2947:2991" ph="Delete from " />
+            <marker date="1572586754681" expanded="true" signature="2948:2991" ph="delete from " />
+            <marker date="1572586754681" expanded="true" signature="3221:3272" ph="Select * fro... VolumeDistribution" />
+            <marker date="1572586754681" expanded="true" signature="3221:3278" ph="Select * fro... VolumeDistribution" />
+            <marker date="1572586754681" expanded="true" signature="3352:3407" ph="Delete from " />
+            <marker date="1572586754681" expanded="true" signature="3353:3407" ph="delete from " />
+            <marker date="1572586754681" expanded="true" signature="4141:4164" ph="Select * fro... IssueType" />
+            <marker date="1572586754681" expanded="true" signature="4216:4237" ph="Delete from " />
+            <marker date="1572586754681" expanded="true" signature="4217:4237" ph="delete from " />
+            <marker date="1572586754681" expanded="true" signature="4437:4481" ph="Select * fro... DailyGroup" />
+            <marker date="1572586754681" expanded="true" signature="4437:4487" ph="Select * fro... DailyGroup" />
+            <marker date="1572586754681" expanded="true" signature="4437:4488" ph="Select * fro... DailyGroup" />
+            <marker date="1572586754681" expanded="true" signature="4558:4606" ph="Delete from " />
           </folding>
         </state>
       </provider>

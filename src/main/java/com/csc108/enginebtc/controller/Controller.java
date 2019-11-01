@@ -7,6 +7,7 @@ import com.csc108.enginebtc.exception.InitializationException;
 import com.csc108.enginebtc.exception.InvalidParamException;
 import com.csc108.enginebtc.replay.ReplayController;
 import com.csc108.enginebtc.utils.ConfigUtil;
+import com.csc108.enginebtc.utils.SyncUtils;
 import com.csc108.enginebtc.utils.TimeUtils;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -40,7 +41,7 @@ public class Controller extends AbstractLifeCircleBean {
 
 
     private volatile boolean isSystemReady = false;
-    private volatile boolean isCalcReady = false;
+
 
     private int speed;
     private int warmupSecs;
@@ -54,6 +55,7 @@ public class Controller extends AbstractLifeCircleBean {
     private Controller() {
         engines = new ArrayList<>();
         calcs = new ArrayList<>();
+        this.config();
     }
 
 
@@ -99,7 +101,7 @@ public class Controller extends AbstractLifeCircleBean {
     public void start() {
         int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
         int minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
-        this.syncWithCalc(minTimeStamp);
+        SyncUtils.syncWithCalc(minTimeStamp, calcs, speed);
         this.waitForCalc();
         this.syncWithEngine(minTimeStamp);
 
@@ -113,61 +115,35 @@ public class Controller extends AbstractLifeCircleBean {
      * Wait until calc is ready.
      */
     private void waitForCalc() {
-        while (!this.isCalcReady) {
-            System.out.println("Wait for calc to be ready.");
-            logger.info("Wait for calc to be ready.");
-            try {
-                Thread.sleep(1000 * 5);
-            } catch (InterruptedException e) {
-                throw new InitializationException("Failed to wait for system ready signal.", e);
-            }
-        }
+
     }
+
+    public List<String> getCalcs() {
+        return this.calcs;
+    }
+
+    public List<String> getEngines() {
+        return this.engines;
+    }
+
 
     /**
-     * Sync (time) with engines.
+     * Wait until calc and engine are ready, by connecting to their communication port.
+     *
      */
-    private void syncWithEngine(int timestamp) {
-        for (String engine : this.engines) {
-            String[] splits = engine.split(":");
-            NettySender sender = new NettySender();
-            sender.config(splits[0], Integer.parseInt(splits[1]));
-            sender.start();
-            while (!sender.isReady()) {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Wait for connection.");
-            }
-
-            int offset = -this.getEngineOffsetInSec(timestamp);
-            String msg = MessageFormat.format("algoMgr config clock -o {0}", offset);
-            sender.writeMessage(msg);
-            sender.stop();
+    public void waitCompsReady() {
+        for (String config : this.engines) {
+            logger.info("Wait for " + config);
+            SyncUtils.waitFor(config);
+            logger.info(config + " connected.");
         }
-    }
 
-    private void syncWithCalc(int minTimeStamp) {
-        for (String calc : this.calcs) {
-            String[] splits = calc.split(":");
-            NettySender sender = new NettySender();
-            sender.config(splits[0], Integer.parseInt(splits[1]));
-            sender.start();
-
-            while (!sender.isReady()) {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Wait for calc connection");
-            }
-            String msg = MessageFormat.format("BTC_SYNC_{0}_{1}", minTimeStamp, speed);
-            sender.writeMessage(msg);
-            sender.stop();
+        for (String config : this.calcs) {
+            logger.info("Wait for " + config);
+            SyncUtils.waitFor(config);
+            logger.info(config + " connected.");
         }
+
     }
 
 
@@ -192,13 +168,5 @@ public class Controller extends AbstractLifeCircleBean {
         this.isSystemReady = true;
     }
 
-    /**
-     * Return positive offset in seconds, from @param minTimeStamp to LocalTime.now
-     */
-    private int getEngineOffsetInSec(int minTimeStamp) {
-        LocalTime minTime = TimeUtils.tsToLt(minTimeStamp);
-        LocalTime now = LocalTime.now();
-        return now.toSecondOfDay() - minTime.toSecondOfDay();
-    }
 
 }
