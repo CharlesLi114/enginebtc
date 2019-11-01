@@ -2,7 +2,11 @@
 @author: LiJT
 @file: sync.py
 @time: 2019/10/31 14:16
-@note: 
+@note:
+What group engine is needed is fixed in code.
+If update engine version may need to add another group. Add that group to BinsTime and handle correspondingly in @link sync_distribution.
+
+
 """
 
 import numpy as np
@@ -18,7 +22,6 @@ class JobSync(object):
     def __init__(self):
         [self.today, self.last_day] = self.get_date()
         if self.today == -1:
-            # Today is not a valid trading day.
             return
 
     @staticmethod
@@ -34,6 +37,7 @@ class JobSync(object):
         Get date today and last trading day.
         :return:
         """
+        print("Prepare Date.")
         src_conn = self.get_src_conn()
         cur = src_conn.cursor()
         sql = "SELECT * FROM dbo.TradeDate WHERE exchange = 'sh'"
@@ -54,35 +58,51 @@ class JobSync(object):
         src_conn.close()
         return [today, last_day]
 
-
-
-    def sync_dailyfacts(self):
+    def read_src(self, sql):
         src_conn = self.get_src_conn()
         cur = src_conn.cursor()
-        sql = "Select * from DailyFacts where tradingDay = '{0}'".format(self.last_day)
         cur.execute(sql)
         arr = cur.fetchall()
         arr = np.array(arr)[:, :]
         data = pd.DataFrame(arr, columns=[x[0] for x in cur.description])
         src_conn.close()
+        return data
 
+    def clean_dst(self, sql):
         dst_conn = self.get_dst_conn()
-        clean_sql = "delete from DailyFacts where tradingDay = '{0}'".format(self.last_day)
         dst_cur = dst_conn.cursor()
-        dst_cur.execute(clean_sql)
+        dst_cur.execute(sql)
         dst_conn.commit()
         dst_cur.close()
         dst_conn.close()
 
+    def write_dst(self, table, data):
         cfg = config.QADB
-        engine = create_engine("mssql+pymssql://{}:{}@{}/{}".format(cfg['User'], cfg['Pwd'], cfg['IP']+':'+cfg['Port'], cfg['Database']))
+        engine = create_engine("mssql+pymssql://{}:{}@{}/{}".format(cfg['User'], cfg['Pwd'], str(cfg['IP']) + ':' + str(cfg['Port']), cfg['Database']))
         con = engine.connect()
-        data.to_sql('DailyFacts', con=con, if_exists='append', index=False)
+        data.to_sql(table, con=con, if_exists='append', index=False)
         con.close()
+
+    def sync_dailyfacts(self):
+        print("Processing DailyFacts.")
+        sql = "Select * from DailyFacts where tradingDay = '{0}'".format(self.last_day)
+        data = self.read_src(sql)
+
+        sql = "Delete from DailyFacts where tradingDay = '{0}'".format(self.last_day)
+        self.clean_dst(sql)
+
+        self.write_dst('DailyFacts', data)
 
 
     def sync_facts21(self):
-        pass
+        print("Processing Facts21.")
+        sql = "Select * from Facts21 where tradingDay = '{0}'".format(self.last_day)
+        data = self.read_src(sql)
+
+        sql = "Delete from Facts21 where tradingDay = '{0}'".format(self.last_day)
+        self.clean_dst(sql)
+
+        self.write_dst('Facts21', data)
 
 
     def sync_volumebin(self):
@@ -90,19 +110,62 @@ class JobSync(object):
 
 
     def sync_distribution(self):
-        pass
+        print("Processing Distribution.")
+        sql = "Select * from VolumeDistribution WHERE tradingDay = '{0}'".format(self.last_day)
+        data = self.read_src(sql)
+
+        sql = "Delete from VolumeDistribution WHERE tradingDay = '{0}'".format(self.last_day)
+        self.clean_dst(sql)
+
+        max_bin_index = 0
+        bin_cols = []
+        for col in data.columns:
+            if col.startswith('bin'):
+                max_bin_index = int(col.replace("bin", ''))
+                bin_cols.append(col)
+        for index, row in data.iterrows():
+            # Don't support HK, so skip it.
+            if row['groupFlag'] == 'HK':
+                continue
+            v_bins = list(row[bin_cols][row[bin_cols] != 0])
+            while len(v_bins) < max_bin_index:
+                v_bins.append(-1.0)
+            row[bin_cols] = v_bins
+        self.write_dst('VolumeDistribution', data)
 
 
     def sync_issue(self):
-        pass
+        print("Processing IssueType.")
+        sql = 'Select * from IssueType'
+        data = self.read_src(sql)
+
+        sql = 'Delete from IssueType'
+        self.clean_dst(sql)
+        data['stockName'] = data['symbol']
+
+        self.write_dst('IssueType', data)
 
 
     def sync_group(self):
-        pass
+        print("Processing DailyGroups.")
+        sql = "Select * from DailyGroups where tradingDay = '{0}'".format(self.today)
+        data = self.read_src(sql)
+
+        sql = "Delete from DailyGroups where tradingDay = '{0}'".format(self.today)
+        self.clean_dst(sql)
+
+        self.write_dst('DailyGroups', data)
 
 
 if __name__ == '__main__':
     job = JobSync()
+    job.sync_distribution()
     job.sync_dailyfacts()
+    job.sync_facts21()
+
+    job.sync_group()
+    job.sync_issue()
+    job.sync_volumebin()
+    print("Job Done.")
 
 
