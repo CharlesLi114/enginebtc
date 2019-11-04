@@ -1,10 +1,15 @@
 package com.csc108.enginebtc.tdb.models;
 
 import cn.com.wind.td.tdb.Transaction;
+import com.csc108.enginebtc.amq.ActiveMqController;
 import com.csc108.enginebtc.commons.AbstractTdbData;
 import com.csc108.enginebtc.utils.Constants;
 import com.csc108.enginebtc.utils.TimeUtils;
+import org.apache.activemq.command.ActiveMQMapMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.jms.JMSException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,10 +19,11 @@ import java.util.Map;
  */
 public class TransactionData extends AbstractTdbData {
 
-    private String stockId;
+    private static final Logger logger = LoggerFactory.getLogger(TransactionData.class);
+
     private int intPrice;
     private double price;
-    private double volume;
+    private int volume;
     private double turnover;
     private char funcCode;
 
@@ -34,10 +40,6 @@ public class TransactionData extends AbstractTdbData {
     }
 
 
-    @Override
-    public int getTime() {
-        return 0;
-    }
 
     @Override
     public String toXmlMsg() {
@@ -54,5 +56,24 @@ public class TransactionData extends AbstractTdbData {
         map.put("Turnover", this.turnover);
         map.put("FunctionCode", this.funcCode);
         return map;
+    }
+
+    public ActiveMQMapMessage toMQMapMessage() {
+        try {
+            ActiveMQMapMessage msg = new ActiveMQMapMessage();
+
+            msg.setString("StockId", this.stockId);
+            msg.setInt("IntPx", this.intPrice);
+            msg.setDouble("price", this.price);
+            msg.setInt("Volume", this.volume);
+            msg.setDouble("Turnover", this.turnover);
+            msg.setChar("FunctionCode", this.funcCode);
+            msg.setInt("Timestamp", this.timestamp);
+
+            return msg;
+        } catch (JMSException e) {
+            logger.error("Error during formatting transaction MapMessage", e);
+            return null;
+        }
     }
 }

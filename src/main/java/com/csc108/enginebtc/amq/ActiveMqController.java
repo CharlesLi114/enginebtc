@@ -6,7 +6,6 @@ import com.csc108.enginebtc.exception.InitializationException;
 import com.csc108.enginebtc.tdb.models.MarketData;
 import com.csc108.enginebtc.tdb.models.TransactionData;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.ConfigurationException;
 import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.activemq.pool.PooledConnectionFactory;
 import org.apache.commons.configuration.HierarchicalConfiguration;
@@ -16,9 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jms.*;
-import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -168,10 +165,11 @@ public class ActiveMqController extends AbstractLifeCircleBean {
     }
 
     /**
-     * Send market data to activemq
+     * Send market data to activemq, in engine format, use filter to identify stock id.
+     * TODO to decommission.
      * @param marketData data to send
      */
-    public void sendMarket(MarketData marketData) {
+    public void sendTicks1(MarketData marketData) {
         try {
             if (!marketData.isValid()) {
                 return;
@@ -199,20 +197,40 @@ public class ActiveMqController extends AbstractLifeCircleBean {
         }
     }
 
+    /**
+     * Send market data using data map.
+     * @param marketData
+     */
+    public void sendTicks(MarketData marketData) {
+        try {
+            if (!marketData.isValid()) {
+                return;
+            }
+
+            ActiveMQMapMessage msg = marketData.toMQMapMessage();
+
+            Session session = this.getSession();
+            Destination destination = session.createTopic(this.getTopic(marketData.getStockId(), true));
+            MessageProducer producer = session.createProducer(destination);
+            producer.setTimeToLive(MESSAGE_TIME_TO_LIVE);
+            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            producer.send(msg);
+
+            session.close();
+        } catch (JMSException e) {
+            logger.error("Send MarketData failed: ", e);
+        }
+    }
+
     public void sendTrans(TransactionData transaction) {
         try {
-
             if (!transaction.isValid()) {
                 return;
             }
 
-            ActiveMQMapMessage msg = new ActiveMQMapMessage();
-            Map<String, Object> tranData = transaction.toMap();
-            for (Map.Entry<String, Object> entry: tranData.entrySet()) {
-                msg.setObject(entry.getKey(), entry.getValue());
-            }
+            ActiveMQMapMessage msg = transaction.toMQMapMessage();
             Session session = this.getSession();
-            Destination destination = session.createTopic(TRANS_TOPIC_NAME);
+            Destination destination = session.createTopic(this.getTopic(transaction.getStockId(), false));
             MessageProducer producer = session.createProducer(destination);
 
             producer.setTimeToLive(MESSAGE_TIME_TO_LIVE);
@@ -224,4 +242,9 @@ public class ActiveMqController extends AbstractLifeCircleBean {
             logger.error("Send Transaction failed: ", e);
         }
     }
+
+    private String getTopic(String stockId, boolean isMarketdata) {
+        return isMarketdata? "Tick_" + stockId: "Trade_" + stockId;
+    }
+
 }

@@ -30,7 +30,7 @@ public class TdbDataList<T extends AbstractTdbData> {
         }
         int i = 1;
         for (; i < dataList.size(); i++) {
-            if (dataList.get(i).getTime() > timestamp) {
+            if (dataList.get(i).getTimestamp() > timestamp) {
                 break;
             }
         }
@@ -61,7 +61,7 @@ public class TdbDataList<T extends AbstractTdbData> {
 
         int pos = cursor + 1;
         for (; pos < dataList.size(); pos++) {
-            if (dataList.get(pos).getTime() > upto) {
+            if (dataList.get(pos).getTimestamp() > upto) {
                 break;
             }
         }

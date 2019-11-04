@@ -24,9 +24,10 @@ public class Application {
 
     // Calc Tdb read data ready.
     private volatile boolean isCalcDataReady = false;
+    private volatile boolean isCalcStockReceived = false;
 
     /**
-     * Wait until calc finished
+     * Wait until calc finished reading tdf data.
      */
     public void waitForCalcDataReady() {
         while (!this.isCalcDataReady) {
@@ -40,8 +41,36 @@ public class Application {
         }
     }
 
+    public void waitForCalcStockReceived() {
+
+    }
+
     public void setCalcDataReady() {
         isCalcDataReady = true;
+    }
+
+    public void setCalcStockReceived() {
+        isCalcStockReceived = true;
+    }
+
+
+    public void syncStockCodeWithCalc() {
+        for (int i = 0; i < 10; i++) {
+            logger.info("Sync stock code with calc for " + i + " time.");
+            SyncUtils.syncStocksWithCalc(Controller.Controller.getCalcs(), OrderCache.OrderCache.getStockIds());
+            try {
+                Thread.sleep(1000 * 10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (isCalcStockReceived) {
+                break;
+            }
+        }
+        if (!isCalcStockReceived) {
+            throw new RuntimeException("Failed to sync stock code with calc after 10 times.");
+        }
+        logger.info("Stock code synced with calc.");
     }
 
     public void work() {
@@ -49,11 +78,10 @@ public class Application {
         TdbController.TdbController.start();
         OrderCache.OrderCache.init();
 
-        Controller.Controller.waitCompsReady();
+        Controller.Controller.waitCompsStarted();
 
-        SyncUtils.syncStocksWithCalc(Controller.Controller.getCalcs(), OrderCache.OrderCache.getStockIds());
+        syncStockCodeWithCalc();
         TdbDataCache.TdbCache.readTdb(OrderCache.OrderCache.getStockIds(), OrderCache.OrderCache.getDate());
-
         waitForCalcDataReady();
 
 

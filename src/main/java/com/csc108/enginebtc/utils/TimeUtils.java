@@ -25,6 +25,12 @@ public class TimeUtils {
     private static final DateTimeFormatter Order_DateTime_Format = DateTimeFormatter.ofPattern("YYYY-MM-DD HH:mm:ss.SSS");    //2017-07-17 15:00:00.000
 
 
+    /**
+     * May convert isAShare to an Enum. TODO
+     * @param timestamp
+     * @param isAShare
+     * @return
+     */
     public static int getTimeStamp(int timestamp, boolean isAShare) {
         if (isAShare) {
             if (timestamp > 130000000) {
@@ -37,6 +43,31 @@ public class TimeUtils {
         } else {
             // TODO
             return timestamp;
+        }
+    }
+
+    /**
+     * Infer Tdf status using its timestamp, currently for Ashare only.
+     * * May convert isAShare to an Enum. TODO
+     * @return
+     */
+    public static char getStatus(int timestamp, boolean isAshare) {
+        if (isAshare) {
+            if (timestamp < 91500000) {
+                return 'F';
+            }
+            if (timestamp < 93000000) {
+                return 'I';
+            }
+            if (timestamp < 145700000) {
+                return 'O';
+            }
+            if (timestamp < 150000000) {
+                return 'J';
+            }
+            return 'C';
+        } else {
+            return 'O';
         }
     }
 

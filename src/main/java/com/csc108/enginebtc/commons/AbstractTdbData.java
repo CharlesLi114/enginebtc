@@ -1,5 +1,7 @@
 package com.csc108.enginebtc.commons;
 
+import org.apache.activemq.command.ActiveMQMapMessage;
+
 import java.util.Map;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Map;
  */
 public abstract class AbstractTdbData <T> {
 
+    protected String stockId;
 
     protected int timestamp;
 
@@ -17,14 +20,26 @@ public abstract class AbstractTdbData <T> {
         return time <= timestamp;
     }
 
-    public abstract int getTime();
 
     public abstract String toXmlMsg();
 
     public abstract Map toMap();
 
+    public abstract ActiveMQMapMessage toMQMapMessage();
+
     public boolean isValid() {
         return this.isValid;
+    }
+
+
+
+    public String getStockId() {
+        return this.stockId;
+    }
+
+
+    public int getTimestamp() {
+        return this.timestamp;
     }
 
     /**

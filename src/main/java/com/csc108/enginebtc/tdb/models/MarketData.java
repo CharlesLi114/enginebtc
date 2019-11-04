@@ -5,10 +5,14 @@ import com.csc108.enginebtc.commons.AbstractTdbData;
 import com.csc108.enginebtc.utils.Constants;
 import com.csc108.enginebtc.utils.TimeUtils;
 import com.csc108.enginebtc.utils.Utils;
+import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math.util.MathUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
+import javax.jms.JMSException;
 import java.util.Map;
 
 /**
@@ -17,37 +21,37 @@ import java.util.Map;
  */
 public class MarketData extends AbstractTdbData {
 
-    private String stockId;
+    private static final Logger logger = LoggerFactory.getLogger(MarketData.class);
+
+
     private String symbol;
     private String exchangeCode;
     private String selector;
 
     private char status;
-    private double preClose;
-    private double open;
-    private double high;
-    private double low;
-    private double match;
+    private long preClose;
+    private long open;
+    private long high;
+    private long low;
+    private long match;
     private long numTrades;
-    private double volume;
-    private double turnOver;
-    private double lowLimited;
-    private double highLimited;
+    private long volume;
+    private long turnOver;
+    private long lowLimited;
+    private long highLimited;
 
-    private double[] bidPx;
-    private double[] askPx;
+    private long[] bidPx;
+    private long[] askPx;
 
     private long[] bidVols;
     private long[] askVols;
-
-    private int timeStamp;
 
     public MarketData(Tick tick) {
         this.isValid = isTimeValid(tick.getTime());
 
 
-        // TODO status
-        // this.status = null;
+
+        this.status = TimeUtils.getStatus(tick.getTime(), true);
 
         this.stockId = tick.getWindCode();
         this.symbol = Utils.getSymbol(this.stockId);
@@ -55,20 +59,18 @@ public class MarketData extends AbstractTdbData {
 
         this.selector = "hq" + StringUtils.remove(this.stockId, ".").intern();
 
-
-
         this.timestamp = TimeUtils.getTimeStamp(tick.getTime(), true);
-        this.preClose = tick.getPreClose() / Constants.SCALE;
-        this.open = tick.getOpen() / Constants.SCALE;
-        this.high = tick.getHigh() / Constants.SCALE;
-        this.low = tick.getLow() / Constants.SCALE;
-        this.match = tick.getPrice() / Constants.SCALE;
+        this.preClose = tick.getPreClose();
+        this.open = tick.getOpen();
+        this.high = tick.getHigh();
+        this.low = tick.getLow();
+        this.match = tick.getPrice();
         this.numTrades = tick.getMatchItems();
         this.volume = tick.getVolume();
         this.turnOver = tick.getTurover();
 
-        this.highLimited = MathUtils.round(this.match * 1.1, 2);
-        this.lowLimited = MathUtils.round(this.match * 0.9, 2);
+        this.highLimited = (long) (MathUtils.round(this.preClose / Constants.SCALE * 1.1, 2) * Constants.SCALE);
+        this.lowLimited = (long) (MathUtils.round(this.preClose / Constants.SCALE * 0.9, 2) * Constants.SCALE);
 
 
         this.bidPx = this.getPrices(tick.getBidPrice());
@@ -86,26 +88,21 @@ public class MarketData extends AbstractTdbData {
      * @param values, long array like volume and price
      * @return new long[10] if input is null
      */
-    public double[] getPrices(int[] values) {
+    private long[] getPrices(int[] values) {
         if (values == null) {
             values = new int[10];
         }
-        double[] px = new double[values.length];
+        long[] px = new long[values.length];
         for (int i = 0; i < values.length; i ++) {
-            px[i] = values[i] / Constants.SCALE;
+            px[i] = values[i];
         }
         return px;
-
     }
 
     public long[] getVolumes(long[] values) {
         return values == null? new long[10]: values;
     }
 
-    @Override
-    public int getTime() {
-        return this.timeStamp;
-    }
 
     public String getSelector() {
         return this.selector;
@@ -154,5 +151,39 @@ public class MarketData extends AbstractTdbData {
     @Override
     public Map toMap() {
         return null;
+    }
+
+    @Override
+    public ActiveMQMapMessage toMQMapMessage() {
+        try {
+            ActiveMQMapMessage msg = new ActiveMQMapMessage();
+            msg.setString("StockId", this.stockId);
+            msg.setString("Symbol", this.symbol);
+            msg.setString("Exchange", this.exchangeCode);
+
+            msg.setChar("Status", this.status);
+            msg.setLong("Preclose", this.preClose);
+            msg.setLong("Open", this.open);
+            msg.setLong("High", this.high);
+            msg.setLong("Low", this.low);
+            msg.setLong("Match", this.match);
+            msg.setLong("NumTrades", this.numTrades);
+            msg.setLong("Volume", this.volume);
+            msg.setLong("Turnover", this.turnOver);
+
+            msg.setLong("HighLimited", this.highLimited);
+            msg.setLong("LowLimited", this.lowLimited);
+
+            msg.setObject("BidPrices", this.bidPx);
+            msg.setObject("AskPrices", this.askPx);
+            msg.setObject("BidVolumes", this.bidVols);
+            msg.setObject("AskVolumes", this.askVols);
+            msg.setInt("Timestamp", this.timestamp);
+
+            return msg;
+        } catch (JMSException e) {
+            logger.error("Error during formatting transaction MapMessage", e);
+            return null;
+        }
     }
 }

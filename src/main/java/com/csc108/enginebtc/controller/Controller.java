@@ -1,6 +1,5 @@
 package com.csc108.enginebtc.controller;
 
-import com.csc108.enginebtc.admin.NettySender;
 import com.csc108.enginebtc.cache.OrderCache;
 import com.csc108.enginebtc.commons.AbstractLifeCircleBean;
 import com.csc108.enginebtc.exception.InitializationException;
@@ -15,14 +14,12 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.MessageFormat;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by LI JT on 2019/9/2.
- * Description:
+ * Description: This whole class can be merged to Application.
  */
 public class Controller extends AbstractLifeCircleBean {
 
@@ -51,15 +48,11 @@ public class Controller extends AbstractLifeCircleBean {
     private List<String> calcs;
 
 
-
     private Controller() {
         engines = new ArrayList<>();
         calcs = new ArrayList<>();
         this.config();
     }
-
-
-
 
     @Override
     public void config() {
@@ -101,9 +94,10 @@ public class Controller extends AbstractLifeCircleBean {
     public void start() {
         int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
         int minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
+
+        SyncUtils.syncWithEngine(minTimeStamp, engines);
         SyncUtils.syncWithCalc(minTimeStamp, calcs, speed);
-        this.waitForCalc();
-        this.syncWithEngine(minTimeStamp);
+        this.waitForTimeSynced();
 
         ReplayController.Replayer.init(minTimeStamp, speed, stepInMillis);
         ReplayController.Replayer.start();
@@ -112,9 +106,11 @@ public class Controller extends AbstractLifeCircleBean {
 
 
     /**
-     * Wait until calc is ready.
+     * Wait until Calc and Engine are ready, with time drift applied.
+     * Calc should send message back saying it has processed the data.
+     * TODO
      */
-    private void waitForCalc() {
+    private void waitForTimeSynced() {
 
     }
 
@@ -131,7 +127,7 @@ public class Controller extends AbstractLifeCircleBean {
      * Wait until calc and engine are ready, by connecting to their communication port.
      *
      */
-    public void waitCompsReady() {
+    public void waitCompsStarted() {
         for (String config : this.engines) {
             logger.info("Wait for " + config);
             SyncUtils.waitFor(config);
@@ -143,7 +139,6 @@ public class Controller extends AbstractLifeCircleBean {
             SyncUtils.waitFor(config);
             logger.info(config + " connected.");
         }
-
     }
 
 
@@ -156,13 +151,6 @@ public class Controller extends AbstractLifeCircleBean {
         return this.isSystemReady;
     }
 
-    public boolean isCalcReady() {
-        return this.isCalcReady;
-    }
-
-    public void setCalcReady() {
-        this.isCalcReady = true;
-    }
 
     public void setSystemReady() {
         this.isSystemReady = true;

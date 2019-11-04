@@ -54,7 +54,7 @@ public class ReplayJob implements Job {
             return;
         }
         for (MarketData data : datas) {
-            ActiveMqController.Controller.sendMarket(data);
+            ActiveMqController.Controller.sendTicks(data);
         }
     }
 
