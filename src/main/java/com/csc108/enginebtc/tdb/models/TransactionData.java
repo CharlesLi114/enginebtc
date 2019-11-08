@@ -61,10 +61,10 @@ public class TransactionData extends AbstractTdbData {
     public ActiveMQMapMessage toMQMapMessage() {
         try {
             ActiveMQMapMessage msg = new ActiveMQMapMessage();
-
+            msg.setString("Type", "TransactionData");
             msg.setString("StockId", this.stockId);
             msg.setInt("IntPx", this.intPrice);
-            msg.setDouble("price", this.price);
+            msg.setDouble("Price", this.price);
             msg.setInt("Volume", this.volume);
             msg.setDouble("Turnover", this.turnover);
             msg.setChar("FunctionCode", this.funcCode);

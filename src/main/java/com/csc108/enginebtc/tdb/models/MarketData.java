@@ -157,6 +157,7 @@ public class MarketData extends AbstractTdbData {
     public ActiveMQMapMessage toMQMapMessage() {
         try {
             ActiveMQMapMessage msg = new ActiveMQMapMessage();
+            msg.setString("Type", "MarketData");
             msg.setString("StockId", this.stockId);
             msg.setString("Symbol", this.symbol);
             msg.setString("Exchange", this.exchangeCode);
@@ -182,7 +183,7 @@ public class MarketData extends AbstractTdbData {
 
             return msg;
         } catch (JMSException e) {
-            logger.error("Error during formatting transaction MapMessage", e);
+            logger.error("Error during formatting market data MapMessage", e);
             return null;
         }
     }
