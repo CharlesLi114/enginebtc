@@ -5,6 +5,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
+import org.apache.commons.lang3.StringUtils;
 import sun.rmi.runtime.Log;
 
 import java.security.PublicKey;
@@ -17,6 +18,13 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
 
     private ChannelHandlerContext ctx;
     private boolean ready = false;
+    private NettySender sender;
+    private boolean liveBeforeResponse;
+
+    public SenderHandler(NettySender sender, boolean liveBeforeResponse) {
+        this.sender = sender;
+        this.liveBeforeResponse = liveBeforeResponse;
+    }
 
     public void sendMessage(String msgToSend) {
         if (ctx != null) {
@@ -50,7 +58,7 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
      * <strong>Please keep in mind that this method will be renamed to
      * {@code messageReceived(ChannelHandlerContext, I)} in 5.0.</strong>
      * <p>
-     * Is called for each message of type {@link I}.
+     * Is called for each message of type {@link }.
      *
      * @param ctx the {@link ChannelHandlerContext} which this {@link SimpleChannelInboundHandler}
      *            belongs to
@@ -61,6 +69,11 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         System.out.println("Send channel receives response:");
         System.out.println(msg);
+        if (!StringUtils.isBlank(msg) && liveBeforeResponse) {
+            System.out.println("Stopping sender.");
+            this.sender.stop();
+        }
+
     }
 
     @Override

@@ -36,15 +36,17 @@ public class NettySender implements Runnable {
 
 
 
-    private final SenderHandler handler = new SenderHandler();
+    private SenderHandler handler;
     private boolean isRunning = false;
     private ExecutorService executor = null;
 
     private AdminConfig sendConfig;
+    private boolean liveBeforeResponse;
 
 
-    public NettySender() {
-
+    public NettySender(boolean liveBeforeResponse) {
+        this.handler = new SenderHandler(this, liveBeforeResponse);
+        this.liveBeforeResponse = liveBeforeResponse;
     }
 
     public void config(String ip, int port) {

@@ -48,6 +48,24 @@ public class SyncUtils {
         }
     }
 
+    /**
+     * Send sync command to calc. TODO start a thread, non-blocking
+     * @param calcs
+     * @param stocks
+     * @param tradeDay
+     * @param upto
+     */
+    public static void syncStocksWithCalc(List<String> calcs, List<String> stocks, int tradeDay, int upto) {
+        String stock = String.join(";", stocks);
+        for (String calc : calcs) {
+            NettySender sender = getSender(calc);
+            String msg = MessageFormat.format("service control recovery_stock_data -s {0} -d {1} -t {2}", stock, String.valueOf(tradeDay), String.valueOf(upto));
+            sender.writeMessage(msg);
+//            sender.stop();
+        }
+    }
+
+
 
     public static boolean waitFor(String config) {
         NettySender sender = getSender(config, 100);
@@ -62,7 +80,7 @@ public class SyncUtils {
 
     private static NettySender getSender(String config, int waitRound) {
         String[] splits = config.split(":");
-        NettySender sender = new NettySender();
+        NettySender sender = new NettySender(true);
         sender.config(splits[0], Integer.parseInt(splits[1]));
         sender.start();
 

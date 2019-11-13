@@ -26,7 +26,9 @@ public class ListenerHandler extends ChannelInboundHandlerAdapter {
         String message = (String) msg;
         logger.info("Received message " + message);
         if (message.trim().toUpperCase().equals(Constants.CalcReadyMsg)) {
-            Controller.Controller.setCalcReady();
+//            Controller.Controller.setCalcReady();
+            //TODO
+            System.out.println(message);
         }
     }
 

@@ -35,7 +35,7 @@ public class Test {
 
     public static void main(String[] args) throws SchedulerException, InterruptedException {
 
-        NettySender sender = new NettySender();
+        NettySender sender = new NettySender(true);
         sender.config("10.101.237.68", 9201);
         sender.start();
         while (!sender.isReady()) {
@@ -47,7 +47,7 @@ public class Test {
         Thread.sleep(10000);
         sender.stop();
 
-        sender = new NettySender();
+        sender = new NettySender(true);
         sender.config("10.101.237.68", 9201);
         sender.start();
         while (!sender.isReady()) {
