@@ -1,6 +1,7 @@
 package com.csc108.enginebtc.commons;
 
 import com.csc108.enginebtc.cache.RepoCodeCache;
+import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Created by LI JT on 2019/9/6.
@@ -39,6 +40,16 @@ public enum Exchange {
         } else {
             return RepoCodeCache.RepoCache.isRepo(stockId)? RPSH: SH;
         }
+    }
+
+    public static Exchange parse(String exDest) {
+        if (exDest.equalsIgnoreCase("SS")) {
+            return SH;
+        }
+        if (exDest.equalsIgnoreCase("SZ")) {
+            return SZ;
+        }
+        throw new NotImplementedException("Exchange " + exDest + " is not implemented yet.");
     }
 
     public String getFixId() {

@@ -23,9 +23,10 @@ import java.util.UUID;
  */
 public class Order {
 
-    private String orderId;
+
     private String accountId;
 
+    private String orderId;
     private String stockId;
     private String symbol;
     private String origStartTime;   // 2017-07-17 15:00:00.000
@@ -49,7 +50,6 @@ public class Order {
      *
      * @param orderId nullable
      * @param stockId
-     * @param symbol
      * @param origStartTime
      * @param origEndTime
      * @param strategy
@@ -57,12 +57,15 @@ public class Order {
      * @param limitPx
      * @param pov
      */
-    public Order(String orderId, String stockId, String symbol, String origStartTime, String origEndTime, String strategy, String priceType, double limitPx, double pov) {
+    public Order(String orderId, String accountId, String stockId, String origStartTime, String origEndTime, String strategy, String priceType, double limitPx, double pov, String side, int qty, String exDest) {
         this.orderId = orderId;
+        this.accountId = accountId;
         this.stockId = stockId;
-        this.symbol = symbol;
+        this.symbol = StringUtils.substringBefore(stockId, ".");
         this.origStartTime = origStartTime;
         this.origEndTime = origEndTime;
+        this.side = side.toUpperCase().equalsIgnoreCase("BUY")? new Side('1'): new Side('2');
+        this.exchange = Exchange.parse(exDest);
 
         this.startTime = TimeUtils.shiftOrderPmTime(origStartTime);
         this.endTime = TimeUtils.shiftOrderPmTime(origEndTime);
@@ -75,6 +78,7 @@ public class Order {
         this.ordType = new OrdType(priceType.equalsIgnoreCase("LIMIT")? OrdType.LIMIT: OrdType.MARKET);
         this.limitPx = limitPx;
         this.pov = pov;
+        this.qty = qty;
     }
 
     public void setOrderId(String orderId) {

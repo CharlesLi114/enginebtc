@@ -48,7 +48,7 @@ public class FixMSgSender {
     }
 
 
-//    public static void sendOrder(Order order, SessionID sessionID) {
+//    public static void publishOrders(Order order, SessionID sessionID) {
 //        NewOrderSingle newOrderSingle = new NewOrderSingle(
 //            new ClOrdID()
 //

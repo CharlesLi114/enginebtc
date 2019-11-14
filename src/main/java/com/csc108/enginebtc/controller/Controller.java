@@ -39,10 +39,14 @@ public class Controller extends AbstractLifeCircleBean {
 
     private volatile boolean isSystemReady = false;
 
+    private volatile boolean isCalcDataReady = false;
+    private volatile boolean isCalcTimeSet = false;
+    private volatile boolean isEngineTimeSet = false;
 
     private int speed;
     private int warmupSecs;
     private int stepInMillis;
+    private int minTimeStamp;
 
     private List<String> engines;
     private List<String> calcs;
@@ -92,17 +96,65 @@ public class Controller extends AbstractLifeCircleBean {
 
     @Override
     public void start() {
+        this.syncTime();
+        OrderCache.OrderCache.publishOrders();
+        ReplayController.Replayer.init(this.minTimeStamp, speed, stepInMillis);
+        ReplayController.Replayer.start();
+    }
+
+
+    private void syncTime() {
         int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
-        int minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
+        this.minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
 
         SyncUtils.syncWithEngine(minTimeStamp, engines);
         SyncUtils.syncWithCalc(minTimeStamp, calcs, speed);
         this.waitForTimeSynced();
-
-        ReplayController.Replayer.init(minTimeStamp, speed, stepInMillis);
-        ReplayController.Replayer.start();
     }
 
+    /**
+     *
+     */
+    public void syncStockCodeWithCalc() {
+        Thread thread = new Thread() {
+            public void run() {
+                logger.info("Sync stock code with calc.");
+                OrderCache cache = OrderCache.OrderCache;
+                SyncUtils.syncStocksWithCalc(getCalcs(), cache.getStockIds(), cache.getDate(), cache.getMinTimestamp());
+            }
+        };
+        thread.start();
+    }
+
+
+
+
+    /**
+     * Wait until calc finished reading tdf data.
+     */
+    public void waitForCalcDataReady() {
+        while (!this.isCalcDataReady) {
+            System.out.println("Wait for calc to be ready.");
+            logger.info("Wait for calc to be ready.");
+            try {
+                Thread.sleep(1000 * 5);
+            } catch (InterruptedException e) {
+                throw new InitializationException("Failed to wait for system ready signal.", e);
+            }
+        }
+    }
+
+    public void setCalcDataReady() {
+        isCalcDataReady = true;
+    }
+
+    public void setCalcTimeReady() {
+        isCalcTimeSet = true;
+    }
+
+    public void setEngineTimeReady() {
+        isEngineTimeSet = true;
+    }
 
 
     /**
@@ -111,7 +163,15 @@ public class Controller extends AbstractLifeCircleBean {
      * TODO
      */
     private void waitForTimeSynced() {
-
+        while (!isEngineTimeSet || !isCalcTimeSet) {
+            System.out.println("Wait for time offset to be ready.");
+            logger.info("Wait for time offset to be ready.");
+            try {
+                Thread.sleep(1000 * 5);
+            } catch (InterruptedException e) {
+                throw new InitializationException("Failed to wait for system ready signal.", e);
+            }
+        }
     }
 
     public List<String> getCalcs() {

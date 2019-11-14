@@ -19,7 +19,7 @@ public class TdbController extends AbstractLifeCircleBean {
     private static final Logger logger = LoggerFactory.getLogger(TdbController.class);
 
 
-    private static final String PROPERTY_CONFIG_FILE = "dev/application.properties";
+    private static final String PROPERTY_CONFIG_FILE = "application.properties";
 
     private static final String L2_IP_PROPERTY_NAME = "tdb.l2.ip";
     private static final String L2_PORT_PROPERTY_NAME = "tdb.l2.port";
@@ -75,24 +75,28 @@ public class TdbController extends AbstractLifeCircleBean {
     }
 
 
-    public Tick[] getTick(String stockId, int date) {
-        ReqTick request = new ReqTick();
-        request.setDate(date);
-        request.setBeginTime(DEFAULT_BEGIN_TIME);
-        request.setEndTime(DEFAULT_END_TIME);
-        request.setCode(stockId);
+    public TickAB[] getTick(String stockId, int date) {
+        ReqTick reqTick = new ReqTick();
+        reqTick.setBeginDate(date);
+        reqTick.setEndDate(date);
+        reqTick.setBeginTime(DEFAULT_BEGIN_TIME);
+        reqTick.setEndTime(DEFAULT_END_TIME);
+        reqTick.setCode(stockId);
 
-        return this.client.getTick(request);
+        TickAB[] ticks = client.getTickAB(reqTick);
+        return ticks;
     }
 
     public Transaction[] getTransaction(String stockId, int date) {
-        ReqTransaction request = new ReqTransaction();
-        request.setDate(date);
-        request.setBeginTime(DEFAULT_BEGIN_TIME);
-        request.setEndTime(DEFAULT_END_TIME);
-        request.setCode(stockId);
+        ReqTransaction reqTransaction = new ReqTransaction();
+        reqTransaction.setBeginDate(date);
+        reqTransaction.setEndDate(date);
+        reqTransaction.setBeginTime(DEFAULT_BEGIN_TIME);
+        reqTransaction.setEndTime(DEFAULT_END_TIME);
+        reqTransaction.setCode(stockId);
+        Transaction[] transactions = client.getTransaction(reqTransaction);
 
-        return client.getTransaction(request);
+        return transactions;
     }
 
 }

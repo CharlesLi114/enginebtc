@@ -1,6 +1,7 @@
 package com.csc108.enginebtc.cache;
 
 import cn.com.wind.td.tdb.Tick;
+import cn.com.wind.td.tdb.TickAB;
 import cn.com.wind.td.tdb.Transaction;
 import com.csc108.enginebtc.tdb.TdbController;
 import com.csc108.enginebtc.tdb.models.MarketData;
@@ -37,14 +38,16 @@ public class TdbDataCache {
     }
 
     public void readTdb(List<String> stockIds, int date) {
+        int i = 0;
         for (String stockId : stockIds) {
+            logger.info("Reading " + stockId + ", " + i++ + "/" + stockIds.size());
             this.addMarketData(stockId, date);
             this.addTransaction(stockId, date);
         }
     }
 
     private void addMarketData(String stockId, int date) {
-        Tick[] ticks = TdbController.TdbController.getTick(stockId, date);
+        TickAB[] ticks = TdbController.TdbController.getTick(stockId, date);
         if (ticks == null || ticks.length == 0) {
             logger.warn(MessageFormat.format("Empty ticks for {0} of date {1}.", stockId, date));
             return;

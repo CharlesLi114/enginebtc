@@ -21,9 +21,15 @@ public class TimeUtils {
     private static final int MOON_SECONDS = 90 * 60;
     private static final int AM_AUCTION_SHIFT_TIME_SECONDS = 4 * 60;
 
+    private static int ACTION_DAY = Integer.parseInt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
     private static final SimpleDateFormat CSC_FORMAT = new SimpleDateFormat("HHmmssSSS");
-    private static final DateTimeFormatter Order_DateTime_Format = DateTimeFormatter.ofPattern("YYYY-MM-DD HH:mm:ss.SSS");    //2017-07-17 15:00:00.000
+    private static final DateTimeFormatter Order_DateTime_Format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");    //2017-07-17 15:00:00.000
 
+
+
+    public static int getActionDay() {
+        return ACTION_DAY;
+    }
 
     /**
      * May convert isAShare to an Enum. TODO

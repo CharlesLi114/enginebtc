@@ -38,7 +38,7 @@
         <dependency>
             <groupId>honghui</groupId>
             <artifactId>tdb</artifactId>
-            <version>3.0.0</version>
+            <version>1.0.0</version>
         </dependency>
 
         <!-- Mina -->

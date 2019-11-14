@@ -12,7 +12,7 @@ public class Constants {
 
     public static final Double SCALE = 10000.0;
 
-    public static final String RunTimeId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-DD-HH-mm"));
+    public static final String RunTimeId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmm"));
 
     public static final String CalcReadyMsg = "CALCREADY";
 

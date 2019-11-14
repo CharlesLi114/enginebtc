@@ -42,11 +42,13 @@ public class NettySender implements Runnable {
 
     private AdminConfig sendConfig;
     private boolean liveBeforeResponse;
+    private String config;
 
 
-    public NettySender(boolean liveBeforeResponse) {
+    public NettySender(boolean liveBeforeResponse, String config) {
         this.handler = new SenderHandler(this, liveBeforeResponse);
         this.liveBeforeResponse = liveBeforeResponse;
+        this.config = config;
     }
 
     public void config(String ip, int port) {
@@ -80,6 +82,7 @@ public class NettySender implements Runnable {
     }
 
     public boolean stop() {
+        logger.info("Shut down netty connection " + this.config);
         boolean bReturn = true;
         if (isRunning) {
             if (executor != null) {
@@ -152,7 +155,9 @@ public class NettySender implements Runnable {
         handler.sendMessage(msg);
     }
 
-
+    public String getConfig() {
+        return this.config;
+    }
 
 
 

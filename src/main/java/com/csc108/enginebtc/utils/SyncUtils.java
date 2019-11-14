@@ -1,6 +1,7 @@
 package com.csc108.enginebtc.utils;
 
 import com.csc108.enginebtc.admin.NettySender;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 import java.time.LocalTime;
@@ -19,9 +20,9 @@ public class SyncUtils {
         for (String engine : engines) {
             NettySender sender = getSender(engine);
             int offset = -getEngineOffsetInSec(timestamp);
-            String msg = MessageFormat.format("algoMgr config clock -o {0}", offset);
+            String msg = MessageFormat.format("algoMgr config clock -o {0}", String.valueOf(offset));
             sender.writeMessage(msg);
-            sender.stop();
+//            sender.stop();
         }
     }
 
@@ -32,21 +33,14 @@ public class SyncUtils {
     public static void syncWithCalc(int minTimeStamp, List<String> calcs, int speed) {
         for (String calc : calcs) {
             NettySender sender = getSender(calc);
-            String msg = MessageFormat.format("BTC_SYNC_{0}_{1}", minTimeStamp, speed);
+            int offset = -getEngineOffsetInSec(minTimeStamp);
+            String msg = MessageFormat.format("service control clock -o {0}", String.valueOf(offset));
             sender.writeMessage(msg);
-            sender.stop();
+//            sender.stop();
         }
     }
 
-    public static void syncStocksWithCalc(List<String> calcs, List<String> stocks) {
-        String stock = String.join(";", stocks);
-        for (String calc : calcs) {
-            NettySender sender = getSender(calc);
-            String msg = "BTC_STK_" + stock;
-            sender.writeMessage(msg);
-            sender.stop();
-        }
-    }
+
 
     /**
      * Send sync command to calc. TODO start a thread, non-blocking
@@ -80,14 +74,14 @@ public class SyncUtils {
 
     private static NettySender getSender(String config, int waitRound) {
         String[] splits = config.split(":");
-        NettySender sender = new NettySender(true);
+        NettySender sender = new NettySender(true, config);
         sender.config(splits[0], Integer.parseInt(splits[1]));
         sender.start();
 
         int waitCount = 0;
         while (!sender.isReady()) {
             try {
-                Thread.sleep(200);
+                Thread.sleep(1000);
                 waitCount += 1;
                 if (waitCount > waitRound) {
                     throw new RuntimeException("Failed to connect to " + config + " after " + waitRound + " attempts.");
@@ -95,7 +89,7 @@ public class SyncUtils {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Wait for calc connection");
+            System.out.println("Wait for connection: " + config);
         }
         return sender;
     }

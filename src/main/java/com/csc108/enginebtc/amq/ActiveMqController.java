@@ -26,7 +26,7 @@ public class ActiveMqController extends AbstractLifeCircleBean {
 
     private static final Logger logger = LoggerFactory.getLogger(ActiveMqController.class);
 
-    private static final String CONFIG_FILE = "configuration/activemq.xml";
+    private static final String CONFIG_FILE = "amq.xml";
 
     private final static int DEFAULT_CONNECTION_IDLE_TIMEOUT = 24 * 60 * 60 * 1000;
     private final static String HQ_TOPIC_NAME = "quotahq";

@@ -1,11 +1,14 @@
 package com.csc108.enginebtc.admin;
 
+import com.csc108.enginebtc.controller.Controller;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.rmi.runtime.Log;
 
 import java.security.PublicKey;
@@ -15,6 +18,9 @@ import java.security.PublicKey;
  * Description:
  */
 public class SenderHandler extends SimpleChannelInboundHandler<String> {
+
+    private static final Logger logger = LoggerFactory.getLogger(SenderHandler.class);
+
 
     private ChannelHandlerContext ctx;
     private boolean ready = false;
@@ -46,12 +52,12 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         this.ctx = ctx;
         ready = true;
+        logger.info(sender.getConfig() + " Connected.");
     }
 
     public boolean isReady() {
         return ready;
     }
-
 
 
     /**
@@ -70,8 +76,24 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
         System.out.println("Send channel receives response:");
         System.out.println(msg);
         if (!StringUtils.isBlank(msg) && liveBeforeResponse) {
-            System.out.println("Stopping sender.");
-            this.sender.stop();
+            msg = msg.replaceAll("[\n\r]", "");
+            logger.info("ReceivedMsg: \n" + msg);
+
+            if (msg.equalsIgnoreCase("TdbDataRecovered.")) {
+                Controller.Controller.setCalcDataReady();
+                logger.info("Calc " + this.sender.getConfig() + " data recovered.");
+                this.sender.stop();
+            }
+            if (msg.startsWith("OffsetDone")) {
+                Controller.Controller.setCalcTimeReady();
+                logger.info("Calc " + this.sender.getConfig() + " offset done.");
+                this.sender.stop();
+            }
+            if (msg.startsWith("OrderProcessorCount")) {
+                Controller.Controller.setEngineTimeReady();
+                logger.info("Engine "+ this.sender.getConfig() + " offset done.");
+                this.sender.stop();
+            }
         }
 
     }
@@ -84,7 +106,8 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Inactive");
+        System.out.println(this.sender.getConfig() + " Inactive");
+        logger.info(this.sender.getConfig() + " Inactive");
         this.ready = false;
     }
 }

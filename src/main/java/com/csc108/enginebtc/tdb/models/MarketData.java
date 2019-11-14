@@ -1,6 +1,7 @@
 package com.csc108.enginebtc.tdb.models;
 
 import cn.com.wind.td.tdb.Tick;
+import cn.com.wind.td.tdb.TickAB;
 import com.csc108.enginebtc.commons.AbstractTdbData;
 import com.csc108.enginebtc.utils.Constants;
 import com.csc108.enginebtc.utils.TimeUtils;
@@ -46,7 +47,7 @@ public class MarketData extends AbstractTdbData {
     private long[] bidVols;
     private long[] askVols;
 
-    public MarketData(Tick tick) {
+    public MarketData(TickAB tick) {
         this.isValid = isTimeValid(tick.getTime());
 
 
@@ -65,7 +66,7 @@ public class MarketData extends AbstractTdbData {
         this.high = tick.getHigh();
         this.low = tick.getLow();
         this.match = tick.getPrice();
-        this.numTrades = tick.getMatchItems();
+        this.numTrades = tick.getItems();
         this.volume = tick.getVolume();
         this.turnOver = tick.getTurover();
 
