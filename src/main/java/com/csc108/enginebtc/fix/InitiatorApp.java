@@ -4,6 +4,8 @@ import com.csc108.enginebtc.cache.FixSessionCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import quickfix.*;
+import quickfix.Message;
+import quickfix.fix42.*;
 import quickfix.fix42.MessageCracker;
 
 /**
@@ -43,6 +45,29 @@ public class InitiatorApp extends MessageCracker implements Application {
     }
 
     public void fromApp(Message message, SessionID sessionID) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
+        System.out.println(message.toString());
+        crack(message, sessionID);
+    }
 
+    public void onMessage(OrderPauseResumeRequest message,
+                          SessionID sessionID)
+            throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+
+    }
+
+    public void onMessage(OrderCancelReject message,
+                          SessionID sessionID)
+            throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+//        FixUtil.handleCancelRejectedReport(message);
+    }
+
+    public void onMessage(ExecutionReport executionReport,
+                          SessionID sessionID)
+            throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+//        FixUtil.handleExecutionReport(executionReport,sessionID);
+    }
+
+    public void onMessage(Reject reject, SessionID sessionID) {
+//        FixUtil.handleReject(reject, sessionID);
     }
 }

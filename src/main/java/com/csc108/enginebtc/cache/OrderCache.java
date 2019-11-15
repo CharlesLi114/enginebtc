@@ -78,7 +78,7 @@ public class OrderCache {
      * @param config
      * @throws FileNotFoundException
      */
-    public void initFromFile(Configuration config) throws FileNotFoundException {
+    private void initFromFile(Configuration config) throws FileNotFoundException {
         String file = config.getString(OrderFile_Type_Porperty_Name);
         List<List<String>> contents = FileUtils.readCsv(file);
         int index;
@@ -167,9 +167,10 @@ public class OrderCache {
                 throw new RuntimeException("No fix session obtained.");
             }
             for (SessionID session : sessions) {
-                o.resetUniqueOrderId(session);
+                o.resetUniqueOrderId(newOrderSingle, session);
                 newOrderSingle.set(new ClientID(session.toString()));
                 FixMSgSender.sendNow(newOrderSingle, session);
+                logger.info(newOrderSingle.toString());
             }
         }
     }

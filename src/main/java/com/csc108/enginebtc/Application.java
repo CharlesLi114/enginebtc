@@ -1,10 +1,12 @@
 package com.csc108.enginebtc;
 
 import com.csc108.enginebtc.amq.ActiveMqController;
+import com.csc108.enginebtc.cache.FixSessionCache;
 import com.csc108.enginebtc.cache.OrderCache;
 import com.csc108.enginebtc.cache.TdbDataCache;
 import com.csc108.enginebtc.controller.Controller;
 import com.csc108.enginebtc.fix.InitiatorApp;
+import com.csc108.enginebtc.sessions.Session;
 import com.csc108.enginebtc.tdb.TdbController;
 import com.csc108.enginebtc.utils.ConfigUtil;
 import com.csc108.enginebtc.utils.TimeUtils;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import quickfix.*;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by LI JT on 2019/9/2.
@@ -62,6 +65,7 @@ public class Application {
         omInitiatorApplication = new InitiatorApp();
         OmInitiator = new ThreadedSocketInitiator(omInitiatorApplication,fileStoreFactory,settings, logFactory,defaultMessageFactory);
         OmInitiator.start();
+        FixSessionCache.getInstance().setExpectedSessionNb(OmInitiator.getSessions().size());
     }
 
 
@@ -91,9 +95,24 @@ public class Application {
 
     public static void main(String[] args) throws Exception {
 
+
 //        Application.work();
+
+
+        OrderCache.OrderCache.start();
         startInitiator();
-        Thread.sleep(10000000);
+
+        while (!FixSessionCache.getInstance().isFixSessionReady()) {
+            logger.info("Waiting for Fix Sessions to connect.");
+            Thread.sleep(1000);
+        }
+        logger.info("Fix sessions ready.");
+        OrderCache.OrderCache.publishOrders();
+        while (true) {
+            Thread.sleep(10000);
+        }
+
+
 
     }
 

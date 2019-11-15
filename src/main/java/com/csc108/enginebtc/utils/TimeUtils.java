@@ -24,6 +24,7 @@ public class TimeUtils {
     private static int ACTION_DAY = Integer.parseInt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
     private static final SimpleDateFormat CSC_FORMAT = new SimpleDateFormat("HHmmssSSS");
     private static final DateTimeFormatter Order_DateTime_Format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");    //2017-07-17 15:00:00.000
+    private static final DateTimeFormatter Fix_Time_Format = DateTimeFormatter.ofPattern("yyyyMMdd-HH:mm:ss");   //6063=20191114-01:30:03
 
 
 
@@ -154,16 +155,20 @@ public class TimeUtils {
 
     /**
      * Shift pm time 1.5 hours early, time 2017-07-17 15:00:00.000 is converted to 2017-07-17 13:30:00.000
+     * This method also converts trading day to today for engine normalization requires same day input.
      * @param o_time    2017-07-17 15:00:00.000
      * @return
      */
     public static String shiftOrderPmTime(String o_time) {
         LocalDateTime time = LocalDateTime.parse(o_time, Order_DateTime_Format);
+
+        time = LocalDateTime.now().withHour(time.getHour()).withMinute(time.getMinute()).withSecond(time.getSecond());
+        time = LocalDateTime.now().withHour(time.getHour()).withMinute(time.getMinute()).withSecond(time.getSecond());
         if (time.getHour() >= 13) {
             time = time.plusMinutes(-90);
             return time.format(Order_DateTime_Format);
         } else  {
-            return o_time;
+            return time.format(Order_DateTime_Format);
         }
     }
 
@@ -179,6 +184,19 @@ public class TimeUtils {
 
     public static LocalDateTime orderTimeConvert(String o_time) {
         return LocalDateTime.parse(o_time, Order_DateTime_Format);
+    }
+
+    /**
+     * 1. Convert order start/end time to fix msg type, which is of 20191114-01:30:03
+     * 2. Minus time by 8 hours.
+     * @param o_time of pattern Order_DateTime_Format, yyyy-MM-dd HH:mm:ss.SSS
+     * @return
+     */
+    public static String toFixMsgTime(String o_time) {
+        LocalDateTime time = LocalDateTime.parse(o_time, Order_DateTime_Format);
+        time = time.minusHours(8);
+        return time.format(Fix_Time_Format);
+
     }
 
     /**

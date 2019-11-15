@@ -1,8 +1,11 @@
 package com.csc108.enginebtc.cache;
 
+import com.csc108.enginebtc.utils.ConfigUtil;
+import com.csc108.enginebtc.utils.FileUtils;
 import com.csc108.enginebtc.utils.FormattedTable;
 import quickfix.SessionID;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -15,10 +18,13 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * Created by NIUXX on 2017/1/7.
  */
 public class FixSessionCache {
+
+
     private final ConcurrentHashMap<String, SessionIdWrapper> sessionMap = new ConcurrentHashMap<>();
     private ReentrantReadWriteLock lock;
     private Lock readLock;
     private Lock writeLock;
+    private volatile int expectedSessionNb = 0;
 
     private ArrayList<SessionID> acceptorSessions;
     private ArrayList<SessionID> peggingSessions;
@@ -75,6 +81,14 @@ public class FixSessionCache {
         } finally {
             this.writeLock.unlock();
         }
+    }
+
+    public void setExpectedSessionNb(int nb) {
+        this.expectedSessionNb = nb;
+    }
+
+    public boolean isFixSessionReady() {
+        return this.expectedSessionNb != 0 && this.expectedSessionNb == normalSessions.size();
     }
 
     public List<SessionID> getSessions() {

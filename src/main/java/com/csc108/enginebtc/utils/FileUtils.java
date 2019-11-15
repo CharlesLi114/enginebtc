@@ -133,7 +133,19 @@ public class FileUtils {
             }
         }catch (Exception e){
             e.printStackTrace();
+            // TODO
         }
+    }
+
+    public static List<String> readFile(String file) throws FileNotFoundException {
+        List<String> lines = new ArrayList<>();
+        Scanner scanner = new Scanner(new File(file));
+        while (scanner.hasNextLine()) {
+            lines.add(scanner.nextLine());
+        }
+        scanner.close();
+        return lines;
+
     }
 
 

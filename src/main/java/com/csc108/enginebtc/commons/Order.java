@@ -32,8 +32,8 @@ public class Order {
     private String origStartTime;   // 2017-07-17 15:00:00.000
     private String origEndTime;
 
-    private String startTime;
-    private String endTime;
+    private String startTime;       // Converted time string that is used in fix 6062, 6062=20191114-01:30:03
+    private String endTime;         // Converted time string that is used in fix 6062, 6062=20191114-01:30:03
 
     private Exchange exchange;
     private Side side;
@@ -43,7 +43,7 @@ public class Order {
     private String strategy;
     private OrdType ordType;
     private double limitPx;
-    private double pov;
+    private int pov;                // Pov is a integer from 0 to 100
 
 
     /**
@@ -67,6 +67,7 @@ public class Order {
         this.side = side.toUpperCase().equalsIgnoreCase("BUY")? new Side('1'): new Side('2');
         this.exchange = Exchange.parse(exDest);
 
+        // Have to convert date to today.
         this.startTime = TimeUtils.shiftOrderPmTime(origStartTime);
         this.endTime = TimeUtils.shiftOrderPmTime(origEndTime);
 
@@ -77,7 +78,12 @@ public class Order {
         this.strategy = strategy;
         this.ordType = new OrdType(priceType.equalsIgnoreCase("LIMIT")? OrdType.LIMIT: OrdType.MARKET);
         this.limitPx = limitPx;
-        this.pov = pov;
+        if (pov < 0) {
+            this.pov = 0;
+        } else {
+            this.pov = (int) (pov * 100);
+        }
+
         this.qty = qty;
     }
 
@@ -89,11 +95,11 @@ public class Order {
      * Create unique order id with identification.
      * @param sessionID
      */
-    public void resetUniqueOrderId(SessionID sessionID) {
+    public void resetUniqueOrderId(NewOrderSingle order, SessionID sessionID) {
         if (StringUtils.isBlank(this.orderId)) {
-            this.orderId = Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + UUID.randomUUID().toString();
+            order.set(new ClOrdID(Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + UUID.randomUUID().toString()));
         } else {
-            this.orderId = Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + this.orderId;
+            order.set(new ClOrdID(Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + this.orderId));
         }
     }
 
@@ -133,14 +139,15 @@ public class Order {
         return limitPx;
     }
 
-    public double getPov() {
+    public int getPov() {
         return pov;
     }
 
 
     public NewOrderSingle toNewOrderRequest() {
         NewOrderSingle newOrderSingle = new quickfix.fix42.NewOrderSingle(
-                new ClOrdID(UUID.randomUUID().toString()), new HandlInst('1'),
+                new ClOrdID(this.orderId),
+                new HandlInst('1'),
                 new Symbol(symbol), side,
                 new TransactTime(new Date(0)), ordType);
 
@@ -148,15 +155,17 @@ public class Order {
         if (ordType.getValue() == OrdType.LIMIT) {
             newOrderSingle.set(new Price(limitPx));
         }
+        newOrderSingle.set(new ExDestination(this.exchange.getFixId()));
 
         newOrderSingle.set(new Account(accountId));
         newOrderSingle.set(new SecondaryClOrdID(accountId));
         newOrderSingle.set(new SecurityExchange(exchange.getFixId()));
 
-        newOrderSingle.setString(FixTags.EffectiveTime, startTime);
-        newOrderSingle.setString(FixTags.ExpireTime, endTime);
+        newOrderSingle.setString(FixTags.EffectiveTime, TimeUtils.toFixMsgTime(startTime));
+        newOrderSingle.setString(FixTags.ExpireTime, TimeUtils.toFixMsgTime(endTime));
 
         newOrderSingle.setString(FixTags.AlgoType, strategy);
+        newOrderSingle.setInt(FixTags.ParticipationRate, this.pov);
 
         return newOrderSingle;
     }
