@@ -160,7 +160,6 @@ public class Controller extends AbstractLifeCircleBean {
     /**
      * Wait until Calc and Engine are ready, with time drift applied.
      * Calc should send message back saying it has processed the data.
-     * TODO
      */
     private void waitForTimeSynced() {
         while (!isEngineTimeSet || !isCalcTimeSet) {

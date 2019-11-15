@@ -33,7 +33,6 @@ public class SyncUtils {
 
     /**
      * Sync (time) with calcs.
-     * TODO Calc should add an offset like engine did.
      */
     public static void syncWithCalc(int minTimeStamp, List<String> calcs, int speed) {
         for (String calc : calcs) {
@@ -48,7 +47,7 @@ public class SyncUtils {
 
 
     /**
-     * Send sync command to calc. TODO start a thread, non-blocking
+     * Send sync command to calc.
      * @param calcs
      * @param stocks
      * @param tradeDay

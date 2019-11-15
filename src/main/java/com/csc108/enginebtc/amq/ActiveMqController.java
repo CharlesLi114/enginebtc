@@ -167,10 +167,10 @@ public class ActiveMqController extends AbstractLifeCircleBean {
 
     /**
      * Send market data to activemq, in engine format, use filter to identify stock id.
-     * TODO to decommission.
+     * For now, data is sent to matcher and mather send to engine. This method is not used.
      * @param marketData data to send
      */
-    public void sendTicks1(MarketData marketData) {
+    public void sendToEngine(MarketData marketData) {
         try {
             if (!marketData.isValid()) {
                 return;

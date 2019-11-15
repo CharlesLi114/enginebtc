@@ -48,7 +48,6 @@ public class TimeUtils {
                 return timestamp;
             }
         } else {
-            // TODO
             return timestamp;
         }
     }

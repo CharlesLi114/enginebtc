@@ -16,10 +16,9 @@ public class InitiatorApp extends MessageCracker implements Application {
 
     private static final Logger logger = LoggerFactory.getLogger(InitiatorApp.class);
 
-    // TODO
 
     public void onCreate(SessionID sessionID) {
-
+        logger.info("Session " + sessionID.toString() + " created.");
     }
 
     public void onLogon(SessionID sessionID) {

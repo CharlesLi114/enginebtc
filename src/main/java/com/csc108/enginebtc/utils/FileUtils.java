@@ -117,23 +117,18 @@ public class FileUtils {
     }
 
 
-    public static void replaceFileWithReg(String filepath, String reg, String replacement) {
-        try {
-            String s;
-            String wholeFile = "";
-            File cfg = new File(filepath);
-            FileReader fr = new FileReader(cfg);
-            try (BufferedReader br = new BufferedReader(fr)) {
-                while((s = br.readLine())!=null)
-                    wholeFile += s+"\r\n";
-                wholeFile = wholeFile.replaceAll(reg, replacement);
-                FileWriter fw = new FileWriter(cfg);
-                fw.write(wholeFile);
-                fw.close();
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            // TODO
+    public static void replaceFileWithReg(String filepath, String reg, String replacement) throws IOException {
+        String s;
+        String wholeFile = "";
+        File cfg = new File(filepath);
+        FileReader fr = new FileReader(cfg);
+        try (BufferedReader br = new BufferedReader(fr)) {
+            while((s = br.readLine())!=null)
+                wholeFile += s+"\r\n";
+            wholeFile = wholeFile.replaceAll(reg, replacement);
+            FileWriter fw = new FileWriter(cfg);
+            fw.write(wholeFile);
+            fw.close();
         }
     }
 
