@@ -2,19 +2,13 @@ package com.csc108.enginebtc.replay;
 
 import com.csc108.enginebtc.cache.TdbDataCache;
 import com.csc108.enginebtc.commons.AbstractLifeCircleBean;
-import com.csc108.enginebtc.controller.Controller;
 import com.csc108.enginebtc.exception.InitializationException;
-import com.csc108.enginebtc.utils.TimeUtils;
-import com.sun.javafx.binding.StringFormatter;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -68,7 +62,7 @@ public class ReplayController extends AbstractLifeCircleBean {
             throw new InitializationException(MessageFormat.format("stepInMillis {0} is not a multiple of speed {1}, which is not allowed.", stepInMillis, speed));
         }
 
-        Set<String> stocksIds = cache.stockIds();
+        Set<String> stocksIds = cache.getStockIds();
         for (String stockid : stocksIds) {
             this.timeStamps.put(stockid, minTimeStamp);
         }
@@ -84,7 +78,7 @@ public class ReplayController extends AbstractLifeCircleBean {
     public void start() {
         cache.initCursor(this.minTimeStamp);
 
-        for (String stockId : cache.stockIds()) {
+        for (String stockId : cache.getStockIds()) {
             JobDetail job = JobBuilder.newJob(ReplayJob.class).usingJobData("StockId", stockId).usingJobData("Step", this.stepInMillis).build();
             Trigger trigger = TriggerBuilder.newTrigger().startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMilliseconds(this.triggerInMillis).repeatForever()).build();
             try {

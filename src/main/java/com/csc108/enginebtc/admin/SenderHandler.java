@@ -32,15 +32,16 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
         this.liveBeforeResponse = liveBeforeResponse;
     }
 
-    public void sendMessage(String msgToSend) {
+    public void sendMessage(String msg) {
         if (ctx != null) {
-            ChannelFuture cf = ctx.write(Unpooled.copiedBuffer(msgToSend, CharsetUtil.UTF_8));
+            ChannelFuture cf = ctx.write(Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8));
             ctx.flush();
             cf.awaitUninterruptibly();
             if (!cf.isSuccess()) {
-                System.out.println("Send failed: " + cf.cause());
+                logger.error("Msg sent failed: " + msg);
+                logger.error("Reason: " + cf.cause());
             } else {
-                System.out.println("OK");
+                logger.info("Msg sent: " + msg);
             }
         } else {
             //ctx not initialized yet. you were too fast. do something here
@@ -106,7 +107,6 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(this.sender.getConfig() + " Inactive");
         logger.info(this.sender.getConfig() + " Inactive");
         this.ready = false;
     }

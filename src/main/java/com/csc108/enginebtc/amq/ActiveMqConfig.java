@@ -1,5 +1,7 @@
 package com.csc108.enginebtc.amq;
 
+import com.csc108.enginebtc.utils.TimeUtils;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -60,7 +62,7 @@ public class ActiveMqConfig {
         for (String split : splits) {
             this.hqStocks.add(split.toUpperCase());
         }
-        this.hqLogFolder = hqLogFolder.replace("${current.date}", System.getProperty("current.date"));
+        this.hqLogFolder = hqLogFolder.replace("${current.date}", String.valueOf(TimeUtils.getActionDay()));
     }
 
     public String getName() {

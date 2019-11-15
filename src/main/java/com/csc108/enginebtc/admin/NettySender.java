@@ -145,7 +145,7 @@ public class NettySender implements Runnable {
             f.channel().closeFuture().sync();
         } catch (InterruptedException ex) {
             // do nothing
-            System.out.println("interruptted.");
+            logger.warn(this.config + " connection Interrupted.");
         } finally {
             workerGroup.shutdownGracefully();
         }

@@ -5,8 +5,8 @@
         <Connection name="hqQueue">
             <!--  <Criteria msgPrefix=""></Criteria> -->
             <topics>quotahq</topics>
-            <server>10.101.195.10</server>
-            <port>61666</port>
+            <server>10.101.237.190</server>
+            <port>61616</port>
             <!--admin port 8166-->
             <protocol>tcp</protocol>
             <defaultParams>jms.useAsyncSend=true&amp;jms.dispatchAsync=true&amp;jms.optimizeAcknowledge=true&amp;jms.prefetchPolicy.all=100</defaultParams>

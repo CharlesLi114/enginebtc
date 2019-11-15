@@ -125,6 +125,8 @@ public class OrderCache {
         }
         this.minStartTime = TimeUtils.toOrderTime(minTime);
         this.minTimestamp = minTime.getHour() * 10000000 + minTime.getMinute() * 100000 + minTime.getSecond() * 1000;
+
+        this.minTimestamp = 112700000;
     }
 
     public int getMinTimestamp() {
@@ -161,6 +163,9 @@ public class OrderCache {
 
             NewOrderSingle newOrderSingle = o.toNewOrderRequest();
             List<SessionID> sessions = FixSessionCache.getInstance().getSessions();
+            if (sessions == null || sessions.size() == 0) {
+                throw new RuntimeException("No fix session obtained.");
+            }
             for (SessionID session : sessions) {
                 o.resetUniqueOrderId(session);
                 newOrderSingle.set(new ClientID(session.toString()));

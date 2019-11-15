@@ -1,7 +1,10 @@
 package com.csc108.enginebtc.utils;
 
 import com.csc108.enginebtc.admin.NettySender;
+import com.csc108.enginebtc.amq.ActiveMqController;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.time.LocalTime;
@@ -12,6 +15,8 @@ import java.util.List;
  * Description:
  */
 public class SyncUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(SyncUtils.class);
 
     /**
      * Sync (time) with engines.
@@ -63,6 +68,7 @@ public class SyncUtils {
 
     public static boolean waitFor(String config) {
         NettySender sender = getSender(config, 100);
+        sender.writeMessage("a");
         sender.stop();
         return true;
     }
@@ -89,7 +95,7 @@ public class SyncUtils {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Wait for connection: " + config);
+            logger.info("Wait for connection: " + config);
         }
         return sender;
     }

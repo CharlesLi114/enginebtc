@@ -28,6 +28,7 @@ public class TdbDataCache {
 
     private Map<String, TdbDataList<TransactionData>> transactionCache;
     private Map<String, TdbDataList<MarketData>> marketdataCache;
+    private Set<String> stockIds;
 
     private Map<String, Integer> timeStamps = new ConcurrentHashMap<>();
 
@@ -44,6 +45,8 @@ public class TdbDataCache {
             this.addMarketData(stockId, date);
             this.addTransaction(stockId, date);
         }
+        this.stockIds = new HashSet<>(stockIds);
+
     }
 
     private void addMarketData(String stockId, int date) {
@@ -102,10 +105,8 @@ public class TdbDataCache {
         }
     }
 
-    public Set<String> stockIds() {
-        Set<String> stocks = marketdataCache.keySet();
-        stocks.addAll(transactionCache.keySet());
-        return stocks;
+    public Set<String> getStockIds() {
+        return this.stockIds;
     }
 
 

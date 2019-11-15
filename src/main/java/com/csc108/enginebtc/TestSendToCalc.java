@@ -23,9 +23,9 @@ public class TestSendToCalc {
 
         SyncUtils.syncWithCalc(92900000, calcs, 1);
 
-//        List<String> stocks = new ArrayList<>();
-//        stocks.add("600000.SH;000001.SZ");
-//        SyncUtils.syncStocksWithCalc(calcs, stocks, 20191112, 130500000);
+        List<String> stocks = new ArrayList<>();
+        stocks.add("600000.SH;000001.SZ");
+        SyncUtils.syncStocksWithCalc(calcs, stocks, 20191112, 130500000);
 
     }
 

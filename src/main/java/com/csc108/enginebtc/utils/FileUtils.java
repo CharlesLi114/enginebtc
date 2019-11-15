@@ -1,7 +1,6 @@
 package com.csc108.enginebtc.utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -35,7 +34,6 @@ public class FileUtils {
     }
 
     private static List<String> parseLine(String cvsLine, char separators, char customQuote) {
-
         List<String> result = new ArrayList<>();
 
         //if empty, return!
@@ -116,6 +114,26 @@ public class FileUtils {
         result.add(curVal.toString());
 
         return result;
+    }
+
+
+    public static void replaceFileWithReg(String filepath, String reg, String replacement) {
+        try {
+            String s;
+            String wholeFile = "";
+            File cfg = new File(filepath);
+            FileReader fr = new FileReader(cfg);
+            try (BufferedReader br = new BufferedReader(fr)) {
+                while((s = br.readLine())!=null)
+                    wholeFile += s+"\r\n";
+                wholeFile = wholeFile.replaceAll(reg, replacement);
+                FileWriter fw = new FileWriter(cfg);
+                fw.write(wholeFile);
+                fw.close();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

@@ -41,7 +41,6 @@ public class FixMSgSender {
 
             quickfix.Session.sendToTarget(msg);
         } catch (Exception ex) {
-            // TODO
             logger.error("Error sending msg: " + ex.getMessage());
             logger.error(Arrays.toString(ex.getStackTrace()));
         }

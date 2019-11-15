@@ -10,9 +10,9 @@ import quickfix.fix42.MessageCracker;
  * Created by LI JT on 2019/9/10.
  * Description:
  */
-public class Initiator extends MessageCracker implements Application {
+public class InitiatorApp extends MessageCracker implements Application {
 
-    private static final Logger logger = LoggerFactory.getLogger(Initiator.class);
+    private static final Logger logger = LoggerFactory.getLogger(InitiatorApp.class);
 
     // TODO
 

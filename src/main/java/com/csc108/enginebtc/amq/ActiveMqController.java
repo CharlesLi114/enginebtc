@@ -5,6 +5,7 @@ import com.csc108.enginebtc.commons.AbstractLifeCircleBean;
 import com.csc108.enginebtc.exception.InitializationException;
 import com.csc108.enginebtc.tdb.models.MarketData;
 import com.csc108.enginebtc.tdb.models.TransactionData;
+import com.csc108.enginebtc.utils.ConfigUtil;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.activemq.pool.PooledConnectionFactory;
@@ -16,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.jms.*;
 import java.io.FileWriter;
-import java.util.Map;
 
 /**
  * Created by LI JT on 2019/9/11.
@@ -51,7 +51,8 @@ public class ActiveMqController extends AbstractLifeCircleBean {
     @Override
     public void config() {
         try {
-            this.configuration = new XMLConfiguration(CONFIG_FILE);
+            String file = ConfigUtil.getConfigPath(CONFIG_FILE);
+            this.configuration = new XMLConfiguration(file);
         } catch (org.apache.commons.configuration.ConfigurationException e) {
             logger.error("Failed to read xml configuration for activemq.", e);
             throw new InitializationException("Failed to read xml configuration for activemq.", e);
@@ -113,7 +114,7 @@ public class ActiveMqController extends AbstractLifeCircleBean {
     public void init() {
         String connectionName = config.getName();
         String connectionString = config.getConnStr();
-        System.out.println(connectionString);
+        logger.info("AMQ " + connectionString);
 
 
         ActiveMQConnectionFactory fac = new ActiveMQConnectionFactory(connectionString);
@@ -143,7 +144,7 @@ public class ActiveMqController extends AbstractLifeCircleBean {
 
         // fac.setProducerWindowSize(1024000000);
         // fac.setAlwaysSessionAsync(false); // bypass the session internal message queue to dispatch to consumers directly
-        pooledFac = new org.apache.activemq.pool.PooledConnectionFactory(fac);
+        pooledFac = new PooledConnectionFactory(fac);
         pooledFac.setMaxConnections(config.getConnectionPerFactory());
         pooledFac.setMaximumActiveSessionPerConnection(config.getSessionPerConnection());
         pooledFac.setCreateConnectionOnStartup(true); // warm up
