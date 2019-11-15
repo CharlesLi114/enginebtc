@@ -6,16 +6,22 @@ import com.csc108.enginebtc.cache.OrderCache;
 import com.csc108.enginebtc.cache.TdbDataCache;
 import com.csc108.enginebtc.controller.Controller;
 import com.csc108.enginebtc.fix.InitiatorApp;
-import com.csc108.enginebtc.sessions.Session;
 import com.csc108.enginebtc.tdb.TdbController;
 import com.csc108.enginebtc.utils.ConfigUtil;
+import com.csc108.enginebtc.utils.FileUtils;
 import com.csc108.enginebtc.utils.TimeUtils;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import quickfix.*;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by LI JT on 2019/9/2.
@@ -24,7 +30,26 @@ import java.util.List;
 public class Application {
 
     static {
-        System.setProperty("log.home", "D:/logs/BackTestSuit/Controller/" + TimeUtils.getActionDay() + "/");
+        String logHome = System.getProperty("loghome");
+        if (null == logHome) {
+            logHome = "D:/logs/BackTestSuit/";
+        }
+        System.setProperty("log.home", logHome + TimeUtils.getActionDay() + "/controller");
+
+        String configFile = ConfigUtil.getConfigPath("initiator.cfg.tpl");
+        try {
+            Configuration config = new PropertiesConfiguration(configFile);
+            String tplFile = ((PropertiesConfiguration) config).getURL().getFile();
+            String newFile = tplFile.replace(".tpl", "");
+            IOUtils.copy(new FileInputStream(tplFile), new FileOutputStream(newFile));
+
+            FileUtils.replaceFileWithReg(newFile, "\\$\\{LogBaseDir}", logHome + TimeUtils.getActionDay());
+        } catch (ConfigurationException | IOException e) {
+            e.printStackTrace();
+            Scanner sc = new Scanner(System.in);
+            String input = sc.next();
+            System.exit(-1);
+        }
     }
 
 
@@ -36,23 +61,6 @@ public class Application {
     private static ThreadedSocketInitiator OmInitiator;
     private static InitiatorApp omInitiatorApplication;
 
-
-
-    // Calc Tdb read data ready.
-
-    private volatile boolean isCalcStockReceived = false;
-
-
-
-    public void waitForCalcStockReceived() {
-
-    }
-
-
-
-    public void setCalcStockReceived() {
-        isCalcStockReceived = true;
-    }
 
 
     private static void startInitiator () throws Exception{

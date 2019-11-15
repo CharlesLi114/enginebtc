@@ -40,8 +40,6 @@ public class ActiveMqController extends AbstractLifeCircleBean {
     private FileWriter writer;
     private final String WriteSync = "";
 
-    private XMLConfiguration configuration;
-
 
     private ActiveMqController() {
         this.config();
@@ -50,15 +48,16 @@ public class ActiveMqController extends AbstractLifeCircleBean {
 
     @Override
     public void config() {
+        XMLConfiguration configuration;
         try {
             String file = ConfigUtil.getConfigPath(CONFIG_FILE);
-            this.configuration = new XMLConfiguration(file);
+            configuration = new XMLConfiguration(file);
         } catch (org.apache.commons.configuration.ConfigurationException e) {
             logger.error("Failed to read xml configuration for activemq.", e);
             throw new InitializationException("Failed to read xml configuration for activemq.", e);
         }
 
-        SubnodeConfiguration subConfig = this.configuration.configurationAt("ActiveMQ");
+        SubnodeConfiguration subConfig = configuration.configurationAt("ActiveMQ");
         for (HierarchicalConfiguration node : subConfig.configurationsAt("Connection")) {
             String name              = node.getString("[@name]");
             String topics            = node.getString("topics");
