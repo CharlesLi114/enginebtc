@@ -19,22 +19,48 @@ from py import utils, config
 
 class JobSync(object):
 
-    def __init__(self):
-        [self.today, self.last_day] = self.get_date()
-        if self.today == -1:
-            return
+    def __init__(self, argv):
+        self.group_date = 0
+        self.facts21_date = 0
 
-    @staticmethod
-    def get_src_conn():
-        return utils.connect_source(config.ProdDB)
+        self.group_dst_date = 0
+        self.facts21_dst_date = 0
 
-    @staticmethod
-    def get_dst_conn():
-        return utils.connect_source(config.QADB)
+        self.trade_days = []
+        self.get_dates()
 
-    def get_date(self):
+        today = int(dt.date.today().strftime('%Y%m%d'))
+
+        if len(argv) == 1:
+            # Default, copy last_day from source database to
+            self.group_date = self.get_days_with_offset(today, -1)
+            self.facts21_date = self.get_days_with_offset(today, -2)
+
+            self.group_dst_date = today
+            self.facts21_dst_date = self.get_days_with_offset(today, -1)
+
+
+        elif len(argv) == 2:
+            # Mode 1, input is trading day of orders, copy to last day.
+            # For special trading day, the input is date to use.
+            trading_day = int(argv[1])
+            self.group_date = trading_day
+            self.facts21_date = self.get_days_with_offset(self.group_date, -1)
+
+            self.group_dst_date = today
+            self.facts21_dst_date = self.get_days_with_offset(today, -1)
+
+
+
+
+    def get_days_with_offset(self, date, offset):
+        idx = self.trade_days.index(date)
+        last_day = self.trade_days[idx+offset]
+        return last_day
+
+    def get_dates(self):
         """
-        Get date today and last trading day.
+        Get trading days from database, and format as int array.
         :return:
         """
         print("Prepare Date.")
@@ -47,16 +73,18 @@ class JobSync(object):
         arr = np.array(arr)[:, :]
         days = pd.DataFrame(arr, columns=['exchange', 'tradingDay', 'isHkHalfDay'])
         days = [x.year * 10000 + x.month * 100 + x.day for x in days['tradingDay']]
-        today = int(dt.date.today().strftime('%Y%m%d'))
-
-        if today not in days:
-            cur.close()
-            return [-1, -1]
-        idx = days.index(today)
-        last_day = days[idx-1]
-        cur.close()
         src_conn.close()
-        return [today, last_day]
+
+        self.trade_days = days
+
+    @staticmethod
+    def get_src_conn():
+        return utils.connect_source(config.ProdDB)
+
+    @staticmethod
+    def get_dst_conn():
+        return utils.connect_source(config.QADB)
+
 
     def read_src(self, sql):
         src_conn = self.get_src_conn()
@@ -82,26 +110,39 @@ class JobSync(object):
         con = engine.connect()
         data.to_sql(table, con=con, if_exists='append', index=False)
         con.close()
+        print('Data write to ' + table)
+
+    def modify_date(self, data, tradingDay=None):
+        if tradingDay is not None:
+            data['tradingDay'] = dt.datetime.strptime(str(tradingDay), '%Y%m%d')
+        else:
+            data['tradingDay'] = dt.datetime.strptime(str(self.facts21_dst_date), '%Y%m%d')
+
+        if 'lastUpdId' in data.columns:
+            data['lastUpdId'] = 'Backtest'
+
 
     def sync_dailyfacts(self):
         print("Processing DailyFacts.")
-        sql = "Select * from DailyFacts where tradingDay = '{0}'".format(self.last_day)
+        sql = "Select * from DailyFacts where tradingDay = '{0}'".format(self.facts21_date)
         data = self.read_src(sql)
 
-        sql = "Delete from DailyFacts where tradingDay = '{0}'".format(self.last_day)
+        sql = "Delete from DailyFacts where tradingDay = '{0}'".format(self.facts21_dst_date)
         self.clean_dst(sql)
 
+        self.modify_date(data)
         self.write_dst('DailyFacts', data)
 
 
     def sync_facts21(self):
         print("Processing Facts21.")
-        sql = "Select * from Facts21 where tradingDay = '{0}'".format(self.last_day)
+        sql = "Select * from Facts21 where tradingDay = '{0}'".format(self.facts21_date)
         data = self.read_src(sql)
 
-        sql = "Delete from Facts21 where tradingDay = '{0}'".format(self.last_day)
+        sql = "Delete from Facts21 where tradingDay = '{0}'".format(self.facts21_dst_date)
         self.clean_dst(sql)
 
+        self.modify_date(data)
         self.write_dst('Facts21', data)
 
 
@@ -111,10 +152,10 @@ class JobSync(object):
 
     def sync_distribution(self):
         print("Processing Distribution.")
-        sql = "Select * from VolumeDistribution WHERE tradingDay = '{0}'".format(self.last_day)
+        sql = "Select * from VolumeDistribution WHERE tradingDay = '{0}'".format(self.facts21_date)
         data = self.read_src(sql)
 
-        sql = "Delete from VolumeDistribution WHERE tradingDay = '{0}'".format(self.last_day)
+        sql = "Delete from VolumeDistribution WHERE tradingDay = '{0}'".format(self.facts21_dst_date)
         self.clean_dst(sql)
 
         max_bin_index = 0
@@ -131,6 +172,8 @@ class JobSync(object):
             while len(v_bins) < max_bin_index:
                 v_bins.append(-1.0)
             row[bin_cols] = v_bins
+
+        self.modify_date(data)
         self.write_dst('VolumeDistribution', data)
 
 
@@ -148,23 +191,25 @@ class JobSync(object):
 
     def sync_group(self):
         print("Processing DailyGroups.")
-        sql = "Select * from DailyGroups where tradingDay = '{0}'".format(self.today)
+        sql = "Select * from DailyGroups where tradingDay = '{0}'".format(self.group_date)
         data = self.read_src(sql)
 
-        sql = "Delete from DailyGroups where tradingDay = '{0}'".format(self.today)
+        sql = "Delete from DailyGroups where tradingDay = '{0}'".format(self.group_dst_date)
         self.clean_dst(sql)
 
+        self.modify_date(data, self.group_dst_date)
         self.write_dst('DailyGroups', data)
 
 
 if __name__ == '__main__':
-    job = JobSync()
-    job.sync_distribution()
-    job.sync_dailyfacts()
-    job.sync_facts21()
-
+    # job = JobSync(sys.argv)
+    job = JobSync(['0', 20191104])
     job.sync_group()
     job.sync_issue()
+    job.sync_dailyfacts()
+    job.sync_distribution()
+
+    job.sync_facts21()
     job.sync_volumebin()
     print("Job Done.")
 
