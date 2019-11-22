@@ -96,20 +96,24 @@ public class Controller extends AbstractLifeCircleBean {
 
     @Override
     public void start() {
-        this.syncTime();
-        OrderCache.OrderCache.publishOrders();
+        if (this.minTimeStamp == 0) {
+            int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
+            this.minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
+        }
+
         ReplayController.Replayer.init(this.minTimeStamp, speed, stepInMillis);
         ReplayController.Replayer.start();
     }
 
 
-    private void syncTime() {
+    public void publishOrders() {
         int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
         this.minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
 
         SyncUtils.syncWithEngine(minTimeStamp, engines);
         SyncUtils.syncWithCalc(minTimeStamp, calcs, speed);
         this.waitForTimeSynced();
+        OrderCache.OrderCache.publishOrders();
     }
 
     /**

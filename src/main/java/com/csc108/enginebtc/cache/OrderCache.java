@@ -125,8 +125,6 @@ public class OrderCache {
         }
         this.minStartTime = TimeUtils.toOrderTime(minTime);
         this.minTimestamp = minTime.getHour() * 10000000 + minTime.getMinute() * 100000 + minTime.getSecond() * 1000;
-
-        this.minTimestamp = 112700000;
     }
 
     public int getMinTimestamp() {

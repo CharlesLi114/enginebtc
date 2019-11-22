@@ -7,6 +7,8 @@ import com.csc108.enginebtc.utils.Constants;
 import com.csc108.enginebtc.utils.TimeUtils;
 import com.csc108.enginebtc.utils.Utils;
 import org.apache.activemq.command.ActiveMQMapMessage;
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math.util.MathUtils;
 import org.slf4j.Logger;
@@ -14,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 
 import javax.jms.JMSException;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by LI JT on 2019/9/2.
@@ -41,15 +43,14 @@ public class MarketData extends AbstractTdbData {
     private long lowLimited;
     private long highLimited;
 
-    private long[] bidPx;
-    private long[] askPx;
+    private List<Long> bidPx;       // List can be wrapped into ActiveMQMapMessage.setObject.
+    private List<Long> askPx;
 
-    private long[] bidVols;
-    private long[] askVols;
+    private List<Long> bidVols;
+    private List<Long> askVols;
 
     public MarketData(TickAB tick) {
         this.isValid = isTimeValid(tick.getTime());
-
 
 
         this.status = TimeUtils.getStatus(tick.getTime(), true);
@@ -89,19 +90,26 @@ public class MarketData extends AbstractTdbData {
      * @param values, long array like volume and price
      * @return new long[10] if input is null
      */
-    private long[] getPrices(int[] values) {
+    private List<Long> getPrices(int[] values) {
         if (values == null) {
-            values = new int[10];
+            return new ArrayList<>(10);
         }
-        long[] px = new long[values.length];
-        for (int i = 0; i < values.length; i ++) {
-            px[i] = values[i];
+        List<Long> l = new ArrayList<>(values.length);
+        for (int value : values) {
+            l.add((long) value);
         }
-        return px;
+        return l;
     }
 
-    public long[] getVolumes(long[] values) {
-        return values == null? new long[10]: values;
+    public List<Long> getVolumes(long[] values) {
+        if (values == null) {
+            return new ArrayList<>(10);
+        }
+        List<Long> l = new ArrayList<>(values.length);
+        for (Long value : values) {
+            l.add(value);
+        }
+        return l;
     }
 
 
@@ -135,12 +143,12 @@ public class MarketData extends AbstractTdbData {
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < 5; i ++) {
-            builder.append("bidprice").append(i+1).append("=\"").append(String.format("%.4f", bidPx[i])).append("\" ");
-            builder.append("bidvolume").append(i+1).append("=\"").append(this.bidVols[i]).append("\" ");
+            builder.append("bidprice").append(i+1).append("=\"").append(String.format("%.4d", bidPx.get(i))).append("\" ");
+            builder.append("bidvolume").append(i+1).append("=\"").append(this.bidVols.get(i)).append("\" ");
         }
         for (int i = 0; i < 5; i ++) {
-            builder.append("askprice").append(i+1).append("=\"").append(String.format("%.4f", askPx[i])).append("\" ");
-            builder.append("askvolume").append(i+1).append("=\"").append(this.askVols[i]).append("\" ");
+            builder.append("askprice").append(i+1).append("=\"").append(String.format("%.4d", askPx.get(i))).append("\" ");
+            builder.append("askvolume").append(i+1).append("=\"").append(this.askVols.get(i)).append("\" ");
         }
 
         msg += builder.toString();
@@ -175,6 +183,8 @@ public class MarketData extends AbstractTdbData {
 
             msg.setLong("HighLimited", this.highLimited);
             msg.setLong("LowLimited", this.lowLimited);
+
+
 
             msg.setObject("BidPrices", this.bidPx);
             msg.setObject("AskPrices", this.askPx);

@@ -4,8 +4,14 @@ import com.csc108.enginebtc.admin.NettySender;
 import com.csc108.enginebtc.cache.OrderCache;
 import com.csc108.enginebtc.replay.ReplayController;
 import com.csc108.enginebtc.utils.TimeUtils;
+import org.apache.activemq.command.ActiveMQMapMessage;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+
+import javax.jms.JMSException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by LI JT on 2019/9/2.
@@ -34,7 +40,16 @@ public class Test {
 
     }
 
-    public static void main(String[] args) throws SchedulerException, InterruptedException {
+    public static void main(String[] args) throws SchedulerException, InterruptedException, JMSException {
+
+
+        ActiveMQMapMessage msg = new ActiveMQMapMessage();
+        double[] array = {10.0, 10.0, 10.0};
+        List<Double> l = new ArrayList<Double>();
+        l.add(10.0);
+        l.add(10.9);
+        msg.setObject("T", l);
+
 
         TimeUtils.shiftOrderPmTime("2019-11-13 10:25:05.490");
 

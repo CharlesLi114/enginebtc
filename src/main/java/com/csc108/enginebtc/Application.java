@@ -26,6 +26,11 @@ import java.util.Scanner;
 /**
  * Created by LI JT on 2019/9/2.
  * Description:
+ *
+ *
+ * TODO:
+ * 1. In this program, morning auction is converted to 0919-0929, while in calc and engine(from db config) morning is still same as real one.
+ * 2. If market data has no bidprice array or volume array, how to handle it? Now an empty is sent, but matcher doest not check it.
  */
 public class Application {
 
@@ -76,12 +81,16 @@ public class Application {
         FixSessionCache.getInstance().setExpectedSessionNb(OmInitiator.getSessions().size());
     }
 
-
-    public void work() {
+    /**
+     * Main work flow.
+     * @throws Exception
+     */
+    public void work() throws Exception {
         ActiveMqController.Controller.start();
 
         TdbController.TdbController.start();
         OrderCache.OrderCache.start();
+        startInitiator();
 
         Controller.Controller.waitCompsStarted();
 
@@ -94,19 +103,30 @@ public class Application {
         TdbDataCache.TdbCache.readTdb(OrderCache.OrderCache.getStockIds(), OrderCache.OrderCache.getDate());
         Controller.Controller.waitForCalcDataReady();
 
-
+        Controller.Controller.publishOrders();
         Controller.Controller.start();
     }
 
 
+    /**
+     * Test to send data to mq, for others test use.
+     */
+    public void testSendDataToMq() {
+        ActiveMqController.Controller.start();
+
+        TdbController.TdbController.start();
+        OrderCache.OrderCache.start();
+        TdbDataCache.TdbCache.readTdb(OrderCache.OrderCache.getStockIds(), OrderCache.OrderCache.getDate());
 
 
-    public static void main(String[] args) throws Exception {
+        Controller.Controller.start();
+        this.waitToClose();
+    }
 
-
-//        Application.work();
-
-
+    /**
+     * Test to send send order to downstream.
+     */
+    public void testPublishOrders() throws Exception {
         OrderCache.OrderCache.start();
         startInitiator();
 
@@ -119,6 +139,37 @@ public class Application {
         while (true) {
             Thread.sleep(10000);
         }
+    }
+
+    public void waitToClose() {
+        Thread thread = new Thread() {
+            public void run() {
+            while (true) {
+                Scanner sc = new Scanner(System.in);
+                String input = sc.next();
+                if (input.equalsIgnoreCase("STOP")) {
+                    logger.info("STOP request received, will shut down.");
+                    break;
+                } else {
+                    System.out.print("Type STOP to shut down.");
+                }
+            }
+            }
+        };
+        thread.start();
+    }
+
+
+    public static void main(String[] args) throws Exception {
+
+        Application.testSendDataToMq();
+
+
+//        Application.work();
+
+
+
+
 
 
 

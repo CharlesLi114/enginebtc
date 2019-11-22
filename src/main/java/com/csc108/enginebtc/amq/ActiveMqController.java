@@ -244,7 +244,7 @@ public class ActiveMqController extends AbstractLifeCircleBean {
     }
 
     private String getTopic(String stockId, boolean isMarketdata) {
-        return isMarketdata? "Tick_" + stockId: "Trade_" + stockId;
+        return isMarketdata? "Btc.Tick." + stockId: "Btc.Trade." + stockId;
     }
 
 }

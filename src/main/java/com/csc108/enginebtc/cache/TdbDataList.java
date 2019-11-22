@@ -59,6 +59,7 @@ public class TdbDataList<T extends AbstractTdbData> {
             return null;
         }
 
+
         int pos = cursor + 1;
         for (; pos < dataList.size(); pos++) {
             if (dataList.get(pos).getTimestamp() > upto) {
@@ -66,6 +67,9 @@ public class TdbDataList<T extends AbstractTdbData> {
             }
         }
 
-        return dataList.subList(cursor+1, pos);
+        // Data at cursor is sent during last call.
+        List<T> rangeData = dataList.subList(cursor+1, pos);
+        cursor = pos - 1;
+        return rangeData;
     }
 }
