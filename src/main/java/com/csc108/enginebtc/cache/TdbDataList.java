@@ -49,6 +49,10 @@ public class TdbDataList<T extends AbstractTdbData> {
         return cursor >= 0;
     }
 
+    public int size() {
+        return this.dataList.size();
+    }
+
 
     /**
      * Get data from current cursor to upto
@@ -58,7 +62,6 @@ public class TdbDataList<T extends AbstractTdbData> {
         if (cursor == dataList.size()) {
             return null;
         }
-
 
         int pos = cursor + 1;
         for (; pos < dataList.size(); pos++) {

@@ -59,7 +59,7 @@ public class ReplayJob implements Job {
     }
 
     private void publishTrades(String stockId, int upto) {
-        List<TransactionData> datas = TdbDataCache.TdbCache.getTdbTransactioData(stockId, upto);
+        List<TransactionData> datas = TdbDataCache.TdbCache.getTdbTransactionData(stockId, upto);
         if (datas == null || datas.isEmpty()) {
             return;
         }

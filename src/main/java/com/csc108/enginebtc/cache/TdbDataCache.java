@@ -1,6 +1,5 @@
 package com.csc108.enginebtc.cache;
 
-import cn.com.wind.td.tdb.Tick;
 import cn.com.wind.td.tdb.TickAB;
 import cn.com.wind.td.tdb.Transaction;
 import com.csc108.enginebtc.tdb.TdbController;
@@ -32,6 +31,10 @@ public class TdbDataCache {
 
     private Map<String, Integer> timeStamps = new ConcurrentHashMap<>();
 
+    private long tickSentRound = 0;
+    private long tradeSentRound = 0;
+    private String watchStock;
+
 
     private TdbDataCache() {
         this.marketdataCache = new HashMap<>();
@@ -47,6 +50,13 @@ public class TdbDataCache {
         }
         this.stockIds = new HashSet<>(stockIds);
 
+        int maxLength = 0;
+        for (Map.Entry<String, TdbDataList<TransactionData>> entry : transactionCache.entrySet()) {
+            if (entry.getValue().size() > maxLength) {
+                this.watchStock = entry.getKey();
+                maxLength = entry.getValue().size();
+            }
+        }
     }
 
     private void addMarketData(String stockId, int date) {
@@ -90,6 +100,14 @@ public class TdbDataCache {
 
 
     public List<MarketData> getTdbMarketData(String stockId, int upto) {
+        if (stockId.equalsIgnoreCase(watchStock)) {
+            tickSentRound += 1;
+            // Log it every 3000 rounds, by default with 10 ms interval, it is 30 seconds.
+            if (tickSentRound % 3000 == 0) {
+                logger.info("Stock " + this.watchStock + " ticks sends upto " + upto);
+            }
+        }
+
         if (this.marketdataCache.keySet().contains(stockId)) {
             return this.marketdataCache.get(stockId).getData(upto);
         } else {
@@ -97,7 +115,14 @@ public class TdbDataCache {
         }
     }
 
-    public List<TransactionData> getTdbTransactioData(String stockId, int upto) {
+    public List<TransactionData> getTdbTransactionData(String stockId, int upto) {
+        if (stockId.equalsIgnoreCase(watchStock)) {
+            tradeSentRound += 1;
+            if (tradeSentRound % 3000 == 0) {
+                logger.info("Stock " + this.watchStock + " trades sends upto " + upto);
+            }
+        }
+
         if (this.transactionCache.keySet().contains(stockId)) {
             return this.transactionCache.get(stockId).getData(upto);
         } else {
