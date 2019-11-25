@@ -42,6 +42,8 @@ public class Test {
 
     public static void main(String[] args) throws SchedulerException, InterruptedException, JMSException {
 
+        System.out.println(TimeUtils.getTimeStamp());
+
 
         ActiveMQMapMessage msg = new ActiveMQMapMessage();
         double[] array = {10.0, 10.0, 10.0};

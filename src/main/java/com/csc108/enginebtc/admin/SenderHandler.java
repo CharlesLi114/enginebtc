@@ -83,17 +83,17 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
             if (msg.equalsIgnoreCase("TdbDataRecovered.")) {
                 Controller.Controller.setCalcDataReady();
                 logger.info("Calc " + this.sender.getConfig() + " data recovered.");
-                this.sender.stop();
+//                this.sender.stop();
             }
             if (msg.startsWith("OffsetDone")) {
                 Controller.Controller.setCalcTimeReady();
                 logger.info("Calc " + this.sender.getConfig() + " offset done.");
-                this.sender.stop();
+//                this.sender.stop();
             }
             if (msg.startsWith("OrderProcessorCount")) {
                 Controller.Controller.setEngineTimeReady();
                 logger.info("Engine "+ this.sender.getConfig() + " offset done.");
-                this.sender.stop();
+//                this.sender.stop();
             }
         }
 

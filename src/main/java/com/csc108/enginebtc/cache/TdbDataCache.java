@@ -2,6 +2,7 @@ package com.csc108.enginebtc.cache;
 
 import cn.com.wind.td.tdb.TickAB;
 import cn.com.wind.td.tdb.Transaction;
+import com.csc108.enginebtc.amq.ActiveMqController;
 import com.csc108.enginebtc.tdb.TdbController;
 import com.csc108.enginebtc.tdb.models.MarketData;
 import com.csc108.enginebtc.tdb.models.TransactionData;
@@ -134,5 +135,24 @@ public class TdbDataCache {
         return this.stockIds;
     }
 
+    public void publishTicks(String stockId, int upto) {
+        List<MarketData> datas = this.getTdbMarketData(stockId, upto);
+        if (datas == null || datas.isEmpty()) {
+            return;
+        }
+        for (MarketData data : datas) {
+            ActiveMqController.Controller.sendTicks(data);
+        }
+    }
+
+    public void publishTrades(String stockId, int upto) {
+        List<TransactionData> datas = TdbDataCache.TdbCache.getTdbTransactionData(stockId, upto);
+        if (datas == null || datas.isEmpty()) {
+            return;
+        }
+        for (TransactionData data : datas) {
+            ActiveMqController.Controller.sendTrans(data);
+        }
+    }
 
 }

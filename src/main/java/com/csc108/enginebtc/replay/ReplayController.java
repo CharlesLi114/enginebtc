@@ -26,10 +26,11 @@ public class ReplayController extends AbstractLifeCircleBean {
 
 
     private TdbDataCache cache = TdbDataCache.TdbCache;
-    private int minTimeStamp = 0;
+    private int ordMinTimestamp = 0;
     private int speed = 0;
     private int stepInMillis = 0;
     private long triggerInMillis = 0;
+    private int initialSyncTo = 0;
 
     private Map<String, Integer> timeStamps = new ConcurrentHashMap<>();
     private Scheduler scheduler;
@@ -53,8 +54,8 @@ public class ReplayController extends AbstractLifeCircleBean {
      * @param speed
      * @param stepInMillis
      */
-    public void init(int timeStamp, int speed, int stepInMillis) {
-        this.minTimeStamp = timeStamp;
+    public void init(int timeStamp, int speed, int stepInMillis, int initialSyncTo) {
+        this.ordMinTimestamp = timeStamp;
         this.speed = speed;
         this.stepInMillis = stepInMillis;
         this.triggerInMillis = stepInMillis / speed;
@@ -64,7 +65,7 @@ public class ReplayController extends AbstractLifeCircleBean {
 
         Set<String> stocksIds = cache.getStockIds();
         for (String stockid : stocksIds) {
-            this.timeStamps.put(stockid, minTimeStamp);
+            this.timeStamps.put(stockid, ordMinTimestamp);
         }
     }
 
@@ -76,7 +77,15 @@ public class ReplayController extends AbstractLifeCircleBean {
 
     @Override
     public void start() {
-        cache.initCursor(this.minTimeStamp);
+        logger.info("Initialize order-min-timestamp to  : " + this.ordMinTimestamp);
+        cache.initCursor(this.ordMinTimestamp);
+
+        logger.info("Shift in sync time: " + initialSyncTo + " for system time usage compensation.");
+        for (String stockId : cache.getStockIds()) {
+            TdbDataCache.TdbCache.publishTicks(stockId, initialSyncTo);
+            TdbDataCache.TdbCache.publishTrades(stockId, initialSyncTo);
+            ReplayController.Replayer.updateUpto(stockId, initialSyncTo);
+        }
 
         for (String stockId : cache.getStockIds()) {
             JobDetail job = JobBuilder.newJob(ReplayJob.class).usingJobData("StockId", stockId).usingJobData("Step", this.stepInMillis).build();

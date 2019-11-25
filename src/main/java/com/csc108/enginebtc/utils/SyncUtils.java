@@ -38,7 +38,7 @@ public class SyncUtils {
         for (String calc : calcs) {
             NettySender sender = getSender(calc);
             int offset = -getEngineOffsetInSec(minTimeStamp);
-            String msg = MessageFormat.format("service control clock -o {0}", String.valueOf(offset));
+            String msg = MessageFormat.format("service control clock -o {0}", offset+";"+TimeUtils.getTimeStamp());
             sender.writeMessage(msg);
 //            sender.stop();
         }

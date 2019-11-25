@@ -43,29 +43,8 @@ public class ReplayJob implements Job {
         int stepInMillis = dataMap.getInt("Step");
         int lastUpto = ReplayController.Replayer.getLastUpto(stockId);
         int upto = TimeUtils.addMiliis(lastUpto, stepInMillis);
-        publishTicks(stockId, upto);
-        publishTrades(stockId, upto);
+        TdbDataCache.TdbCache.publishTicks(stockId, upto);
+        TdbDataCache.TdbCache.publishTrades(stockId, upto);
         ReplayController.Replayer.updateUpto(stockId, upto);
     }
-
-    private void publishTicks(String stockId, int upto) {
-        List<MarketData> datas = TdbDataCache.TdbCache.getTdbMarketData(stockId, upto);
-        if (datas == null || datas.isEmpty()) {
-            return;
-        }
-        for (MarketData data : datas) {
-            ActiveMqController.Controller.sendTicks(data);
-        }
-    }
-
-    private void publishTrades(String stockId, int upto) {
-        List<TransactionData> datas = TdbDataCache.TdbCache.getTdbTransactionData(stockId, upto);
-        if (datas == null || datas.isEmpty()) {
-            return;
-        }
-        for (TransactionData data : datas) {
-            ActiveMqController.Controller.sendTrans(data);
-        }
-    }
-
 }

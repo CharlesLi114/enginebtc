@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -46,10 +47,13 @@ public class Controller extends AbstractLifeCircleBean {
     private int speed;
     private int warmupSecs;
     private int stepInMillis;
-    private int minTimeStamp;
+    private int minTimeStamp = -1;
 
     private List<String> engines;
     private List<String> calcs;
+
+    private int tsBfSync = 0;   // TimeStamp before send time sync operation.
+    private int tsAfterSync = 0;
 
 
     private Controller() {
@@ -96,12 +100,18 @@ public class Controller extends AbstractLifeCircleBean {
 
     @Override
     public void start() {
-        if (this.minTimeStamp == 0) {
+        if (this.minTimeStamp == -1) {
             int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
             this.minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
         }
 
-        ReplayController.Replayer.init(this.minTimeStamp, speed, stepInMillis);
+        Calendar c1 = TimeUtils.getCalender(this.tsBfSync);
+        Calendar c2 = TimeUtils.getCalender(this.tsAfterSync);
+
+        long syncTimeInMillis = c2.getTimeInMillis() - c1.getTimeInMillis();
+        int initialSyncTo = TimeUtils.addMiliis(this.minTimeStamp, (int)syncTimeInMillis);
+
+        ReplayController.Replayer.init(this.minTimeStamp, speed, stepInMillis, initialSyncTo);
         ReplayController.Replayer.start();
     }
 
@@ -110,10 +120,27 @@ public class Controller extends AbstractLifeCircleBean {
         int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
         this.minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
 
+        this.tsBfSync = TimeUtils.getTimeStamp();
         SyncUtils.syncWithEngine(minTimeStamp, engines);
         SyncUtils.syncWithCalc(minTimeStamp, calcs, speed);
-        this.waitForTimeSynced();
+        this.waitForTimeSynced(0);
+        this.tsAfterSync = TimeUtils.getTimeStamp();
+
         OrderCache.OrderCache.publishOrders();
+    }
+
+
+
+
+    public void syncWithCalc() {
+        if (this.minTimeStamp == -1) {
+            int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
+            this.minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
+        }
+        this.tsBfSync = TimeUtils.getTimeStamp();
+        SyncUtils.syncWithCalc(minTimeStamp, calcs, speed);
+        this.waitForTimeSynced(2);
+        this.tsAfterSync = TimeUtils.getTimeStamp();
     }
 
     /**
@@ -138,7 +165,6 @@ public class Controller extends AbstractLifeCircleBean {
      */
     public void waitForCalcDataReady() {
         while (!this.isCalcDataReady) {
-            System.out.println("Wait for calc to be ready.");
             logger.info("Wait for calc to be ready.");
             try {
                 Thread.sleep(1000 * 5);
@@ -165,15 +191,27 @@ public class Controller extends AbstractLifeCircleBean {
      * Wait until Calc and Engine are ready, with time drift applied.
      * Calc should send message back saying it has processed the data.
      */
-    private void waitForTimeSynced() {
-        while (!isEngineTimeSet || !isCalcTimeSet) {
-            System.out.println("Wait for time offset to be ready.");
+    private void waitForTimeSynced(int option) {
+        while (!isReady(option)) {
             logger.info("Wait for time offset to be ready.");
             try {
-                Thread.sleep(1000 * 5);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new InitializationException("Failed to wait for system ready signal.", e);
             }
+        }
+    }
+
+
+    private boolean isReady(int option) {
+        if (option == 0) {
+            return isEngineTimeSet && isCalcTimeSet;
+        } else if (option == 1) {
+            return isEngineTimeSet;
+        } else if (option == 2){
+            return isCalcTimeSet;
+        } else {
+            throw new UnsupportedOperationException("Input option code " + option + " is not supported.");
         }
     }
 

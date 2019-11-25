@@ -117,7 +117,12 @@ public class Application {
 
         TdbController.TdbController.start();
         OrderCache.OrderCache.start();
+        Controller.Controller.syncStockCodeWithCalc();
         TdbDataCache.TdbCache.readTdb(OrderCache.OrderCache.getStockIds(), OrderCache.OrderCache.getDate());
+
+
+        Controller.Controller.waitForCalcDataReady();
+        Controller.Controller.syncWithCalc();
 
 
         Controller.Controller.start();

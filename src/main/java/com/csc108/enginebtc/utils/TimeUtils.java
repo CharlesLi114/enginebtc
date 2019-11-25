@@ -53,6 +53,16 @@ public class TimeUtils {
     }
 
     /**
+     * Get current time stamp in CSC format.
+     * @return the current time stamp in CSC format.
+     * */
+    public static int getTimeStamp() {
+        Calendar calendar = Calendar.getInstance();
+
+        return Integer.parseInt(CSC_FORMAT.format(new Date(calendar.getTimeInMillis())));
+    }
+
+    /**
      * Infer Tdf status using its timestamp, currently for Ashare only.
      * * May convert isAShare to an Enum. TODO
      * @return
@@ -78,7 +88,7 @@ public class TimeUtils {
     }
 
 
-    private static Calendar getCalender(int timeStamp) {
+    public static Calendar getCalender(int timeStamp) {
         int hour = timeStamp / HOUR_DIVIDER;
         int other = timeStamp - hour * HOUR_DIVIDER;
         int minute = other / MINUTE_DIVIDER;
