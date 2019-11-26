@@ -25,6 +25,7 @@ public class TimeUtils {
     private static final SimpleDateFormat CSC_FORMAT = new SimpleDateFormat("HHmmssSSS");
     private static final DateTimeFormatter Order_DateTime_Format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");    //2017-07-17 15:00:00.000
     private static final DateTimeFormatter Fix_Time_Format = DateTimeFormatter.ofPattern("yyyyMMdd-HH:mm:ss");   //6063=20191114-01:30:03
+    private static final DateTimeFormatter DB_DateTime_Format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
 
@@ -195,6 +196,13 @@ public class TimeUtils {
         return LocalDateTime.parse(o_time, Order_DateTime_Format);
     }
 
+    public static int formatTradeDate(String tradingDay) {
+        LocalDateTime date = LocalDateTime.parse(tradingDay, DB_DateTime_Format);
+        return date.getYear() * 10000 + date.getMonth().getValue() * 100 + date.getDayOfMonth();
+    }
+
+
+
     /**
      * 1. Convert order start/end time to fix msg type, which is of 20191114-01:30:03
      * 2. Minus time by 8 hours.
@@ -205,8 +213,9 @@ public class TimeUtils {
         LocalDateTime time = LocalDateTime.parse(o_time, Order_DateTime_Format);
         time = time.minusHours(8);
         return time.format(Fix_Time_Format);
-
     }
+
+
 
     /**
      * Parse order time.

@@ -106,6 +106,9 @@ public class Application {
 
         Controller.Controller.publishOrders();
         Controller.Controller.start();
+        this.waitToClose();
+        OrderCache.OrderCache.cancelOrders();   // Cancel all existing for a proper exit.
+        System.exit(0);
     }
 
 
@@ -162,19 +165,19 @@ public class Application {
             }
             }
         };
-        thread.start();
+        thread.run();
     }
 
 
     public static void main(String[] args) throws Exception {
 
-        Application.testSendDataToMq();
-
-
-//        Application.work();
 
 
 
+        Application.work();
+
+
+//        Application.testSendDataToMq();
 
 
 

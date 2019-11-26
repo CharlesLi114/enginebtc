@@ -4,9 +4,11 @@ import com.csc108.enginebtc.commons.Order;
 import com.csc108.enginebtc.exception.InitializationException;
 import com.csc108.enginebtc.exception.InvalidOrderException;
 import com.csc108.enginebtc.fix.FixMSgSender;
+import com.csc108.enginebtc.sessions.Session;
 import com.csc108.enginebtc.utils.ConfigUtil;
 import com.csc108.enginebtc.utils.FileUtils;
 import com.csc108.enginebtc.utils.TimeUtils;
+import org.apache.activemq.command.SessionId;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -15,8 +17,8 @@ import org.slf4j.LoggerFactory;
 import quickfix.SessionID;
 import quickfix.field.ClientID;
 import quickfix.fix42.NewOrderSingle;
+import quickfix.fix42.OrderCancelRequest;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -32,7 +34,7 @@ public class OrderCache {
     private static final String OrderSrc_Config_File = "orderconfig.properties";
 
     private static final String OrderSrc_Type_Property_Name = "OrderSrc";
-    private static final String OrderFile_Type_Porperty_Name = "File.Dir";
+    private static final String OrderFile_Type_Property_Name = "File.Dir";
 
 
     public static final OrderCache OrderCache = new OrderCache();
@@ -79,7 +81,7 @@ public class OrderCache {
      * @throws FileNotFoundException
      */
     private void initFromFile(Configuration config) throws FileNotFoundException {
-        String file = config.getString(OrderFile_Type_Porperty_Name);
+        String file = config.getString(OrderFile_Type_Property_Name);
         List<List<String>> contents = FileUtils.readCsv(file);
         int index;
         for (List<String> rowContent : contents) {
@@ -89,6 +91,15 @@ public class OrderCache {
             String exchange = rowContent.get(index++);
             String stockId = rowContent.get(index++);
             String tradingDay = rowContent.get(index++);
+
+
+            if (this.date == 0) {
+                // 2019-11-13 00:00:00
+                this.date = TimeUtils.formatTradeDate(tradingDay);
+            } else if (TimeUtils.formatTradeDate(tradingDay) != date) {
+                throw new InitializationException("Two orders are of different dates, which is not supported.");
+            }
+
             String side = rowContent.get(index++);
             String type = rowContent.get(index++);
             double price = Double.valueOf(rowContent.get(index++));
@@ -118,9 +129,7 @@ public class OrderCache {
                 date = o_time.getYear() * 10000 + o_time.getMonth().getValue() * 100 + o_time.getDayOfMonth();
             } else {
                 int date1 = o_time.getYear() * 10000 + o_time.getMonth().getValue() * 100 + o_time.getDayOfMonth();
-                if (date1 != date) {
-                    throw new InitializationException("Two orders are of different dates, which is not supported.");
-                }
+
             }
         }
         this.minStartTime = TimeUtils.toOrderTime(minTime);
@@ -159,16 +168,30 @@ public class OrderCache {
                 logger.warn(o.toString());
             }
 
-            NewOrderSingle newOrderSingle = o.toNewOrderRequest();
+
             List<SessionID> sessions = FixSessionCache.getInstance().getSessions();
             if (sessions == null || sessions.size() == 0) {
                 throw new RuntimeException("No fix session obtained.");
             }
             for (SessionID session : sessions) {
-                o.resetUniqueOrderId(newOrderSingle, session);
-                newOrderSingle.set(new ClientID(session.toString()));
+                NewOrderSingle newOrderSingle = o.toNewOrderRequest(session);
                 FixMSgSender.sendNow(newOrderSingle, session);
                 logger.info(newOrderSingle.toString());
+            }
+        }
+    }
+
+    public void cancelOrders() {
+        Map<String, Order> orders = this.cache;
+        for (Order o : orders.values()) {
+            List<SessionID> sessions = FixSessionCache.getInstance().getSessions();
+            if (sessions == null || sessions.size() == 0) {
+                throw new RuntimeException("No fix session obtained.");
+            }
+            for (SessionID session : sessions) {
+                OrderCancelRequest cancelRequest = o.toCancelRequest(session);
+                FixMSgSender.sendNow(cancelRequest, session);
+                logger.info(cancelRequest.toString());
             }
         }
     }

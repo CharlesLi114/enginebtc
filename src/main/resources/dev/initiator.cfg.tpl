@@ -29,11 +29,19 @@ FileIncludeMilliseconds=Y
 FileIncludeTimeStampForMessages=Y
 
 
+#[session]
+#SocketConnectHost=10.101.237.60
+#SocketConnectPort=5071
+#SenderCompID=OM_QA_CJYL_SG
+#TargetCompID=ENG_QA_60_71
+
 [session]
-SocketConnectHost=10.101.237.60
-SocketConnectPort=5071
-SenderCompID=OM_QA_CJYL_SG
-TargetCompID=ENG_QA_60_71
+SocketConnectHost=10.101.195.71
+SocketConnectPort=51664
+SenderCompID=OM_GROUP4_SG
+TargetCompID=ENG_GROUP4_8864
+
+
 
 
 

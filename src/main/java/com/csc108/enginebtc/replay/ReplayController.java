@@ -50,9 +50,10 @@ public class ReplayController extends AbstractLifeCircleBean {
     /**
      *  If speed == 1, will trigger once after stepInMillis; if speed == 2, will trigger once after stepInMillis/2.
      *  For instance, will move forward 10 millis after 10 millis when speed == 1; or when speed == 2, will move forward 10 millis every 5 millis.
-     * @param timeStamp
+     * @param timeStamp         StartTime given by orders, calc also read data to this time.
      * @param speed
-     * @param stepInMillis
+     * @param stepInMillis      How much time to move forward each run.
+     * @param initialSyncTo     Send extra data to this time. Compensation for system time usage after sending time to calc.
      */
     public void init(int timeStamp, int speed, int stepInMillis, int initialSyncTo) {
         this.ordMinTimestamp = timeStamp;
@@ -67,6 +68,7 @@ public class ReplayController extends AbstractLifeCircleBean {
         for (String stockid : stocksIds) {
             this.timeStamps.put(stockid, ordMinTimestamp);
         }
+        this.initialSyncTo = initialSyncTo;
     }
 
 

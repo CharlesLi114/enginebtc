@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import quickfix.SessionID;
 import quickfix.field.*;
 import quickfix.fix42.NewOrderSingle;
+import quickfix.fix42.OrderCancelRequest;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -44,6 +45,7 @@ public class Order {
     private OrdType ordType;
     private double limitPx;
     private int pov;                // Pov is a integer from 0 to 100
+
 
 
     /**
@@ -95,12 +97,14 @@ public class Order {
      * Create unique order id with identification.
      * @param sessionID
      */
-    public void resetUniqueOrderId(NewOrderSingle order, SessionID sessionID) {
+    public String getSysOrderId(SessionID sessionID) {
+        String sysOrderId;
         if (StringUtils.isBlank(this.orderId)) {
-            order.set(new ClOrdID(Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + UUID.randomUUID().toString()));
+            sysOrderId = Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + UUID.randomUUID().toString();
         } else {
-            order.set(new ClOrdID(Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + this.orderId));
+            sysOrderId = Constants.RunTimeId + "-" + sessionID.getSenderCompID() + "-" + this.orderId;
         }
+        return sysOrderId;
     }
 
     public String getOrderId() {
@@ -144,9 +148,11 @@ public class Order {
     }
 
 
-    public NewOrderSingle toNewOrderRequest() {
+    public NewOrderSingle toNewOrderRequest(SessionID sessionID) {
+        String sysOrderId = this.getSysOrderId(sessionID);
+
         NewOrderSingle newOrderSingle = new quickfix.fix42.NewOrderSingle(
-                new ClOrdID(this.orderId),
+                new ClOrdID(sysOrderId),
                 new HandlInst('1'),
                 new Symbol(symbol), side,
                 new TransactTime(new Date(0)), ordType);
@@ -166,8 +172,28 @@ public class Order {
 
         newOrderSingle.setString(FixTags.AlgoType, strategy);
         newOrderSingle.setInt(FixTags.ParticipationRate, this.pov);
+        newOrderSingle.setString(FixTags.SecurityType, "CS");
 
+        newOrderSingle.set(new ClientID(sessionID.toString()));
+        newOrderSingle.set(new Currency("CNY"));
         return newOrderSingle;
+    }
+
+    public OrderCancelRequest toCancelRequest(SessionID sessionID) {
+        String sysOrderId = this.getSysOrderId(sessionID);
+        OrderCancelRequest cancelRequest =
+                new OrderCancelRequest(
+                        new OrigClOrdID(sysOrderId),
+                        new ClOrdID(UUID.randomUUID().toString()),
+                        new Symbol(getSymbol()),
+                        this.side,
+                        new TransactTime());
+        cancelRequest.set(new SecondaryClOrdID(accountId));
+        cancelRequest.setString(FixTags.SecurityType, "CS");
+        cancelRequest.setString(FixTags.AccountID, this.accountId);
+
+        return cancelRequest;
+
     }
 
     /**

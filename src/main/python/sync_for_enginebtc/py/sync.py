@@ -203,7 +203,7 @@ class JobSync(object):
 
 if __name__ == '__main__':
     # job = JobSync(sys.argv)
-    job = JobSync(['0', 20191104])
+    job = JobSync(['0', 20191113])
     job.sync_group()
     job.sync_issue()
     job.sync_dailyfacts()

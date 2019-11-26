@@ -96,7 +96,6 @@ public class NettySender implements Runnable {
                     }
                 } catch (InterruptedException ie) {
                     executor.shutdownNow();
-                    Thread.currentThread().interrupt();
                 } finally {
                     executor = null;
                 }

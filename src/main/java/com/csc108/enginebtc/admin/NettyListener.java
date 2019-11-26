@@ -56,8 +56,6 @@ public class NettyListener extends AbstractLifeCircleBean {
             logger.error("Failed to read config for NettyListener", e);
             throw new InitializationException("Failed to read config for NettyListener", e);
         }
-
-
     }
 
     @Override
