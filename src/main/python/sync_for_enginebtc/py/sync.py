@@ -9,6 +9,9 @@ If update engine version may need to add another group. Add that group to BinsTi
 
 """
 
+import sys
+sys.path.append('D:\projects\J\enginebtc\src\main\python\sync_for_enginebtc')
+
 import numpy as np
 import pandas as pd
 import datetime as dt
@@ -20,6 +23,7 @@ from py import utils, config
 class JobSync(object):
 
     def __init__(self, argv):
+        print('Working.')
         self.group_date = 0
         self.facts21_date = 0
 
@@ -202,8 +206,9 @@ class JobSync(object):
 
 
 if __name__ == '__main__':
-    # job = JobSync(sys.argv)
-    job = JobSync(['0', 20191113])
+    print(sys.argv)
+    job = JobSync(sys.argv)
+    # job = JobSync(['0', 20191113])
     job.sync_group()
     job.sync_issue()
     job.sync_dailyfacts()

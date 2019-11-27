@@ -87,10 +87,9 @@ public class Application {
      * @throws Exception
      */
     public void work() throws Exception {
-        ActiveMqController.Controller.start();
-
-        TdbController.TdbController.start();
         OrderCache.OrderCache.start();
+        ActiveMqController.Controller.start();
+        TdbController.TdbController.start();
         startInitiator();
 
         Controller.Controller.waitCompsStarted();
@@ -108,6 +107,8 @@ public class Application {
         Controller.Controller.start();
         this.waitToClose();
         OrderCache.OrderCache.cancelOrders();   // Cancel all existing for a proper exit.
+
+        OmInitiator.stop();
         System.exit(0);
     }
 
@@ -169,13 +170,26 @@ public class Application {
     }
 
 
+    /**
+     *
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
-
-
-
-
-        Application.work();
-
+        if (args.length > 0) {
+            if (args[0].equalsIgnoreCase("-sync")) {
+                if (args.length == 2) {
+                    String srcDate = args[1];
+                    Controller.Controller.syncData(Integer.valueOf(srcDate));
+                } else {
+                    Controller.Controller.syncData(0);
+                }
+            } else if (args[0].equalsIgnoreCase("-exec")) {
+                Controller.Controller.startComponents();
+            }
+        } else {
+            Application.work();
+        }
 
 //        Application.testSendDataToMq();
 

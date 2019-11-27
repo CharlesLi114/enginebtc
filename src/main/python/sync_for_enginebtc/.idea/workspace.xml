@@ -17,28 +17,27 @@
       <file leaf-file-name="sync.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/py/sync.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="63" column="16" lean-forward="true" selection-start-line="63" selection-start-column="16" selection-end-line="63" selection-end-column="16" />
+            <state relative-caret-position="0">
+              <caret line="12" column="75" lean-forward="false" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="75" />
               <folding>
-                <element signature="e#255#273#0" expanded="true" />
-                <marker date="1574744642542" expanded="true" signature="1873:1922" ph="SELECT * FRO... TradeDate" />
-                <marker date="1574744642542" expanded="true" signature="3765:3814" ph="Select * fro... DailyFacts" />
-                <marker date="1574744642542" expanded="true" signature="3892:3939" ph="Delete from " />
-                <marker date="1574744642542" expanded="true" signature="3893:3939" ph="delete from " />
-                <marker date="1574744642542" expanded="true" signature="4156:4202" ph="Select * fro... Facts21" />
-                <marker date="1574744642542" expanded="true" signature="4280:4324" ph="Delete from " />
-                <marker date="1574744642542" expanded="true" signature="4281:4324" ph="delete from " />
-                <marker date="1574744642542" expanded="true" signature="4593:4644" ph="Select * fro... VolumeDistribution" />
-                <marker date="1574744642542" expanded="true" signature="4593:4650" ph="Select * fro... VolumeDistribution" />
-                <marker date="1574744642542" expanded="true" signature="4728:4783" ph="Delete from " />
-                <marker date="1574744642542" expanded="true" signature="4729:4783" ph="delete from " />
-                <marker date="1574744642542" expanded="true" signature="5557:5580" ph="Select * fro... IssueType" />
-                <marker date="1574744642542" expanded="true" signature="5632:5653" ph="Delete from " />
-                <marker date="1574744642542" expanded="true" signature="5633:5653" ph="delete from " />
-                <marker date="1574744642542" expanded="true" signature="5853:5897" ph="Select * fro... DailyGroup" />
-                <marker date="1574744642542" expanded="true" signature="5853:5903" ph="Select * fro... DailyGroup" />
-                <marker date="1574744642542" expanded="true" signature="5853:5904" ph="Select * fro... DailyGroup" />
-                <marker date="1574744642542" expanded="true" signature="5979:6027" ph="Delete from " />
+                <marker date="1574831546645" expanded="true" signature="1989:2038" ph="SELECT * FRO... TradeDate" />
+                <marker date="1574831546645" expanded="true" signature="3881:3930" ph="Select * fro... DailyFacts" />
+                <marker date="1574831546645" expanded="true" signature="4008:4055" ph="Delete from " />
+                <marker date="1574831546645" expanded="true" signature="4009:4055" ph="delete from " />
+                <marker date="1574831546645" expanded="true" signature="4272:4318" ph="Select * fro... Facts21" />
+                <marker date="1574831546645" expanded="true" signature="4396:4440" ph="Delete from " />
+                <marker date="1574831546645" expanded="true" signature="4397:4440" ph="delete from " />
+                <marker date="1574831546645" expanded="true" signature="4709:4760" ph="Select * fro... VolumeDistribution" />
+                <marker date="1574831546645" expanded="true" signature="4709:4766" ph="Select * fro... VolumeDistribution" />
+                <marker date="1574831546645" expanded="true" signature="4844:4899" ph="Delete from " />
+                <marker date="1574831546645" expanded="true" signature="4845:4899" ph="delete from " />
+                <marker date="1574831546645" expanded="true" signature="5673:5696" ph="Select * fro... IssueType" />
+                <marker date="1574831546645" expanded="true" signature="5748:5769" ph="Delete from " />
+                <marker date="1574831546645" expanded="true" signature="5749:5769" ph="delete from " />
+                <marker date="1574831546645" expanded="true" signature="5969:6013" ph="Select * fro... DailyGroup" />
+                <marker date="1574831546645" expanded="true" signature="5969:6019" ph="Select * fro... DailyGroup" />
+                <marker date="1574831546645" expanded="true" signature="5969:6020" ph="Select * fro... DailyGroup" />
+                <marker date="1574831546645" expanded="true" signature="6095:6143" ph="Delete from " />
               </folding>
             </state>
           </provider>
@@ -120,6 +119,7 @@
       <find>ms</find>
       <find>dailyg</find>
       <find>en</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -297,17 +297,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/py/sync.py</url>
-          <line>176</line>
+          <line>180</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/py/sync.py</url>
-          <line>22</line>
+          <line>26</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/py/sync.py</url>
-          <line>199</line>
+          <line>203</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
@@ -328,25 +328,24 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#255#273#0" expanded="true" />
-            <marker date="1574744642542" expanded="true" signature="1873:1922" ph="SELECT * FRO... TradeDate" />
-            <marker date="1574744642542" expanded="true" signature="3765:3814" ph="Select * fro... DailyFacts" />
-            <marker date="1574744642542" expanded="true" signature="3892:3939" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="3893:3939" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="4156:4202" ph="Select * fro... Facts21" />
-            <marker date="1574744642542" expanded="true" signature="4280:4324" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="4281:4324" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="4593:4644" ph="Select * fro... VolumeDistribution" />
-            <marker date="1574744642542" expanded="true" signature="4593:4650" ph="Select * fro... VolumeDistribution" />
-            <marker date="1574744642542" expanded="true" signature="4728:4783" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="4729:4783" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="5557:5580" ph="Select * fro... IssueType" />
-            <marker date="1574744642542" expanded="true" signature="5632:5653" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="5633:5653" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="5853:5897" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5853:5903" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5853:5904" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5979:6027" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="1989:2038" ph="SELECT * FRO... TradeDate" />
+            <marker date="1574831546645" expanded="true" signature="3881:3930" ph="Select * fro... DailyFacts" />
+            <marker date="1574831546645" expanded="true" signature="4008:4055" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4009:4055" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="4272:4318" ph="Select * fro... Facts21" />
+            <marker date="1574831546645" expanded="true" signature="4396:4440" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4397:4440" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="4709:4760" ph="Select * fro... VolumeDistribution" />
+            <marker date="1574831546645" expanded="true" signature="4709:4766" ph="Select * fro... VolumeDistribution" />
+            <marker date="1574831546645" expanded="true" signature="4844:4899" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4845:4899" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="5673:5696" ph="Select * fro... IssueType" />
+            <marker date="1574831546645" expanded="true" signature="5748:5769" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="5749:5769" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="5969:6013" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="5969:6019" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="5969:6020" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="6095:6143" ph="Delete from " />
           </folding>
         </state>
       </provider>
@@ -406,25 +405,24 @@
         <state relative-caret-position="361">
           <caret line="19" column="22" lean-forward="false" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
           <folding>
-            <element signature="e#255#273#0" expanded="true" />
-            <marker date="1574744642542" expanded="true" signature="1873:1922" ph="SELECT * FRO... TradeDate" />
-            <marker date="1574744642542" expanded="true" signature="3765:3814" ph="Select * fro... DailyFacts" />
-            <marker date="1574744642542" expanded="true" signature="3892:3939" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="3893:3939" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="4156:4202" ph="Select * fro... Facts21" />
-            <marker date="1574744642542" expanded="true" signature="4280:4324" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="4281:4324" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="4593:4644" ph="Select * fro... VolumeDistribution" />
-            <marker date="1574744642542" expanded="true" signature="4593:4650" ph="Select * fro... VolumeDistribution" />
-            <marker date="1574744642542" expanded="true" signature="4728:4783" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="4729:4783" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="5557:5580" ph="Select * fro... IssueType" />
-            <marker date="1574744642542" expanded="true" signature="5632:5653" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="5633:5653" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="5853:5897" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5853:5903" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5853:5904" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5979:6027" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="1989:2038" ph="SELECT * FRO... TradeDate" />
+            <marker date="1574831546645" expanded="true" signature="3881:3930" ph="Select * fro... DailyFacts" />
+            <marker date="1574831546645" expanded="true" signature="4008:4055" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4009:4055" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="4272:4318" ph="Select * fro... Facts21" />
+            <marker date="1574831546645" expanded="true" signature="4396:4440" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4397:4440" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="4709:4760" ph="Select * fro... VolumeDistribution" />
+            <marker date="1574831546645" expanded="true" signature="4709:4766" ph="Select * fro... VolumeDistribution" />
+            <marker date="1574831546645" expanded="true" signature="4844:4899" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4845:4899" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="5673:5696" ph="Select * fro... IssueType" />
+            <marker date="1574831546645" expanded="true" signature="5748:5769" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="5749:5769" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="5969:6013" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="5969:6019" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="5969:6020" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="6095:6143" ph="Delete from " />
           </folding>
         </state>
       </provider>
@@ -484,25 +482,24 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#255#273#0" expanded="true" />
-            <marker date="1574744642542" expanded="true" signature="1873:1922" ph="SELECT * FRO... TradeDate" />
-            <marker date="1574744642542" expanded="true" signature="3765:3814" ph="Select * fro... DailyFacts" />
-            <marker date="1574744642542" expanded="true" signature="3892:3939" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="3893:3939" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="4156:4202" ph="Select * fro... Facts21" />
-            <marker date="1574744642542" expanded="true" signature="4280:4324" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="4281:4324" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="4593:4644" ph="Select * fro... VolumeDistribution" />
-            <marker date="1574744642542" expanded="true" signature="4593:4650" ph="Select * fro... VolumeDistribution" />
-            <marker date="1574744642542" expanded="true" signature="4728:4783" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="4729:4783" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="5557:5580" ph="Select * fro... IssueType" />
-            <marker date="1574744642542" expanded="true" signature="5632:5653" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="5633:5653" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="5853:5897" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5853:5903" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5853:5904" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5979:6027" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="1989:2038" ph="SELECT * FRO... TradeDate" />
+            <marker date="1574831546645" expanded="true" signature="3881:3930" ph="Select * fro... DailyFacts" />
+            <marker date="1574831546645" expanded="true" signature="4008:4055" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4009:4055" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="4272:4318" ph="Select * fro... Facts21" />
+            <marker date="1574831546645" expanded="true" signature="4396:4440" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4397:4440" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="4709:4760" ph="Select * fro... VolumeDistribution" />
+            <marker date="1574831546645" expanded="true" signature="4709:4766" ph="Select * fro... VolumeDistribution" />
+            <marker date="1574831546645" expanded="true" signature="4844:4899" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4845:4899" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="5673:5696" ph="Select * fro... IssueType" />
+            <marker date="1574831546645" expanded="true" signature="5748:5769" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="5749:5769" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="5969:6013" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="5969:6019" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="5969:6020" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="6095:6143" ph="Delete from " />
           </folding>
         </state>
       </provider>
@@ -616,28 +613,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/py/sync.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="63" column="16" lean-forward="true" selection-start-line="63" selection-start-column="16" selection-end-line="63" selection-end-column="16" />
+        <state relative-caret-position="0">
+          <caret line="12" column="75" lean-forward="false" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="75" />
           <folding>
-            <element signature="e#255#273#0" expanded="true" />
-            <marker date="1574744642542" expanded="true" signature="1873:1922" ph="SELECT * FRO... TradeDate" />
-            <marker date="1574744642542" expanded="true" signature="3765:3814" ph="Select * fro... DailyFacts" />
-            <marker date="1574744642542" expanded="true" signature="3892:3939" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="3893:3939" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="4156:4202" ph="Select * fro... Facts21" />
-            <marker date="1574744642542" expanded="true" signature="4280:4324" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="4281:4324" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="4593:4644" ph="Select * fro... VolumeDistribution" />
-            <marker date="1574744642542" expanded="true" signature="4593:4650" ph="Select * fro... VolumeDistribution" />
-            <marker date="1574744642542" expanded="true" signature="4728:4783" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="4729:4783" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="5557:5580" ph="Select * fro... IssueType" />
-            <marker date="1574744642542" expanded="true" signature="5632:5653" ph="Delete from " />
-            <marker date="1574744642542" expanded="true" signature="5633:5653" ph="delete from " />
-            <marker date="1574744642542" expanded="true" signature="5853:5897" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5853:5903" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5853:5904" ph="Select * fro... DailyGroup" />
-            <marker date="1574744642542" expanded="true" signature="5979:6027" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="1989:2038" ph="SELECT * FRO... TradeDate" />
+            <marker date="1574831546645" expanded="true" signature="3881:3930" ph="Select * fro... DailyFacts" />
+            <marker date="1574831546645" expanded="true" signature="4008:4055" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4009:4055" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="4272:4318" ph="Select * fro... Facts21" />
+            <marker date="1574831546645" expanded="true" signature="4396:4440" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4397:4440" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="4709:4760" ph="Select * fro... VolumeDistribution" />
+            <marker date="1574831546645" expanded="true" signature="4709:4766" ph="Select * fro... VolumeDistribution" />
+            <marker date="1574831546645" expanded="true" signature="4844:4899" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="4845:4899" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="5673:5696" ph="Select * fro... IssueType" />
+            <marker date="1574831546645" expanded="true" signature="5748:5769" ph="Delete from " />
+            <marker date="1574831546645" expanded="true" signature="5749:5769" ph="delete from " />
+            <marker date="1574831546645" expanded="true" signature="5969:6013" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="5969:6019" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="5969:6020" ph="Select * fro... DailyGroup" />
+            <marker date="1574831546645" expanded="true" signature="6095:6143" ph="Delete from " />
           </folding>
         </state>
       </provider>

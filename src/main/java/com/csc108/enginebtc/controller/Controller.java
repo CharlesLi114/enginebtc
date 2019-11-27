@@ -8,12 +8,14 @@ import com.csc108.enginebtc.replay.ReplayController;
 import com.csc108.enginebtc.utils.ConfigUtil;
 import com.csc108.enginebtc.utils.SyncUtils;
 import com.csc108.enginebtc.utils.TimeUtils;
+import com.csc108.enginebtc.utils.Utils;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -34,6 +36,8 @@ public class Controller extends AbstractLifeCircleBean {
     private static final String EngineConfig_Property_Name = "engine.admin.port";
     private static final String CalcConfig_Property_Name = "calc.admin.port";
 
+    private static final String Sync_Batch_Property_Name = "sync.batch.file";
+    private static final String Comp_Executor_Property_Name = "comps.executor.files";
 
     public static Controller Controller = new Controller();
 
@@ -258,4 +262,43 @@ public class Controller extends AbstractLifeCircleBean {
     }
 
 
+    /**
+     * This method call python sync method.
+     * If {@code srcDate == 0} meaning there is no input date, and default mode is used, which calls {@link OrderCache#getDate()} to get order date.
+     *
+     *
+     * @param srcDate is the date of the orders. Remember this is not the microstructure date, it is handled in sync_for_enginebtc project.
+     * @throws ConfigurationException
+     * @throws IOException
+     */
+    public void syncData(int srcDate) throws ConfigurationException, IOException {
+        logger.info("Running data sync job.");
+
+        String configFile = ConfigUtil.getConfigPath(PROPERTY_CONFIG_FILE);
+        Configuration config = new PropertiesConfiguration(configFile);
+        String batchFile = config.getString(Sync_Batch_Property_Name);
+
+        if (srcDate == 0) {
+            OrderCache.OrderCache.start();
+            srcDate = OrderCache.OrderCache.getDate();
+        }
+        logger.info("   BatchFile: " + batchFile);
+        logger.info("   Date: " + srcDate);
+
+        int exitVal = Utils.execBatch(batchFile, String.valueOf(srcDate));
+        logger.info("Job execution with return code " + exitVal);
+    }
+
+    public void startComponents() throws ConfigurationException, IOException {
+        String configFile = ConfigUtil.getConfigPath(PROPERTY_CONFIG_FILE);
+        Configuration config = new PropertiesConfiguration(configFile);
+        List<Object> comps = config.getList(Comp_Executor_Property_Name);
+        for (Object o : comps) {
+            System.out.println("File: " + o);
+            Utils.startJob(String.valueOf(o), null);
+        }
+    }
+
+
 }
+
