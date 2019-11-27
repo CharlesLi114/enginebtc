@@ -1,16 +1,11 @@
 package com.csc108.enginebtc.replay;
 
-import com.csc108.enginebtc.amq.ActiveMqController;
 import com.csc108.enginebtc.cache.TdbDataCache;
-import com.csc108.enginebtc.tdb.models.MarketData;
-import com.csc108.enginebtc.tdb.models.TransactionData;
 import com.csc108.enginebtc.utils.TimeUtils;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-
-import java.util.List;
 
 /**
  * Created by LI JT on 2019/9/10.

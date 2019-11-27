@@ -116,9 +116,16 @@ public class TdbDataCache {
         }
     }
 
+    /**
+     * TODO Sometimes, there is a bug in {@link com.csc108.enginebtc.utils.TimeUtils#addMiliis(int, int)}, adding 10 millis just gives the original result.
+     * I think it is needed to mark
+     * 1. how much time passes
+     * 2. how much time we move forward in history data.
+     * The two has to be in the same scale.
+     */
     public List<TransactionData> getTdbTransactionData(String stockId, int upto) {
         if (stockId.equalsIgnoreCase(watchStock)) {
-            tradeSentRound += 1;
+            tradeSentRound += 1;    // TODO atomic
             if (tradeSentRound % 3000 == 0) {
                 logger.info("Stock " + this.watchStock + " trades sends upto " + upto);
             }
