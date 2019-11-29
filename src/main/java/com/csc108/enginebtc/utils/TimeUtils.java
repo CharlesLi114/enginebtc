@@ -22,7 +22,8 @@ public class TimeUtils {
     private static final int AM_AUCTION_SHIFT_TIME_SECONDS = 4 * 60;
 
     private static int ACTION_DAY = Integer.parseInt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
-    private static final SimpleDateFormat CSC_FORMAT = new SimpleDateFormat("HHmmssSSS");
+    private static final SimpleDateFormat CSC_Output_FORMAT = new SimpleDateFormat("HH:mm:ss:SSS");
+    private static final SimpleDateFormat CSC_Standard_FORMAT = new SimpleDateFormat("HHmmssSSS");
     private static final DateTimeFormatter Order_DateTime_Format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");    //2017-07-17 15:00:00.000
     private static final DateTimeFormatter Fix_Time_Format = DateTimeFormatter.ofPattern("yyyyMMdd-HH:mm:ss");   //6063=20191114-01:30:03
     private static final DateTimeFormatter DB_DateTime_Format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -44,7 +45,7 @@ public class TimeUtils {
             if (timestamp > 130000000) {
                 return addSeconds(timestamp, -MOON_SECONDS);
             } else if (timestamp >= 91500000 && timestamp < 93000000) {
-                return addSeconds(timestamp, AM_AUCTION_SHIFT_TIME_SECONDS);
+                return Math.min(addSeconds(timestamp, AM_AUCTION_SHIFT_TIME_SECONDS), 92959999); // No more than 92959999
             } else {
                 return timestamp;
             }
@@ -53,6 +54,8 @@ public class TimeUtils {
         }
     }
 
+
+
     /**
      * Get current time stamp in CSC format.
      * @return the current time stamp in CSC format.
@@ -60,7 +63,7 @@ public class TimeUtils {
     public static int getTimeStamp() {
         Calendar calendar = Calendar.getInstance();
 
-        return Integer.parseInt(CSC_FORMAT.format(new Date(calendar.getTimeInMillis())));
+        return Integer.parseInt(CSC_Standard_FORMAT.format(new Date(calendar.getTimeInMillis())));
     }
 
     /**
@@ -121,7 +124,7 @@ public class TimeUtils {
 
         calendar.add(Calendar.SECOND, amount);
 
-        return Integer.parseInt(CSC_FORMAT.format(new Date(calendar.getTimeInMillis())));
+        return Integer.parseInt(CSC_Standard_FORMAT.format(new Date(calendar.getTimeInMillis())));
     }
 
     public static int addMiliis(int time, int amount) {
@@ -129,9 +132,17 @@ public class TimeUtils {
 
         calendar.add(Calendar.MILLISECOND, amount);
 
-        return Integer.parseInt(CSC_FORMAT.format(new Date(calendar.getTimeInMillis())));
+        return Integer.parseInt(CSC_Standard_FORMAT.format(new Date(calendar.getTimeInMillis())));
     }
 
+    /**
+     * Format timestamp as output format
+     * @return
+     */
+    public static String tsToOutputString(int timestamp) {
+        Calendar calendar = getCalender(timestamp);
+        return CSC_Output_FORMAT.format(new Date(calendar.getTimeInMillis()));
+    }
 
     /**
      *

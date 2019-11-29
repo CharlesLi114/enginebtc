@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 /**
@@ -32,8 +34,8 @@ public class TdbDataCache {
 
     private Map<String, Integer> timeStamps = new ConcurrentHashMap<>();
 
-    private long tickSentRound = 0;
-    private long tradeSentRound = 0;
+    private AtomicInteger tickSentRound = new AtomicInteger(0);
+    private AtomicInteger tradeSentRound = new AtomicInteger(0);
     private String watchStock;
 
 
@@ -100,13 +102,9 @@ public class TdbDataCache {
     }
 
 
-    public List<MarketData> getTdbMarketData(String stockId, int upto) {
+    private List<MarketData> getTdbMarketData(String stockId, int upto) {
         if (stockId.equalsIgnoreCase(watchStock)) {
-            tickSentRound += 1;
-            // Log it every 3000 rounds, by default with 10 ms interval, it is 30 seconds.
-            if (tickSentRound % 3000 == 0) {
-                logger.info("Stock " + this.watchStock + " ticks sends upto " + upto);
-            }
+            tickSentRound.incrementAndGet();
         }
 
         if (this.marketdataCache.keySet().contains(stockId)) {
@@ -116,19 +114,10 @@ public class TdbDataCache {
         }
     }
 
-    /**
-     * TODO Sometimes, there is a bug in {@link com.csc108.enginebtc.utils.TimeUtils#addMiliis(int, int)}, adding 10 millis just gives the original result.
-     * I think it is needed to mark
-     * 1. how much time passes
-     * 2. how much time we move forward in history data.
-     * The two has to be in the same scale.
-     */
-    public List<TransactionData> getTdbTransactionData(String stockId, int upto) {
+
+    private List<TransactionData> getTdbTransactionData(String stockId, int upto) {
         if (stockId.equalsIgnoreCase(watchStock)) {
-            tradeSentRound += 1;    // TODO atomic
-            if (tradeSentRound % 3000 == 0) {
-                logger.info("Stock " + this.watchStock + " trades sends upto " + upto);
-            }
+            tradeSentRound.incrementAndGet();
         }
 
         if (this.transactionCache.keySet().contains(stockId)) {
@@ -161,5 +150,18 @@ public class TdbDataCache {
             ActiveMqController.Controller.sendTrans(data);
         }
     }
+
+    public String getWatchStock() {
+        return this.watchStock;
+    }
+
+    public int getTradeTriggerTimes() {
+        return this.tradeSentRound.get();
+    }
+
+    public int getTicksTriggerTimes() {
+        return this.tickSentRound.get();
+    }
+
 
 }

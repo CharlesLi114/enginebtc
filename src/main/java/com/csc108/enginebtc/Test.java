@@ -17,6 +17,7 @@ import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by LI JT on 2019/9/2.
@@ -56,6 +57,14 @@ public class Test {
     public static void main(String[] args) throws SchedulerException, InterruptedException, JMSException, IOException {
 
         System.out.println(TimeUtils.getTimeStamp());
+
+
+        AtomicInteger value = new AtomicInteger(0);
+        Integer anotherCalculatedValue = 0;
+        value.getAndAccumulate(anotherCalculatedValue, Math::max);
+        System.out.println(value.get());
+        AtomicInteger a = new AtomicInteger(0);
+
 
 //        String command = "D:\\projects\\J\\enginebtc\\src\\main\\python\\sync_for_enginebtc\\py\\exec_sync.bat" + " " + 20191113;
 

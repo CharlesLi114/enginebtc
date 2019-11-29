@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Created by LI JT on 2017/12/1.
- * Description:
+ * Description: Not used in actual work.
  */
 public class ListenerHandler extends ChannelInboundHandlerAdapter {
 
@@ -27,7 +27,7 @@ public class ListenerHandler extends ChannelInboundHandlerAdapter {
         logger.info("Received message " + message);
         if (message.trim().toUpperCase().equals(Constants.CalcReadyMsg)) {
 //            Controller.Controller.setCalcReady();
-            //TODO
+
             System.out.println(message);
         }
     }

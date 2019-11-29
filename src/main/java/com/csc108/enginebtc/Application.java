@@ -29,9 +29,7 @@ import java.util.Scanner;
  *
  *
  * TODO:
- * 1. In this program, morning auction is converted to 0919-0929, while in calc and engine(from db config) morning is still same as real one.
  * 2. If market data has no bidprice array or volume array, how to handle it? Now an empty is sent, but matcher doest not check it.
- * 3. In transaction, have to getInt("IntPx") to get price. Might cause trouble.
  *
  * 4. Remove randomness in engine decisions.
  */
@@ -178,6 +176,9 @@ public class Application {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
+        Application.testSendDataToMq();
+
+
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("-sync")) {
                 if (args.length == 2) {

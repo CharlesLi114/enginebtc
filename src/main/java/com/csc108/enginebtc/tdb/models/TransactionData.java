@@ -50,8 +50,7 @@ public class TransactionData extends AbstractTdbData {
     public Map toMap() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("StockId", this.stockId);
-        map.put("IntPx", this.intPrice);
-        map.put("Price", this.price);
+        map.put("Price", this.intPrice);
         map.put("Volume", this.volume);
         map.put("Turnover", this.turnover);
         map.put("FunctionCode", this.funcCode);
@@ -63,8 +62,8 @@ public class TransactionData extends AbstractTdbData {
             ActiveMQMapMessage msg = new ActiveMQMapMessage();
             msg.setString("Type", "TransactionData");
             msg.setString("StockId", this.stockId);
-            msg.setInt("IntPx", this.intPrice);
-            msg.setDouble("Price", this.price);
+            msg.setInt("Price", this.intPrice);
+//            msg.setDouble("Price", this.price);
             msg.setInt("Volume", this.volume);
             msg.setDouble("Turnover", this.turnover);
             msg.setChar("FunctionCode", this.funcCode);

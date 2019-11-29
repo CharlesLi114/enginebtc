@@ -8,10 +8,12 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.management.monitor.Monitor;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by LI JT on 2019/9/9.
@@ -89,15 +91,22 @@ public class ReplayController extends AbstractLifeCircleBean {
             ReplayController.Replayer.updateUpto(stockId, initialSyncTo);
         }
 
-        for (String stockId : cache.getStockIds()) {
-            JobDetail job = JobBuilder.newJob(ReplayJob.class).usingJobData("StockId", stockId).usingJobData("Step", this.stepInMillis).build();
-            Trigger trigger = TriggerBuilder.newTrigger().startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMilliseconds(this.triggerInMillis).repeatForever()).build();
-            try {
+        try {
+            for (String stockId : cache.getStockIds()) {
+                logger.info(MessageFormat.format("Setting {0} replay job with step {1} millis triggering every {2} millis.", stockId, this.stepInMillis, triggerInMillis));
+                JobDetail job = JobBuilder.newJob(ReplayJob.class).usingJobData("StockId", stockId).usingJobData("Step", this.stepInMillis).build();
+                Trigger trigger = TriggerBuilder.newTrigger().startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMilliseconds(this.triggerInMillis).repeatForever()).build();
                 scheduler.scheduleJob(job, trigger);
-            } catch (SchedulerException e) {
-                logger.error("Error when creating quartz job.", e);
-                throw new InitializationException("Error when creating quartz job.", e);
             }
+
+            long triggerPeriodInMillis = this.triggerInMillis*3000;
+            logger.info(MessageFormat.format("Setting replay monitor job triggering every {0} seconds.", triggerPeriodInMillis / 1000));
+            JobDetail job = JobBuilder.newJob(MonitorJob.class).usingJobData("InitialSyncTo", this.initialSyncTo).usingJobData("Step", this.stepInMillis).build();
+            Trigger trigger = TriggerBuilder.newTrigger().startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMilliseconds(triggerPeriodInMillis).repeatForever()).build();
+            scheduler.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
+            logger.error("Error when creating quartz job.", e);
+            throw new InitializationException("Error when creating quartz job.", e);
         }
     }
 
