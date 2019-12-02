@@ -74,9 +74,10 @@ public class ActiveMqController extends AbstractLifeCircleBean {
             int timeout              = node.getInt("timeout");
             boolean isLogHq          = node.getBoolean("logHq");
             String logHqStocks       = node.getString("hqLogStocks");
-            String hqLogFolder         = node.getString("hqLogFolder");
+            String hqLogFolder       = node.getString("hqLogFolder");
+            String outTopicPrefix    = node.getString("outTopicPrefix");
 
-            this.config = new ActiveMqConfig(name, topics, server, port, protocol, defaultParams, reconnectDelay, maxReconnectAttempt, connectionPerFactory, sessionPerConnection, failover, timeout, isLogHq, logHqStocks, hqLogFolder);
+            this.config = new ActiveMqConfig(name, topics, server, port, protocol, defaultParams, reconnectDelay, maxReconnectAttempt, connectionPerFactory, sessionPerConnection, failover, timeout, isLogHq, logHqStocks, hqLogFolder, outTopicPrefix);
         }
     }
 
@@ -244,7 +245,7 @@ public class ActiveMqController extends AbstractLifeCircleBean {
     }
 
     private String getTopic(String stockId, boolean isMarketdata) {
-        return isMarketdata? "Btc.Tick." + stockId: "Btc.Trade." + stockId;
+        return this.config.getOutTopicPrefix() + (isMarketdata? "Tick." + stockId: "Trade." + stockId);
     }
 
 }

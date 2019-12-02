@@ -23,6 +23,7 @@
             <timeout>3000</timeout>
             <!-- Separate by ;-->
             <logHq>true</logHq>
+            <outTopicPrefix>Btc.</outTopicPrefix>  <!-- Used to construct data broadcast topic, Always ends with '.' -->
             <hqLogStocks>300128.SZ;300337.SZ</hqLogStocks>
             <hqLogFolder>d:/logs/match/matcher/${current.date}/hq/</hqLogFolder>
         </Connection>

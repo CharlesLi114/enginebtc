@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.net.*;
 import java.text.MessageFormat;
 import java.time.LocalTime;
 import java.util.List;
@@ -64,12 +66,47 @@ public class SyncUtils {
     }
 
 
-
-    public static boolean waitFor(String config) {
-        NettySender sender = getSender(config, 100);
-        sender.writeMessage("a");
-        sender.stop();
-        return true;
+    /**
+     * Test if a port is available, with timeout options.
+     * @param ip
+     * @param port
+     * @return
+     */
+    public static boolean available(String ip, int port) {
+        Socket s = null;
+        String reason = null ;
+        int exitStatus = 1 ;
+        int timeoutInSec = 10;
+        try {
+            s = new Socket();
+            s.setReuseAddress(true);
+            SocketAddress sa = new InetSocketAddress(ip, port);
+            s.connect(sa, timeoutInSec * 1000);
+        } catch (IOException e) {
+            if ( e.getMessage().equals("Connection refused")) {
+                reason = "port " + port + " on " + ip + " is closed.";
+            }
+            if ( e instanceof UnknownHostException) {
+                reason = "node " + ip + " is unresolved.";
+            }
+            if ( e instanceof SocketTimeoutException) {
+                reason = "timeout while attempting to reach node " + ip + " on port " + port;
+            }
+        } finally {
+            if (s != null) {
+                if (s.isConnected()) {
+                    System.out.println("Port " + port + " on " + ip + " is reachable!");
+                    exitStatus = 0;
+                } else {
+                    System.out.println("Port " + port + " on " + ip + " is not reachable; reason: " + reason );
+                }
+                try {
+                    s.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+        return exitStatus == 0;
     }
 
 

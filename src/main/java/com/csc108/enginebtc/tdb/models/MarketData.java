@@ -1,22 +1,20 @@
 package com.csc108.enginebtc.tdb.models;
 
-import cn.com.wind.td.tdb.Tick;
 import cn.com.wind.td.tdb.TickAB;
 import com.csc108.enginebtc.commons.AbstractTdbData;
 import com.csc108.enginebtc.utils.Constants;
 import com.csc108.enginebtc.utils.TimeUtils;
 import com.csc108.enginebtc.utils.Utils;
 import org.apache.activemq.command.ActiveMQMapMessage;
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math.util.MathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import javax.jms.JMSException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LI JT on 2019/9/2.
@@ -68,8 +66,9 @@ public class MarketData extends AbstractTdbData {
         this.low = tick.getLow();
         this.match = tick.getPrice();
         this.numTrades = tick.getItems();
-        this.volume = tick.getVolume();
-        this.turnOver = tick.getTurover();
+
+        this.volume = tick.getVolume();         // TODO should be cumulative value
+        this.turnOver = tick.getTurover();      // TODO should be cumulative value
 
         this.highLimited = (long) (MathUtils.round(this.preClose / Constants.SCALE * 1.1, 2) * Constants.SCALE);
         this.lowLimited = (long) (MathUtils.round(this.preClose / Constants.SCALE * 0.9, 2) * Constants.SCALE);
@@ -81,7 +80,7 @@ public class MarketData extends AbstractTdbData {
         this.bidVols = this.getVolumes(tick.getBidVolume());
         this.askVols = this.getVolumes(tick.getAskVolume());
 
-        this.timestamp = tick.getTime();
+        this.timestamp = TimeUtils.getTimeStamp(tick.getTime(), true);
     }
 
 
@@ -119,6 +118,22 @@ public class MarketData extends AbstractTdbData {
 
     public String getStockId() {
         return stockId;
+    }
+
+    public long getTurnOver() {
+        return this.turnOver;
+    }
+
+    public void setTurnOver(long turnOver) {
+        this.turnOver = turnOver;
+    }
+
+    public long getVolume() {
+        return this.volume;
+    }
+
+    public void setVolume(long volume) {
+        this.volume = volume;
     }
 
     @Override

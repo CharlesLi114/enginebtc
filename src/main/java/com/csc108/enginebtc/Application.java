@@ -27,11 +27,33 @@ import java.util.Scanner;
  * Created by LI JT on 2019/9/2.
  * Description:
  *
+ * 9752
+ *
  *
  * TODO:
  * 2. If market data has no bidprice array or volume array, how to handle it? Now an empty is sent, but matcher doest not check it.
  *
  * 4. Remove randomness in engine decisions.
+ *
+ * 5.
+ * $ ./admin.exe 10.101.195.188:9202 data quotation print -s 600862.sh -l true
+ 600862.SH:
+ timeStamp  windCode   status  preClose  open  high   low   match  numTrades  volume  turnOver  lowLimited  highLimited  indauc  indaucs  bestBid  bestAsk  ar
+ =========  =========  ======  ========  ====  =====  ====  =====  =========  ======  ========  ==========  ===========  ======  =======  =======  =======  ==
+ 112958000  600862.SH  O       9.98      10.0  10.02  9.81  9.87   5586       5100.0  50327.0   8.98        10.98        9.87    53800.0  9.86     9.87     10
+
+ $ ./admin.exe 10.101.195.188:9202 data transaction print -s 600862.sh -l true
+ 600862.SH:
+ time       price  volume  turnover  arrivalTime
+ =========  =====  ======  ========  ===========
+ 115954680  9.86   500.0   4930.0    105827892
+
+
+ MarketData stops at 112958000 and transaction stops at 115954680, i dont know whats going on.
+ MarketData is fixed with timeshift and cum volume and cum turnover.
+
+
+
  */
 public class Application {
 
@@ -176,7 +198,7 @@ public class Application {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        Application.testSendDataToMq();
+//        Application.testSendDataToMq();
 
 
         if (args.length > 0) {

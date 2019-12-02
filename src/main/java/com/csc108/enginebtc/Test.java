@@ -3,6 +3,7 @@ package com.csc108.enginebtc;
 import com.csc108.enginebtc.admin.NettySender;
 import com.csc108.enginebtc.cache.OrderCache;
 import com.csc108.enginebtc.replay.ReplayController;
+import com.csc108.enginebtc.utils.SyncUtils;
 import com.csc108.enginebtc.utils.TimeUtils;
 import com.csc108.enginebtc.utils.Utils;
 import org.apache.activemq.command.ActiveMQMapMessage;
@@ -56,7 +57,12 @@ public class Test {
      */
     public static void main(String[] args) throws SchedulerException, InterruptedException, JMSException, IOException {
 
+        System.out.println(SyncUtils.available("10.101.195.71", 8865));
+
         System.out.println(TimeUtils.getTimeStamp());
+
+
+        System.out.println(((double) 10 * 0.66667));
 
 
         AtomicInteger value = new AtomicInteger(0);

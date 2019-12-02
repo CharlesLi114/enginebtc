@@ -32,10 +32,11 @@ public class ActiveMqConfig {
     private boolean isLogHq;
     private Set<String> hqStocks;
     private String hqLogFolder;
+    private String outTopicPrefix;
 
     public ActiveMqConfig(String name, String topic, String server, String port, String protocol, String defaultParams,
                           int reconnectDelay, int maxReconnectAttempt, int connectionPerFactory,
-                          int sessionPerConnection, boolean failover, int timeout, boolean isLogHq, String hqStocks, String hqLogFolder) {
+                          int sessionPerConnection, boolean failover, int timeout, boolean isLogHq, String hqStocks, String hqLogFolder, String outTopicPrefix) {
         this.name = name;
         this.server = server;
         this.port = port;
@@ -63,6 +64,7 @@ public class ActiveMqConfig {
             this.hqStocks.add(split.toUpperCase());
         }
         this.hqLogFolder = hqLogFolder.replace("${current.date}", String.valueOf(TimeUtils.getActionDay()));
+        this.outTopicPrefix = outTopicPrefix;
     }
 
     public String getName() {
@@ -127,5 +129,9 @@ public class ActiveMqConfig {
 
     public String getHqLogFolder() {
         return this.hqLogFolder;
+    }
+
+    public String getOutTopicPrefix() {
+        return this.outTopicPrefix;
     }
 }

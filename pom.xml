@@ -6,7 +6,7 @@
 
     <groupId>com.csc108</groupId>
     <artifactId>enginebtc</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
 
     <dependencies>
@@ -162,7 +162,7 @@
 
                 <configuration>
                     <assembleDirectory>${project.build.directory}</assembleDirectory>
-                    <extraJvmArguments>-Xms4096m</extraJvmArguments>
+                    <extraJvmArguments>-Xms4096m -Djava.library.path="%BASEDIR%"\bin -Dapp.repo="%REPO%" -Dapp.home="%BASEDIR%" -Dbasedir="%BASEDIR%"</extraJvmArguments>
 
                     <binFileExtensions>
                         <windows>.bat</windows>
@@ -174,7 +174,7 @@
                     <programs>
                         <program>
                             <mainClass>com.csc108.enginebtc.Application</mainClass>
-                            <id>controller.1.0.2</id>
+                            <id>controller.1.0.3</id>
                             <platforms>
                                 <platform>windows</platform>
                             </platforms>

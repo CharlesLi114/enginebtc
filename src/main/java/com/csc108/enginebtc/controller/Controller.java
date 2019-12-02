@@ -162,8 +162,6 @@ public class Controller extends AbstractLifeCircleBean {
     }
 
 
-
-
     /**
      * Wait until calc finished reading tdf data.
      */
@@ -232,17 +230,29 @@ public class Controller extends AbstractLifeCircleBean {
      * Wait until calc and engine are ready, by connecting to their communication port.
      *
      */
-    public void waitCompsStarted() {
-        for (String config : this.engines) {
+    public void waitCompsStarted() throws Exception {
+        List<String> l = new ArrayList<>();
+        l.addAll(engines);
+        l.addAll(calcs);
+        for (String config : l) {
             logger.info("Wait for " + config);
-            SyncUtils.waitFor(config);
-            logger.info(config + " connected.");
-        }
-
-        for (String config : this.calcs) {
-            logger.info("Wait for " + config);
-            SyncUtils.waitFor(config);
-            logger.info(config + " connected.");
+            String[] splits = config.split(":");
+            boolean available = false;
+            for (int i = 0; i < 10; i++) {
+                available = SyncUtils.available(splits[0], Integer.valueOf(splits[1]));
+                if (!available) {
+                    logger.warn(config + " " + (i+1) + " attempts, not available.");
+                    Thread.sleep(1000 * 5);
+                } else {
+                    break;
+                }
+            }
+            if (!available) {
+                logger.error("Failed to connect to " + config);
+                throw new Exception("Failed to connect to " + config);
+            } else {
+                logger.info(config + " connected.");
+            }
         }
     }
 

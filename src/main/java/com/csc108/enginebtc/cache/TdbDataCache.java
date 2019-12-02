@@ -45,7 +45,7 @@ public class TdbDataCache {
     }
 
     public void readTdb(List<String> stockIds, int date) {
-        int i = 0;
+        int i = 1;
         for (String stockId : stockIds) {
             logger.info("Reading " + stockId + ", " + i++ + "/" + stockIds.size());
             this.addMarketData(stockId, date);
@@ -71,6 +71,18 @@ public class TdbDataCache {
 
         TdbDataList<MarketData> l = new TdbDataList<>(stockId);
         List<MarketData> datas = Arrays.stream(ticks).map(MarketData::new).collect(Collectors.toList());
+
+        // Change turnover and volume of MarketData to cumulative value.
+        if (datas.size() > 1) {
+            for(int i = 1; i < datas.size(); i++) {
+                long lastVol = datas.get(i-1).getVolume();
+                long lastTo = datas.get(i-1).getTurnOver();
+                datas.get(i).setVolume(datas.get(i).getVolume() + lastVol);
+                datas.get(i).setTurnOver(datas.get(i).getTurnOver() + lastTo);
+            }
+        }
+
+
         l.setData(datas);
         marketdataCache.put(stockId, l);
     }

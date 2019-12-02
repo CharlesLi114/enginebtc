@@ -44,7 +44,7 @@ public class InitiatorApp extends MessageCracker implements Application {
     }
 
     public void fromApp(Message message, SessionID sessionID) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
-        System.out.println(message.toString());
+//        System.out.println(message.toString());
         crack(message, sessionID);
     }
 
@@ -60,10 +60,9 @@ public class InitiatorApp extends MessageCracker implements Application {
 //        FixUtil.handleCancelRejectedReport(message);
     }
 
-    public void onMessage(ExecutionReport executionReport,
-                          SessionID sessionID)
+    public void onMessage(ExecutionReport executionReport, SessionID sessionID)
             throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
-//        FixUtil.handleExecutionReport(executionReport,sessionID);
+        FixMsgHelper.displayOrderStatus(executionReport,sessionID);
     }
 
     public void onMessage(Reject reject, SessionID sessionID) {

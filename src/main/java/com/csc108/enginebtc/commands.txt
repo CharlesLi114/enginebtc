@@ -1,0 +1,10 @@
+1. Engine commands:
+    1.1 Engine list all orders client order list -a true | grep 20191202-1449-OM_GROUP4_SG-8b01c431-0849-4afa-812
+
+
+
+2. Create orders.csv
+     SELECT accountId, orderId, exDestination, symbol, tradingDay, side,
+     type, price, algo, effectiveTime, expireTime,
+     orderQty, participationRate
+     FROM dbo.ClientOrderView WHERE tradingDay = '20191113' AND symbol NOT LIKE '204%' ORDER BY cumQty DESC
