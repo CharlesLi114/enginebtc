@@ -75,10 +75,7 @@ public class TdbDataCache {
         // Change turnover and volume of MarketData to cumulative value.
         if (datas.size() > 1) {
             for(int i = 1; i < datas.size(); i++) {
-                long lastVol = datas.get(i-1).getVolume();
-                long lastTo = datas.get(i-1).getTurnOver();
-                datas.get(i).setVolume(datas.get(i).getVolume() + lastVol);
-                datas.get(i).setTurnOver(datas.get(i).getTurnOver() + lastTo);
+                datas.get(i).cumValues(datas.get(i-1));
             }
         }
 

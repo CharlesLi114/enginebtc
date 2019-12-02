@@ -36,8 +36,8 @@ public class MarketData extends AbstractTdbData {
     private long low;
     private long match;
     private long numTrades;
-    private long volume;
-    private long turnOver;
+    private long volume;            // Should be cumulative value
+    private long turnOver;          // Should be cumulative value
     private long lowLimited;
     private long highLimited;
 
@@ -67,8 +67,8 @@ public class MarketData extends AbstractTdbData {
         this.match = tick.getPrice();
         this.numTrades = tick.getItems();
 
-        this.volume = tick.getVolume();         // TODO should be cumulative value
-        this.turnOver = tick.getTurover();      // TODO should be cumulative value
+        this.volume = tick.getVolume();         // Should be cumulative value
+        this.turnOver = tick.getTurover();      // Should be cumulative value
 
         this.highLimited = (long) (MathUtils.round(this.preClose / Constants.SCALE * 1.1, 2) * Constants.SCALE);
         this.lowLimited = (long) (MathUtils.round(this.preClose / Constants.SCALE * 0.9, 2) * Constants.SCALE);
@@ -120,20 +120,9 @@ public class MarketData extends AbstractTdbData {
         return stockId;
     }
 
-    public long getTurnOver() {
-        return this.turnOver;
-    }
-
-    public void setTurnOver(long turnOver) {
-        this.turnOver = turnOver;
-    }
-
-    public long getVolume() {
-        return this.volume;
-    }
-
-    public void setVolume(long volume) {
-        this.volume = volume;
+    public void cumValues(MarketData last) {
+        this.volume = this.volume + last.volume;
+        this.turnOver = this.turnOver + last.turnOver;
     }
 
     @Override
