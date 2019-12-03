@@ -216,7 +216,6 @@ public class Application {
             Application.work();
         }
 
-//        Application.testSendDataToMq();
 
 
 

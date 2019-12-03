@@ -146,7 +146,7 @@ public class OrderCache {
 
     public List<String> getStockIds() {
         if (this.stockIds.isEmpty()) {
-            this.cache.forEach((key, value) -> stockIds.add(value.getStockId()));
+            this.stockIds = new HashSet<>(this.cache.keySet());
         }
 
         return new ArrayList<>(this.stockIds);

@@ -54,6 +54,9 @@ class JobSync(object):
             self.group_dst_date = today
             self.facts21_dst_date = self.get_days_with_offset(today, -1)
 
+        print("TradingDay " + str(self.group_date))
+        print("Today " + str(self.group_dst_date))
+
 
 
 
@@ -208,7 +211,7 @@ class JobSync(object):
 if __name__ == '__main__':
     print(sys.argv)
     # job = JobSync(sys.argv)
-    job = JobSync(['0', 20191113])
+    job = JobSync(['0', 20191014])
     job.sync_group()
     job.sync_issue()
     job.sync_dailyfacts()

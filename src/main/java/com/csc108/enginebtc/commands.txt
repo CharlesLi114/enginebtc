@@ -4,7 +4,9 @@
 
 
 2. Create orders.csv
-     SELECT accountId, orderId, exDestination, symbol, tradingDay, side,
+	 SELECT accountId, orderId, exDestination, symbol, tradingDay, side,
      type, price, algo, effectiveTime, expireTime,
      orderQty, participationRate
-     FROM dbo.ClientOrderView WHERE tradingDay = '20191113' AND symbol NOT LIKE '204%' ORDER BY cumQty DESC
+     FROM dbo.ClientOrderView WHERE tradingDay = '20191014' AND securityType = 'EQA' AND type = 'Market' AND cumQty > 0.9* orderQty ORDER BY cumQty DESC
+
+     Remember to format excel/csv all cells in text mode.
