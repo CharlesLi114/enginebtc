@@ -53,6 +53,20 @@ import java.util.Scanner;
  MarketData is fixed with timeshift and cum volume and cum turnover.
 
 
+ ********************************************************************************************************************
+
+ 6. REPLAY mode.
+    In this mode, no orders are recovered, but to send data to matcher, in which strategies are coded and tested.
+    6.1 Read history data for a period of range, possibly using hdf5.
+    6.2 Different start parameters.
+    6.3 New day or market close data signals.
+    6.4 All data send to same topic, Starting like Btc.Data.>
+    6.5 Speed up mode.
+    6.6 Also this {@link com.csc108.enginebtc.replay.ReplayController} will be quite different from what is now.
+
+ ********************************************************************************************************************
+
+
 
  */
 public class Application {

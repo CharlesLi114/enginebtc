@@ -73,6 +73,17 @@ public class ReplayController extends AbstractLifeCircleBean {
         this.initialSyncTo = initialSyncTo;
     }
 
+    /**
+     * Used in data replay mode, just send orders. Possibly multi days, will go by each day.
+     * @param speed
+     * @param stepInMillis
+     * @param tradingDay
+     * // TODO how to terminate this scheduler or move to next day? Especially when several stocks running at the same time?
+     */
+    public void init(int speed, int stepInMillis, int tradingDay) {
+
+    }
+
 
     @Override
     public void config() {
