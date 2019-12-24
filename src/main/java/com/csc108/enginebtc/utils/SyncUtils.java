@@ -2,10 +2,12 @@ package com.csc108.enginebtc.utils;
 
 import com.csc108.enginebtc.admin.NettySender;
 import com.csc108.enginebtc.amq.ActiveMqController;
+import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jms.JMSException;
 import java.io.IOException;
 import java.net.*;
 import java.text.MessageFormat;
@@ -63,6 +65,22 @@ public class SyncUtils {
             sender.writeMessage(msg);
 //            sender.stop();
         }
+    }
+
+    public static void syncStockWithCalc(List<String> stocks, int tradeDay, int upto) throws JMSException {
+        String stock = String.join(";", stocks);
+        ActiveMQMapMessage msg = new ActiveMQMapMessage();
+        msg.setInt("TradingDay", tradeDay);
+        msg.setInt("Upto", upto);
+        msg.setString("Stocks", stock);
+        msg.setString("Type", "SyncStocks");
+
+        String topic = "Btc.Ctrl.Stocks";
+        ActiveMqController.Controller.sendMsg(msg, topic);
+
+        topic = "Calc.Response";
+        ActiveMqController.Controller.listenToTopic(topic);
+
     }
 
 

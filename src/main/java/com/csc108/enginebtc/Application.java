@@ -139,7 +139,7 @@ public class Application {
         TdbDataCache.TdbCache.readTdb(OrderCache.OrderCache.getStockIds(), OrderCache.OrderCache.getDate());
         Controller.Controller.waitForCalcDataReady();
 
-        Controller.Controller.publishOrders();
+        Controller.Controller.setTimeOffset();
         Controller.Controller.start();
         this.waitToClose();
         OrderCache.OrderCache.cancelOrders();   // Cancel all existing for a proper exit.
@@ -162,7 +162,7 @@ public class Application {
 
 
         Controller.Controller.waitForCalcDataReady();
-        Controller.Controller.syncWithCalc();
+        Controller.Controller.setCalcTimeOffset();
 
 
         Controller.Controller.start();

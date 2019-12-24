@@ -15,10 +15,12 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jms.JMSException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by LI JT on 2019/9/2.
@@ -44,9 +46,14 @@ public class Controller extends AbstractLifeCircleBean {
 
     private volatile boolean isSystemReady = false;
 
-    private volatile boolean isCalcDataReady = false;
-    private volatile boolean isCalcTimeSet = false;
-    private volatile boolean isEngineTimeSet = false;
+//    private volatile boolean isCalcDataReady = false;
+//    private volatile boolean isCalcTimeSet = false;
+//    private volatile boolean isEngineTimeSet = false;
+
+
+    private AtomicInteger calcTimeSetCount = new AtomicInteger(0);
+    private AtomicInteger engTimeSetCount = new AtomicInteger(0);
+    private AtomicInteger calcDataReadyCount = new AtomicInteger(0);    // Could use one variable. Use a count for possible multiple calcs.
 
     private int speed;
     private int warmupSecs;
@@ -102,8 +109,13 @@ public class Controller extends AbstractLifeCircleBean {
         }
     }
 
+
+    /**
+     *
+     */
     @Override
     public void start() {
+        OrderCache.OrderCache.publishOrders();
         if (this.minTimeStamp == -1) {
             int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
             this.minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
@@ -120,7 +132,12 @@ public class Controller extends AbstractLifeCircleBean {
     }
 
 
-    public void publishOrders() {
+    /**
+     * Set offset time for engine(s) and calc(s).
+     * {@link Controller#tsBfSync} and {@link Controller#tsAfterSync} are used to record timestamp before and after set offset.
+     * The time between is then compensated in {@link Controller#start()}.
+     */
+    public void setTimeOffset() {
         int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
         this.minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
 
@@ -129,14 +146,13 @@ public class Controller extends AbstractLifeCircleBean {
         SyncUtils.syncWithCalc(minTimeStamp, calcs, speed);
         this.waitForTimeSynced(0);
         this.tsAfterSync = TimeUtils.getTimeStamp();
-
-        OrderCache.OrderCache.publishOrders();
     }
 
 
-
-
-    public void syncWithCalc() {
+    /**
+     *
+     */
+    public void setCalcTimeOffset() {
         if (this.minTimeStamp == -1) {
             int orderMinTimeStamp = OrderCache.OrderCache.getMinTimestamp();
             this.minTimeStamp = TimeUtils.addSeconds(orderMinTimeStamp, -warmupSecs);
@@ -155,7 +171,12 @@ public class Controller extends AbstractLifeCircleBean {
             public void run() {
                 logger.info("Sync stock code with calc.");
                 OrderCache cache = OrderCache.OrderCache;
-                SyncUtils.syncStocksWithCalc(getCalcs(), cache.getStockIds(), cache.getDate(), cache.getMinTimestamp());
+//                SyncUtils.syncStocksWithCalc(calcs, cache.getStockIds(), cache.getDate(), cache.getMinTimestamp());
+                try {
+                    SyncUtils.syncStockWithCalc(cache.getStockIds(), cache.getDate(), cache.getMinTimestamp());
+                } catch (JMSException e) {
+                    throw new RuntimeException("Failed to send stock codes to calcs.");
+                }
             }
         };
         thread.start();
@@ -166,7 +187,7 @@ public class Controller extends AbstractLifeCircleBean {
      * Wait until calc finished reading tdf data.
      */
     public void waitForCalcDataReady() {
-        while (!this.isCalcDataReady) {
+        while (this.calcDataReadyCount.get() < this.calcs.size()) {
             logger.info("Wait for calc to be ready.");
             try {
                 Thread.sleep(1000 * 5);
@@ -176,16 +197,20 @@ public class Controller extends AbstractLifeCircleBean {
         }
     }
 
-    public void setCalcDataReady() {
-        isCalcDataReady = true;
+
+    /**
+     * Add one data-ready calc.
+     */
+    public void addDataReadyCalc() {
+        this.calcDataReadyCount.incrementAndGet();
     }
 
-    public void setCalcTimeReady() {
-        isCalcTimeSet = true;
+    public void addTimeReadyCalc() {
+        this.calcTimeSetCount.getAndIncrement();
     }
 
     public void setEngineTimeReady() {
-        isEngineTimeSet = true;
+        this.engTimeSetCount.getAndIncrement();
     }
 
 
@@ -207,11 +232,11 @@ public class Controller extends AbstractLifeCircleBean {
 
     private boolean isReady(int option) {
         if (option == 0) {
-            return isEngineTimeSet && isCalcTimeSet;
+            return this.engTimeSetCount.get() == this.engines.size() && this.calcTimeSetCount.get() == this.calcs.size();
         } else if (option == 1) {
-            return isEngineTimeSet;
+            return this.engTimeSetCount.get() == this.engines.size();
         } else if (option == 2){
-            return isCalcTimeSet;
+            return this.calcTimeSetCount.get() == this.calcs.size();
         } else {
             throw new UnsupportedOperationException("Input option code " + option + " is not supported.");
         }

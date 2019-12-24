@@ -8,6 +8,7 @@ import com.csc108.enginebtc.tdb.models.TransactionData;
 import com.csc108.enginebtc.utils.ConfigUtil;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQMapMessage;
+import org.apache.activemq.command.ActiveMQMessage;
 import org.apache.activemq.pool.PooledConnectionFactory;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.SubnodeConfiguration;
@@ -246,6 +247,26 @@ public class ActiveMqController extends AbstractLifeCircleBean {
 
     private String getTopic(String stockId, boolean isMarketdata) {
         return this.config.getOutTopicPrefix() + (isMarketdata? "Tick." + stockId: "Trade." + stockId);
+    }
+
+    public void sendMsg(ActiveMQMessage msg, String topic) throws JMSException {
+        Session session = this.getSession();
+        Destination destination = session.createTopic(topic);
+        MessageProducer producer = session.createProducer(destination);
+
+        producer.setTimeToLive(MESSAGE_TIME_TO_LIVE);
+        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+        producer.send(msg);
+
+        session.close();
+    }
+
+    public void listenToTopic(String topic) throws JMSException {
+        ActiveMessageReceiver receiver = new ActiveMessageReceiver();
+        Session session = getSession();
+        Destination destination = session.createTopic(topic);
+        MessageConsumer consumer = session.createConsumer(destination);
+        consumer.setMessageListener(receiver);
     }
 
 }

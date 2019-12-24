@@ -6,13 +6,9 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
-import org.apache.activemq.command.ConnectionInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.rmi.runtime.Log;
-
-import java.security.PublicKey;
 
 /**
  * Created by LI JT on 2019/9/19.
@@ -82,12 +78,12 @@ public class SenderHandler extends SimpleChannelInboundHandler<String> {
             logger.info("ReceivedMsg: \n" + msg);
 
             if (msg.equalsIgnoreCase("TdbDataRecovered.")) {
-                Controller.Controller.setCalcDataReady();
+                Controller.Controller.addDataReadyCalc();
                 logger.info("Calc " + this.sender.getConfig() + " data recovered.");
 //                this.sender.stop();
             }
             if (msg.startsWith("OffsetDone")) {
-                Controller.Controller.setCalcTimeReady();
+                Controller.Controller.addTimeReadyCalc();
                 logger.info("Calc " + this.sender.getConfig() + " offset done.");
 //                this.sender.stop();
             }
