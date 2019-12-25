@@ -6,7 +6,7 @@
 
     <groupId>com.csc108</groupId>
     <artifactId>enginebtc</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
 
     <dependencies>
@@ -174,7 +174,7 @@
                     <programs>
                         <program>
                             <mainClass>com.csc108.enginebtc.Application</mainClass>
-                            <id>controller.1.0.3</id>
+                            <id>controller.1.0.4</id>
                             <platforms>
                                 <platform>windows</platform>
                             </platforms>

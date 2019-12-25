@@ -20,8 +20,10 @@ import quickfix.fix42.NewOrderSingle;
 import quickfix.fix42.OrderCancelRequest;
 
 import java.io.FileNotFoundException;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by LI JT on 2019/9/9.
@@ -64,6 +66,7 @@ public class OrderCache {
 
 
         } catch (ConfigurationException | FileNotFoundException e) {
+            // TODO
             e.printStackTrace();
         }
 
@@ -97,7 +100,7 @@ public class OrderCache {
                 // 2019-11-13 00:00:00
                 this.date = TimeUtils.formatTradeDate(tradingDay);
             } else if (TimeUtils.formatTradeDate(tradingDay) != date) {
-                throw new InitializationException("Two orders are of different dates, which is not supported.");
+                throw new InitializationException(MessageFormat.format("Two different trading days are sent to system, {0} and {1}.", String.valueOf(this.date), String.valueOf(TimeUtils.formatTradeDate(tradingDay))));
             }
 
             String side = rowContent.get(index++);
@@ -125,12 +128,6 @@ public class OrderCache {
             if (o_time.isBefore(minTime)) {
                 minTime = o_time;
             }
-            if (date == 0) {
-                date = o_time.getYear() * 10000 + o_time.getMonth().getValue() * 100 + o_time.getDayOfMonth();
-            } else {
-                int date1 = o_time.getYear() * 10000 + o_time.getMonth().getValue() * 100 + o_time.getDayOfMonth();
-
-            }
         }
         this.minStartTime = TimeUtils.toOrderTime(minTime);
         this.minTimestamp = minTime.getHour() * 10000000 + minTime.getMinute() * 100000 + minTime.getSecond() * 1000;
@@ -146,7 +143,7 @@ public class OrderCache {
 
     public List<String> getStockIds() {
         if (this.stockIds.isEmpty()) {
-            this.stockIds = new HashSet<>(this.cache.keySet());
+            this.stockIds = new HashSet<>(this.cache.values().stream().map(Order::getStockId).collect(Collectors.toList()));
         }
 
         return new ArrayList<>(this.stockIds);

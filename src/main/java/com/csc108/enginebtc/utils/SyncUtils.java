@@ -102,13 +102,13 @@ public class SyncUtils {
             s.connect(sa, timeoutInSec * 1000);
         } catch (IOException e) {
             if ( e.getMessage().equals("Connection refused")) {
-                reason = "port " + port + " on " + ip + " is closed.";
+                reason = " port " + port + " on " + ip + " is closed.";
             }
             if ( e instanceof UnknownHostException) {
-                reason = "node " + ip + " is unresolved.";
+                reason = " node " + ip + " is unresolved.";
             }
             if ( e instanceof SocketTimeoutException) {
-                reason = "timeout while attempting to reach node " + ip + " on port " + port;
+                reason = " timeout while attempting to reach node " + ip + " on port " + port;
             }
         } finally {
             if (s != null) {

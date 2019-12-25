@@ -65,7 +65,7 @@ public class TdbDataCache {
     private void addMarketData(String stockId, int date) {
         TickAB[] ticks = TdbController.TdbController.getTick(stockId, date);
         if (ticks == null || ticks.length == 0) {
-            logger.warn(MessageFormat.format("Empty ticks for {0} of date {1}.", stockId, date));
+            logger.warn(MessageFormat.format("Empty ticks for {0} of date {1}.", stockId, String.valueOf(date)));
             return;
         }
 
@@ -87,7 +87,7 @@ public class TdbDataCache {
     private void addTransaction(String stockId, int date) {
         Transaction[] transactions = TdbController.TdbController.getTransaction(stockId, date);
         if (transactions == null || transactions.length == 0) {
-            logger.warn(MessageFormat.format("Empty trades for {0} of date {1}.", stockId, date));
+            logger.warn(MessageFormat.format("Empty trades for {0} of date {1}.", stockId, String.valueOf(date)));
             return;
         }
 
