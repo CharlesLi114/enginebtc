@@ -10,40 +10,86 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/sync_for_enginebtc$tradereader.coverage" NAME="tradereader Coverage Results" MODIFIED="1578479895297" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/py" />
+    <SUITE FILE_PATH="coverage/sync_for_enginebtc$app.coverage" NAME="app Coverage Results" MODIFIED="1578620751675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/py" />
     <SUITE FILE_PATH="coverage/sync_for_enginebtc$sync.coverage" NAME="sync Coverage Results" MODIFIED="1577322461830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/py" />
+  </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/py/config.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="152">
+                    <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+                    <folding>
+                      <marker date="1578480955743" expanded="true" signature="383:692" ph="SELECT accou... ClientOrderView" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="tradereader.py" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/py/tradereader.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="190">
+                    <caret line="10" column="30" lean-forward="true" selection-start-line="10" selection-start-column="30" selection-end-line="11" selection-end-column="21" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/py/app.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="475">
+                    <caret line="34" column="44" lean-forward="true" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+                    <folding>
+                      <element signature="e#66#76#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="sync.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="sync.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/py/sync.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="194" column="0" lean-forward="true" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
+            <state relative-caret-position="767">
+              <caret line="60" column="43" lean-forward="true" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
               <folding>
-                <marker date="1575353671086" expanded="true" signature="2093:2142" ph="SELECT * FRO... TradeDate" />
-                <marker date="1575353671086" expanded="true" signature="3985:4034" ph="Select * fro... DailyFacts" />
-                <marker date="1575353671086" expanded="true" signature="4112:4159" ph="Delete from " />
-                <marker date="1575353671086" expanded="true" signature="4113:4159" ph="delete from " />
-                <marker date="1575353671086" expanded="true" signature="4376:4422" ph="Select * fro... Facts21" />
-                <marker date="1575353671086" expanded="true" signature="4500:4544" ph="Delete from " />
-                <marker date="1575353671086" expanded="true" signature="4501:4544" ph="delete from " />
-                <marker date="1575353671086" expanded="true" signature="4813:4864" ph="Select * fro... VolumeDistribution" />
-                <marker date="1575353671086" expanded="true" signature="4813:4870" ph="Select * fro... VolumeDistribution" />
-                <marker date="1575353671086" expanded="true" signature="4948:5003" ph="Delete from " />
-                <marker date="1575353671086" expanded="true" signature="4949:5003" ph="delete from " />
-                <marker date="1575353671086" expanded="true" signature="5777:5800" ph="Select * fro... IssueType" />
-                <marker date="1575353671086" expanded="true" signature="5852:5873" ph="Delete from " />
-                <marker date="1575353671086" expanded="true" signature="5853:5873" ph="delete from " />
-                <marker date="1575353671086" expanded="true" signature="6073:6117" ph="Select * fro... DailyGroup" />
-                <marker date="1575353671086" expanded="true" signature="6073:6123" ph="Select * fro... DailyGroup" />
-                <marker date="1575353671086" expanded="true" signature="6073:6124" ph="Select * fro... DailyGroup" />
-                <marker date="1575353671086" expanded="true" signature="6199:6247" ph="Delete from " />
+                <marker date="1578533500356" expanded="true" signature="2621:2670" ph="SELECT * FRO... TradeDate" />
+                <marker date="1578533500356" expanded="true" signature="4513:4562" ph="Select * fro... DailyFacts" />
+                <marker date="1578533500356" expanded="true" signature="4640:4687" ph="Delete from " />
+                <marker date="1578533500356" expanded="true" signature="4641:4687" ph="delete from " />
+                <marker date="1578533500356" expanded="true" signature="4904:4950" ph="Select * fro... Facts21" />
+                <marker date="1578533500356" expanded="true" signature="5028:5072" ph="Delete from " />
+                <marker date="1578533500356" expanded="true" signature="5029:5072" ph="delete from " />
+                <marker date="1578533500356" expanded="true" signature="5341:5392" ph="Select * fro... VolumeDistribution" />
+                <marker date="1578533500356" expanded="true" signature="5341:5398" ph="Select * fro... VolumeDistribution" />
+                <marker date="1578533500356" expanded="true" signature="5476:5531" ph="Delete from " />
+                <marker date="1578533500356" expanded="true" signature="5477:5531" ph="delete from " />
+                <marker date="1578533500356" expanded="true" signature="6305:6328" ph="Select * fro... IssueType" />
+                <marker date="1578533500356" expanded="true" signature="6380:6401" ph="Delete from " />
+                <marker date="1578533500356" expanded="true" signature="6381:6401" ph="delete from " />
+                <marker date="1578533500356" expanded="true" signature="6601:6645" ph="Select * fro... DailyGroup" />
+                <marker date="1578533500356" expanded="true" signature="6601:6651" ph="Select * fro... DailyGroup" />
+                <marker date="1578533500356" expanded="true" signature="6601:6652" ph="Select * fro... DailyGroup" />
+                <marker date="1578533500356" expanded="true" signature="6727:6775" ph="Delete from " />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="exec_sync.bat" pinned="false" current-in-tab="false">
+      <file leaf-file-name="exec_sync.bat" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/py/exec_sync.bat">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="57">
@@ -96,21 +142,11 @@
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/py/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+            <state relative-caret-position="228">
+              <caret line="12" column="18" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="18" />
               <folding>
                 <element signature="e#71#80#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/py/config.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="15" column="1" lean-forward="false" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -131,16 +167,20 @@
       <find>en</find>
       <find>print</find>
       <find>Prepare Date</find>
+      <find>select</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/py/config.py" />
         <option value="$PROJECT_DIR$/py/utils.py" />
         <option value="$PROJECT_DIR$/py/config_comps.py" />
         <option value="$PROJECT_DIR$/py/sync_orders.py" />
+        <option value="$PROJECT_DIR$/py/TradePersist.py" />
+        <option value="$PROJECT_DIR$/py/config.py" />
+        <option value="$PROJECT_DIR$/py/tradereader.py" />
         <option value="$PROJECT_DIR$/py/sync.py" />
+        <option value="$PROJECT_DIR$/py/app.py" />
       </list>
     </option>
   </component>
@@ -150,11 +190,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-1928" />
     <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1216" />
+    <option name="width" value="960" />
+    <option name="height" value="1200" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -187,6 +227,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -212,8 +254,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -233,7 +273,25 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.sync">
+  <component name="RunManager" selected="Python.app">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/py" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="sync_for_enginebtc" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/py/app.py" />
+      <option name="PARAMETERS" value="COPYTODAY" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
     <configuration name="sync" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -252,9 +310,34 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
+    <configuration name="tradereader" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/py" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="sync_for_enginebtc" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/py/tradereader.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="Python.sync" />
+      <item index="1" class="java.lang.String" itemvalue="Python.tradereader" />
+      <item index="2" class="java.lang.String" itemvalue="Python.app" />
+    </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python.sync" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.app" />
+        <item index="1" class="java.lang.String" itemvalue="Python.tradereader" />
+        <item index="2" class="java.lang.String" itemvalue="Python.sync" />
       </list>
     </recent_temporary>
   </component>
@@ -272,28 +355,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-8" width="1936" height="1216" extended-state="7" />
+    <frame x="-1928" y="-8" width="1936" height="1216" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31037736" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31037736" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26595744" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26861703" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924527" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3990566" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21223404" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14734043" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924527" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -308,7 +391,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/py/sync.py</url>
-          <line>183</line>
+          <line>192</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -318,18 +401,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/py/sync.py</url>
-          <line>191</line>
+          <line>200</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/py/tradereader.py</url>
+          <line>38</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/py/app.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="18" />
+      <option name="time" value="20" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="data" language="Python" />
-        <watch expression="self.issue_dst_date" language="Python" />
-        <watch expression="self.facts21_dst_date" language="Python" />
-        <watch expression="'lastUpdId' in data.columns" language="Python" />
+        <watch expression="data['effectiveTime'].loc[0]" language="Python" />
+        <watch expression="import datetime as dt" language="Python" />
+        <watch expression="dt.datetime.strftime(data['effectiveTime'].loc[0], '%Y%m%d %H:%M:%S')" language="Python" />
       </configuration>
     </watches-manager>
   </component>
@@ -339,24 +432,111 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1575353671086" expanded="true" signature="2093:2142" ph="SELECT * FRO... TradeDate" />
-            <marker date="1575353671086" expanded="true" signature="3985:4034" ph="Select * fro... DailyFacts" />
-            <marker date="1575353671086" expanded="true" signature="4112:4159" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4113:4159" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4376:4422" ph="Select * fro... Facts21" />
-            <marker date="1575353671086" expanded="true" signature="4500:4544" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4501:4544" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4813:4864" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4813:4870" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4948:5003" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4949:5003" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="5777:5800" ph="Select * fro... IssueType" />
-            <marker date="1575353671086" expanded="true" signature="5852:5873" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="5853:5873" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="6073:6117" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6123" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6124" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6199:6247" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="2621:2670" ph="SELECT * FRO... TradeDate" />
+            <marker date="1578533500356" expanded="true" signature="4513:4562" ph="Select * fro... DailyFacts" />
+            <marker date="1578533500356" expanded="true" signature="4640:4687" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="4641:4687" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="4904:4950" ph="Select * fro... Facts21" />
+            <marker date="1578533500356" expanded="true" signature="5028:5072" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5029:5072" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="5341:5392" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5341:5398" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5476:5531" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5477:5531" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6305:6328" ph="Select * fro... IssueType" />
+            <marker date="1578533500356" expanded="true" signature="6380:6401" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="6381:6401" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6601:6645" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6651" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6652" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6727:6775" ph="Delete from " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/py/exec_sync.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/py/config_comps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5700">
+          <caret line="300" column="0" lean-forward="false" selection-start-line="300" selection-start-column="0" selection-end-line="300" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/site-packages/sqlalchemy/engine/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1311">
+          <caret line="92" column="42" lean-forward="false" selection-start-line="92" selection-start-column="32" selection-end-line="92" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/ProgramData/Anaconda3/envs/ml36/Lib/site-packages/pandas/core/generic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40470">
+          <caret line="2130" column="0" lean-forward="false" selection-start-line="2130" selection-start-column="0" selection-end-line="2130" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/py/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+          <folding>
+            <element signature="e#71#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/py/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="1" lean-forward="false" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <folding>
+            <marker date="1578480955743" expanded="true" signature="383:692" ph="SELECT accou... ClientOrderView" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/py/sync.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1578533500356" expanded="true" signature="2621:2670" ph="SELECT * FRO... TradeDate" />
+            <marker date="1578533500356" expanded="true" signature="4513:4562" ph="Select * fro... DailyFacts" />
+            <marker date="1578533500356" expanded="true" signature="4640:4687" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="4641:4687" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="4904:4950" ph="Select * fro... Facts21" />
+            <marker date="1578533500356" expanded="true" signature="5028:5072" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5029:5072" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="5341:5392" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5341:5398" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5476:5531" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5477:5531" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6305:6328" ph="Select * fro... IssueType" />
+            <marker date="1578533500356" expanded="true" signature="6380:6401" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="6381:6401" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6601:6645" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6651" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6652" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6727:6775" ph="Delete from " />
           </folding>
         </state>
       </provider>
@@ -407,7 +587,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-          <folding />
+          <folding>
+            <marker date="1578480955743" expanded="true" signature="383:692" ph="SELECT accou... ClientOrderView" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -416,24 +598,24 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1575353671086" expanded="true" signature="2093:2142" ph="SELECT * FRO... TradeDate" />
-            <marker date="1575353671086" expanded="true" signature="3985:4034" ph="Select * fro... DailyFacts" />
-            <marker date="1575353671086" expanded="true" signature="4112:4159" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4113:4159" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4376:4422" ph="Select * fro... Facts21" />
-            <marker date="1575353671086" expanded="true" signature="4500:4544" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4501:4544" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4813:4864" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4813:4870" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4948:5003" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4949:5003" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="5777:5800" ph="Select * fro... IssueType" />
-            <marker date="1575353671086" expanded="true" signature="5852:5873" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="5853:5873" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="6073:6117" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6123" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6124" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6199:6247" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="2621:2670" ph="SELECT * FRO... TradeDate" />
+            <marker date="1578533500356" expanded="true" signature="4513:4562" ph="Select * fro... DailyFacts" />
+            <marker date="1578533500356" expanded="true" signature="4640:4687" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="4641:4687" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="4904:4950" ph="Select * fro... Facts21" />
+            <marker date="1578533500356" expanded="true" signature="5028:5072" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5029:5072" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="5341:5392" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5341:5398" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5476:5531" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5477:5531" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6305:6328" ph="Select * fro... IssueType" />
+            <marker date="1578533500356" expanded="true" signature="6380:6401" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="6381:6401" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6601:6645" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6651" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6652" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6727:6775" ph="Delete from " />
           </folding>
         </state>
       </provider>
@@ -484,7 +666,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-          <folding />
+          <folding>
+            <marker date="1578480955743" expanded="true" signature="383:692" ph="SELECT accou... ClientOrderView" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -493,24 +677,24 @@
         <state relative-caret-position="361">
           <caret line="19" column="22" lean-forward="false" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
           <folding>
-            <marker date="1575353671086" expanded="true" signature="2093:2142" ph="SELECT * FRO... TradeDate" />
-            <marker date="1575353671086" expanded="true" signature="3985:4034" ph="Select * fro... DailyFacts" />
-            <marker date="1575353671086" expanded="true" signature="4112:4159" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4113:4159" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4376:4422" ph="Select * fro... Facts21" />
-            <marker date="1575353671086" expanded="true" signature="4500:4544" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4501:4544" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4813:4864" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4813:4870" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4948:5003" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4949:5003" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="5777:5800" ph="Select * fro... IssueType" />
-            <marker date="1575353671086" expanded="true" signature="5852:5873" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="5853:5873" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="6073:6117" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6123" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6124" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6199:6247" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="2621:2670" ph="SELECT * FRO... TradeDate" />
+            <marker date="1578533500356" expanded="true" signature="4513:4562" ph="Select * fro... DailyFacts" />
+            <marker date="1578533500356" expanded="true" signature="4640:4687" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="4641:4687" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="4904:4950" ph="Select * fro... Facts21" />
+            <marker date="1578533500356" expanded="true" signature="5028:5072" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5029:5072" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="5341:5392" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5341:5398" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5476:5531" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5477:5531" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6305:6328" ph="Select * fro... IssueType" />
+            <marker date="1578533500356" expanded="true" signature="6380:6401" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="6381:6401" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6601:6645" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6651" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6652" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6727:6775" ph="Delete from " />
           </folding>
         </state>
       </provider>
@@ -553,7 +737,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-          <folding />
+          <folding>
+            <marker date="1578480955743" expanded="true" signature="383:692" ph="SELECT accou... ClientOrderView" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -570,24 +756,24 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1575353671086" expanded="true" signature="2093:2142" ph="SELECT * FRO... TradeDate" />
-            <marker date="1575353671086" expanded="true" signature="3985:4034" ph="Select * fro... DailyFacts" />
-            <marker date="1575353671086" expanded="true" signature="4112:4159" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4113:4159" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4376:4422" ph="Select * fro... Facts21" />
-            <marker date="1575353671086" expanded="true" signature="4500:4544" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4501:4544" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4813:4864" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4813:4870" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4948:5003" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4949:5003" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="5777:5800" ph="Select * fro... IssueType" />
-            <marker date="1575353671086" expanded="true" signature="5852:5873" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="5853:5873" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="6073:6117" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6123" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6124" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6199:6247" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="2621:2670" ph="SELECT * FRO... TradeDate" />
+            <marker date="1578533500356" expanded="true" signature="4513:4562" ph="Select * fro... DailyFacts" />
+            <marker date="1578533500356" expanded="true" signature="4640:4687" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="4641:4687" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="4904:4950" ph="Select * fro... Facts21" />
+            <marker date="1578533500356" expanded="true" signature="5028:5072" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5029:5072" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="5341:5392" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5341:5398" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5476:5531" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5477:5531" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6305:6328" ph="Select * fro... IssueType" />
+            <marker date="1578533500356" expanded="true" signature="6380:6401" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="6381:6401" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6601:6645" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6651" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6652" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6727:6775" ph="Delete from " />
           </folding>
         </state>
       </provider>
@@ -630,7 +816,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-          <folding />
+          <folding>
+            <marker date="1578480955743" expanded="true" signature="383:692" ph="SELECT accou... ClientOrderView" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -681,20 +869,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/py/config.py">
+    <entry file="file://$PROJECT_DIR$/py/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="1" lean-forward="false" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+        <state relative-caret-position="228">
+          <caret line="12" column="18" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="18" />
+          <folding>
+            <element signature="e#71#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/py/sync.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="767">
+          <caret line="60" column="43" lean-forward="true" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
+          <folding>
+            <marker date="1578533500356" expanded="true" signature="2621:2670" ph="SELECT * FRO... TradeDate" />
+            <marker date="1578533500356" expanded="true" signature="4513:4562" ph="Select * fro... DailyFacts" />
+            <marker date="1578533500356" expanded="true" signature="4640:4687" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="4641:4687" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="4904:4950" ph="Select * fro... Facts21" />
+            <marker date="1578533500356" expanded="true" signature="5028:5072" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5029:5072" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="5341:5392" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5341:5398" ph="Select * fro... VolumeDistribution" />
+            <marker date="1578533500356" expanded="true" signature="5476:5531" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="5477:5531" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6305:6328" ph="Select * fro... IssueType" />
+            <marker date="1578533500356" expanded="true" signature="6380:6401" ph="Delete from " />
+            <marker date="1578533500356" expanded="true" signature="6381:6401" ph="delete from " />
+            <marker date="1578533500356" expanded="true" signature="6601:6645" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6651" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6601:6652" ph="Select * fro... DailyGroup" />
+            <marker date="1578533500356" expanded="true" signature="6727:6775" ph="Delete from " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/py/tradereader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="30" lean-forward="true" selection-start-line="10" selection-start-column="30" selection-end-line="11" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/py/utils.py">
+    <entry file="file://$PROJECT_DIR$/py/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+        <state relative-caret-position="152">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
-            <element signature="e#71#80#0" expanded="true" />
+            <marker date="1578480955743" expanded="true" signature="383:692" ph="SELECT accou... ClientOrderView" />
           </folding>
         </state>
       </provider>
@@ -707,29 +932,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/py/sync.py">
+    <entry file="file://$PROJECT_DIR$/py/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="194" column="0" lean-forward="true" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
+        <state relative-caret-position="475">
+          <caret line="34" column="44" lean-forward="true" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
           <folding>
-            <marker date="1575353671086" expanded="true" signature="2093:2142" ph="SELECT * FRO... TradeDate" />
-            <marker date="1575353671086" expanded="true" signature="3985:4034" ph="Select * fro... DailyFacts" />
-            <marker date="1575353671086" expanded="true" signature="4112:4159" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4113:4159" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4376:4422" ph="Select * fro... Facts21" />
-            <marker date="1575353671086" expanded="true" signature="4500:4544" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4501:4544" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="4813:4864" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4813:4870" ph="Select * fro... VolumeDistribution" />
-            <marker date="1575353671086" expanded="true" signature="4948:5003" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="4949:5003" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="5777:5800" ph="Select * fro... IssueType" />
-            <marker date="1575353671086" expanded="true" signature="5852:5873" ph="Delete from " />
-            <marker date="1575353671086" expanded="true" signature="5853:5873" ph="delete from " />
-            <marker date="1575353671086" expanded="true" signature="6073:6117" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6123" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6073:6124" ph="Select * fro... DailyGroup" />
-            <marker date="1575353671086" expanded="true" signature="6199:6247" ph="Delete from " />
+            <element signature="e#66#76#0" expanded="true" />
           </folding>
         </state>
       </provider>

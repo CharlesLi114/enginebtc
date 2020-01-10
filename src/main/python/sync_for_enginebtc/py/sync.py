@@ -36,26 +36,35 @@ class JobSync(object):
         today = int(dt.date.today().strftime('%Y%m%d'))
 
         if len(argv) == 1:
-            # Default, copy last_day from source database to
-            self.group_date = self.get_days_with_offset(today, -1)
-            self.facts21_date = self.get_days_with_offset(today, -2)
 
-            self.group_dst_date = today
-            self.facts21_dst_date = self.get_days_with_offset(today, -1)
+            if argv[0].upper() == 'COPYTODAY':
+                # Default, make today same as prod, with today's issuetype and yestreday's facts21
+                self.group_date = today
+                self.facts21_date = self.get_days_with_offset(today, -1)
+
+                self.group_dst_date = today
+                self.facts21_dst_date = self.get_days_with_offset(today, -1)
+            elif argv[0].upper() == 'COPYLAST':
+                # Assume orders of yesterday.
+                self.group_date = self.get_days_with_offset(today, -1)
+                self.facts21_date = self.get_days_with_offset(today, -2)
+
+                self.group_dst_date = today
+                self.facts21_dst_date = self.get_days_with_offset(today, -1)
+            else:
+                # Mode 1, input is trading day of orders, copy to last day.
+                # For special trading day, the input is date to use.
+                trading_day = int(argv[0])
+                self.group_date = trading_day
+                self.facts21_date = self.get_days_with_offset(self.group_date, -1)
+
+                self.group_dst_date = today
+                self.facts21_dst_date = self.get_days_with_offset(today, -1)
 
 
-        elif len(argv) == 2:
-            # Mode 1, input is trading day of orders, copy to last day.
-            # For special trading day, the input is date to use.
-            trading_day = int(argv[1])
-            self.group_date = trading_day
-            self.facts21_date = self.get_days_with_offset(self.group_date, -1)
 
-            self.group_dst_date = today
-            self.facts21_dst_date = self.get_days_with_offset(today, -1)
-
-        print("TradingDay " + str(self.group_date))
-        print("Today " + str(self.group_dst_date))
+        print('Group/Issue: copy ' + str(self.group_date) + ' ' + str(self.group_dst_date))
+        print('Facts: copy  ' + str(self.facts21_date) + ' ' + str(self.facts21_dst_date))
 
 
 
@@ -208,17 +217,6 @@ class JobSync(object):
         self.write_dst('DailyGroups', data)
 
 
-if __name__ == '__main__':
-    print(sys.argv)
-    # job = JobSync(sys.argv)
-    job = JobSync(['0', 20191014])
-    job.sync_group()
-    job.sync_issue()
-    job.sync_dailyfacts()
-    job.sync_distribution()
 
-    job.sync_facts21()
-    job.sync_volumebin()
-    print("Job Done.")
 
 

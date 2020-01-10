@@ -75,11 +75,8 @@ public class OrderCache {
     }
 
     /**
-     * File contains data which is in the following order.
-     SELECT accountId, orderId, exDestination, symbol, tradingDay, side,
-     type, price, algo, effectiveTime, expireTime,
-     orderQty, participationRate
-     FROM dbo.ClientOrderView WHERE tradingDay = '20191113' AND symbol NOT LIKE '204%' ORDER BY cumQty DESC
+     * Initialize orders file while contains orders to test.
+     * Refer to commands.txt for detail.
      * @param config
      * @throws FileNotFoundException
      */

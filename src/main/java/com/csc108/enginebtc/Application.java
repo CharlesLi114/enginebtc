@@ -157,7 +157,7 @@ public class Application {
 
         TdbController.TdbController.start();
         OrderCache.OrderCache.start();
-        Controller.Controller.syncStockCodeWithCalc();
+//        Controller.Controller.syncStockCodeWithCalc();
         TdbDataCache.TdbCache.readTdb(OrderCache.OrderCache.getStockIds(), OrderCache.OrderCache.getDate());
 
 
@@ -227,6 +227,7 @@ public class Application {
                 Controller.Controller.startComponents();
             }
         } else {
+            Application.testSendDataToMq();
             Application.work();
         }
 

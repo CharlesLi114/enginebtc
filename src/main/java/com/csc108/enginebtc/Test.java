@@ -57,6 +57,9 @@ public class Test {
      */
     public static void main(String[] args) throws SchedulerException, InterruptedException, JMSException, IOException {
 
+        OrderCache.OrderCache.start();
+
+
         System.out.println(SyncUtils.available("10.101.195.71", 8865));
 
         System.out.println(TimeUtils.getTimeStamp());
